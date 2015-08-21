@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<body>
+	
+	
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places"></script>
+
+<!--
+<script src="http://maps.google.com/maps?file=api&amp;v=3.x&amp;key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA" type="text/javascript"></script>
+-->
+
+<script type="text/javascript" src="js/EncodedPolyline.js"></script>
+
+
+<script type="text/javascript">
+
+
+
+
+
+
+// From:  https://social.msdn.microsoft.com/Forums/onedrive/en-US/33878b72-08ca-4c3b-8291-75bd4f43b776/draw-a-circle-given-a-latlong-and-radius-in-miles?forum=vemapcontroldev
+
+function AddCircle(latin, lonin, radius) {
+	var locs = new Array();
+	var lat1 = latin * Math.PI / 180.0;
+	var lon1 = lonin * Math.PI / 180.0;
+	var d = radius / 3956;
+	var x;
+	for (x = 0; x <= 360; x++) {
+		var tc = (x / 90) * Math.PI / 2;
+		var lat = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(tc));
+		lat = 180.0 * lat / Math.PI;
+		var lon;
+		if (Math.cos(lat1) == 0) {
+			lon = lonin; // endpoint a pole
+		} else {
+			lon = ((lon1 - Math.asin(Math.sin(tc) * Math.sin(d) / Math.cos(lat1)) + Math.PI) % (2 * Math.PI)) - Math.PI;
+		}
+		lon = 180.0 * lon / Math.PI;
+
+		var loc = new VELatLong(lat,lon);
+		locs.push(loc);
+	}
+
+	var poly = new VEPolyline(999, locs, new VEColor(0,255,0,.5) , 4);
+	return poly;
+}
+
+
+
+
+
+
+// Geolocation Test
+
+var m2f = 3.28084;	// convert 1 meter to feet
+
+function roundTenth(x) {
+	return (Math.round(x*10)/10);
+}
+
+function geo() {
+	navigator.geolocation.getCurrentPosition(showPosition, showError);
+	return false;
+}
+
+
+function showPosition(position) {
+	var x = document.getElementById("results");
+	console.log(position);
+
+	// Text output
+	x.innerHTML += 
+	"<ul>\n" +
+	"<li>altitude: " + roundTenth(position.coords.altitude) + " m (" + roundTenth(position.coords.altitude * m2f) + " feet)</li>\n" +
+	"<li>altitudeAccuracy: " + roundTenth(position.coords.altitudeAccuracy) + " m (" + roundTenth(position.coords.altitudeAccuracy * m2f) + " feet)</li>\n" +
+	"<li>heading: " + position.coords.heading + "</li>\n" +
+	"<li>latitude: " + position.coords.latitude + "</li>\n" +
+	"<li>longitude: " + position.coords.longitude + "</li>\n" +
+	"<li>accuracy: " + roundTenth(position.coords.accuracy) + " m (" + roundTenth(position.coords.accuracy * m2f) + " feet)</li>\n" +
+	"<li>speed: " + roundTenth(position.coords.speed) + " m/s</li>\n" +
+	"</ul>\n"
+/*
+	
+	// Static Google Map image
+	x.innerHTML +=	
+	"<img alt=\"Your Location\" src=\"https://maps.googleapis.com/maps/api/staticmap?" +
+//		"center=" + position.coords.latitude + "," + position.coords.longitude + "&" +
+		"markers=%7C" + position.coords.latitude + "," + position.coords.longitude + "&" +
+//		"zoom=10&" + 
+		"size=500x400&" + "key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA" + 
+	"\" />\n";
+*/
+/*
+"<img src=\"http://maps.google.com/maps/api/staticmap?size=500x500&path=fillcolor:0x0000FF|weight:1|color:0xFFFFFF|enc:syveFnbhjVB[L]VSTEZDTRL\BZC\M\UPWDYEWQM]C]&sensor=true" border="0"/>
+*/
+
+	return false;
+}
+
+
+var thePosition = {
+	coords: {
+		latitude: 37.804947899999995,
+		longitude: -122.4349686,
+		accuracy: 35
+	}
+}
+
+// Create an encoded polyline for a circle with the center at (latitude, longitude) and radius of accuracy in meters
+points = thePosition.coords.latitude + "," + thePosition.coords.longitude;
+polylineEncode = new PolylineEncoder();
+polyline = polylineEncode.dpEncodeToGPolyline(points);
+
+
+
+
+
+function showError(error) {
+	alert(error);
+	return false;
+}
+
+geo();
+
+
+</script>
+<a href="javascript:void(0);" onclick="geo()">click</a>
+<div id="results"></div>
+
+
+</body>
+</html>

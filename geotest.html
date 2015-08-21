@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script type="text/javascript">
+
+var m2f = 3.28084;	// convert 1 meter to feet
+
+function roundTenth(x) {
+	return (Math.round(x*10)/10);
+}
+
+function geo() {
+	navigator.geolocation.getCurrentPosition(showPosition, showError);
+	return false;
+}
+
+function showPosition(position) {
+	var x = document.getElementById("results");
+	console.log(position);
+	x.innerHTML += 
+	"<ul>\n" +
+	"<li>altitude: " + roundTenth(position.coords.altitude) + " m (" + roundTenth(position.coords.altitude * m2f) + " feet)</li>\n" +
+	"<li>altitudeAccuracy: " + roundTenth(position.coords.altitudeAccuracy) + " m (" + roundTenth(position.coords.altitudeAccuracy * m2f) + " feet)</li>\n" +
+	"<li>heading: " + position.coords.heading + "</li>\n" +
+	"<li>latitude: " + position.coords.latitude + "</li>\n" +
+	"<li>longitude: " + position.coords.longitude + "</li>\n" +
+	"<li>accuracy: " + roundTenth(position.coords.accuracy) + " m (" + roundTenth(position.coords.accuracy * m2f) + " feet)</li>\n" +
+	"<li>speed: " + roundTenth(position.coords.speed) + " m/s</li>\n" +
+	"</ul>\n";
+
+	return false;
+}
+
+function showError(error) {
+	alert(error);
+	return false;
+}
+
+geo();
+
+</script>
+<a href="javascript:void(0);" onclick="geo()">click</a>
+<div id="results"></div>
+</body>
+</html>
