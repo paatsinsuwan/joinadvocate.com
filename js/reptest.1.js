@@ -161,33 +161,50 @@ function getReps(position) {
 		"key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA&" +
 		"address=" + position.coords.latitude + "," + position.coords.longitude;
 
+
 	$.getJSON(theURL, function(data) {
-		console.log(data);
+		consoleLog(data);
 
 		// Grab the zip
 		if (data.normalizedInput.zip)
 			$("#location").append("<p>Your ZIP: " + data.normalizedInput.zip + "</p>\n");
 
-		var theReps = $("#representatives").append("<ul />");
+		// Sort the data
+		var sortedDivisions = Object.keys(data.divisions).sort();
+		consoleLog(sortedDivisions);
 
-		// TODO:  Sort the output
-		$.each(data.divisions, function(divKey, divValue) {
-			var thisDivision = $("<li id='" + divKey + "'>" + divValue.name + "</li>");
-			theReps.children("ul").append(thisDivision);
+		// Grab the reps
+		var repData = {};
+		for (var divKey in sortedDivisions) {
+			var divValue = data.divisions[sortedDivisions[divKey]];
+
+			consoleLog("divValue = ");
+			consoleLog(divValue);
 
 			if (divValue.officeIndices.length > 0) {
-				var thisOffice = $("<ul />");
+				repData[divValue.name] = {};
 
 				$.each(divValue.officeIndices, function(officeKey, officeValue) {
-
-
 					$.each(data.offices[officeValue].officialIndices, function(officialKey, officialValue) {
-						thisOffice.append("<li id='" + officeValue.divisionid + "/office:" + officeKey + "/official:" + officialKey + "'><strong>" + data.offices[officeValue].name + "</strong>: " + data.officials[officialValue].name + "</li>");
+						repData[divValue.name][data.offices[officeValue].name] = data.officials[officialValue].name;
 					});
-
-					thisDivision.append(thisOffice);
 				});
 			}
+		}
+
+		// Print out the reps
+		var theReps = $("#representatives").append("<p>Your Representatives:</p><ul />");
+
+		consoleLog(repData);
+		$.each(repData, function(division, offices) {
+			var thisDivision = $("<li>" + division + "<ul /></li>");
+
+			$.each(offices, function(office, official) {
+				thisDivision.children("ul").append("<li><strong>" + office + ":</strong> " + official + "</li>");
+			});
+
+			theReps.children("ul").append(thisDivision);
+
 		});
 
 	});
