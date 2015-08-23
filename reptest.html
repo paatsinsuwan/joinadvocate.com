@@ -9,29 +9,75 @@
 		height: 200px;
 		margin: 10px 0;	
 	}
+
+	.ifError {
+		display: none;
+	}
+	.error .ifError {
+		display: block;
+		color: #f00;
+	}
+	.error input[type=text] {
+		border: 1px solid #f00;
+		background: #fcc;
+	}
+
+
 </style>
 
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA"></script>
-<script src="js/reptest.1.js"></script>
+<script src="js/reptest.2.js"></script>
 
 <script type="text/javascript">
 
 
 $(function() {
 
-	// init the geolocation
-	initialize();
+	// Figure out which button submitted the form
+	$("#theForm").find("input[type=submit]").click(function() {
+		$("input[type=submit]", $(this).parents("form")).removeAttr("clicked");
+		$(this).attr("clicked", "true");
+	});
 
-	
+	// Handle the form submit
+	$("#theForm").submit(function(event) {
+
+		// Reset the page
+		$(this).removeClass("error");
+		$("#location, #map_canvas, #representatives").empty().removeAttr("style, class");
+
+		// Get the location
+		var theLocation = ($(this).find("input[clicked=true]").attr("id") == "cur") ? null : (($(this).find("#loc").val()) || -1);
+		consoleLog("theLocation = \"" + theLocation + "\"");
+
+		// Check for bad location
+		if (theLocation === -1)
+			$(this).addClass("error");
+		else
+			// init the geolocation
+			initialize(theLocation);
+
+		event.preventDefault();
+	});	
 });
 
 
 </script> 
 </head>
 <body>
-	<div id="location"></div>
-	<div id="map_canvas"></div>
-	<div id="representatives"></div>
+	<section id="entry">
+		<form id="theForm">
+			<fieldset>
+				<p class="ifError">Please enter a valid location!</p>
+				<input id="loc" type="text" placeholder="enter location" />
+				<input id="sub" type="submit" value="submit" />
+			</fieldset>
+			<input id="cur" type="submit" value="or use current location" />
+		</form>
+	</section>
+	<section id="location"></section>
+	<section id="map_canvas"></section>
+	<section id="representatives"></section>
 </body> 
 </html> 
