@@ -97,7 +97,11 @@ function showMap(position) {
 	if (typeof position === "object") {
 
 		// Create the map with default values
-		var map = new google.maps.Map(document.getElementById("map_canvas"), {});
+		var map = new google.maps.Map(document.getElementById("map_canvas"), {
+			disableDefaultUI: true,
+			draggable: false,
+			scrollwheel: false
+		});
 
 		// Draw the circle of uncertainty
 		var circle = new google.maps.Circle({
@@ -129,7 +133,11 @@ function showMap(position) {
 				consoleLog(results[0].geometry.location);
 
 				// Setup the map
-				var map = new google.maps.Map(document.getElementById("map_canvas"), {});
+				var map = new google.maps.Map(document.getElementById("map_canvas"), {
+					disableDefaultUI: true,
+					draggable: false,
+					scrollwheel: false
+				});
 
 				// Scale and reposition the map appropriately
 				map.setCenter(results[0].geometry.location);
