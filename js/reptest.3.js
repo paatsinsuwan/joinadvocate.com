@@ -178,7 +178,7 @@ function getReps(position) {
 			switch(channel.type) {
 				case "GooglePlus":
 					channel.urlPrefix = function(handle) {
-						return "https://plus.google.com/" + handle.replace(/\+/g, '');
+						return "https://plus.google.com/" + handle;
 					},
 					channel.faLogoClass = "fa fa-google-plus-square";
 					channel.title = "Google+";
@@ -206,7 +206,7 @@ function getReps(position) {
 					break;
 				case "YouTube":
 					channel.urlPrefix = function(handle) {
-						return "https://www.youtube.com/user/" + handle;
+						return "https://www.youtube.com/" + handle;
 					},
 					channel.faLogoClass = "fa fa-youtube-square";
 					channel.title = "YouTube";
