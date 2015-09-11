@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<title>Representative Detail Test - Join Advocate.com</title>
+<meta name="description" content="A test page that displays detailed information about one of your representatives" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<style type="text/css">
+
+	address {
+		font-style: normal;
+	}
+
+	.h-adr span {
+		text-transform: capitalize;
+	}
+
+	.h-adr span::after {
+		content: "\A";
+		white-space: pre;
+	}
+
+	.h-adr span.p-locality::after {
+		content: ", ";
+	}
+
+	.h-adr span.p-region::after {
+		content: " ";
+	}
+
+	.fa::before {
+		padding-right: 0.5em;
+	}
+	
+	a:link,
+	a:visited {
+		text-decoration: none;
+	}
+	a:hover,
+	a:active {
+		text-decoration: underline;
+	}
+
+</style>
+
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="js/reptest.4.js"></script>
+
+<script type="text/javascript">
+
+
+$(function() {
+
+	debug = true;
+	var theLocation = "94123";	// Marina District (et al.), San Francisco, CA
+
+	// init the geolocation
+	initialize(theLocation);
+
+});
+
+
+</script> 
+</head>
+<body>
+	<section id="location"></section>
+	<section id="representatives"></section>
+</body> 
+</html> 

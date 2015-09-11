@@ -1,6 +1,9 @@
 
 // Debugging function
 var debug = false;
+
+debug = true;
+
 function consoleLog(msg) {
 	if (debug)
 		console.log(msg)
