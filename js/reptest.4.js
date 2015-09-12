@@ -95,9 +95,11 @@ function getReps(position) {
 	consoleLog("getReps(");
 	consoleLog(position);
 
+	var apiKey = "AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA";
+
 	// Check for HTML5 geocode, which arrives as an object
 	var theURL = "https://www.googleapis.com/civicinfo/v2/representatives?" + 
-		"key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA&" +
+		"key=" + apiKey + "&" +
 		"address=" + ((typeof position === "object") ? (position.coords.latitude + "," + position.coords.longitude) : position);
 
 	// Now query for the reps
@@ -114,25 +116,102 @@ function getReps(position) {
 
 		// Select only US Senators
 		var senatorIndices = [];
+		var theOCD_ID = "";
 		$.each(data.offices, function(id, office) {
-			if (((typeof office.levels != "undefined") && (office.levels.indexOf("country") > -1)) && ((typeof office.roles != "undefined") && (office.roles.indexOf("legislatorUpperBody") > -1)))
+			if (((typeof office.levels != "undefined") && (office.levels.indexOf("country") > -1)) && ((typeof office.roles != "undefined") && (office.roles.indexOf("legislatorUpperBody") > -1))) {
+				theOCD_ID = office.divisionId;
 				$.each(office.officialIndices, function(i, oi) {
 					senatorIndices.push(oi);
 				});
-		});
-		$("#representatives").append("<h1>Your US Senators are:</h1>");
-
-
-		// Display each of them
-		$.each(senatorIndices, function(id, repIndex) {
-			printRep(repIndex, data, "#representatives");
+			}
 		});
 
-		$("#representatives address:eq(0)").after("<hr>");
+		$("#representatives").append("<h1>In " + data.divisions[theOCD_ID].name + ", your US Senators are:</h1>");
+
+		// Get data from Sunlight
+		getSunlightReps(theOCD_ID, data, senatorIndices, function(theOCD_ID, data, senatorIndices) {
+
+			// Display each of them
+			$.each(senatorIndices, function(id, repIndex) {
+				printRep(repIndex, data, "#representatives");
+			});
+		});
 
 	});
 	return false;
 }
+
+// Grab US Congress info from Sunlight based on the OCD ID returned from Civic Data API
+function getSunlightReps(ocd_id, theData, theIndices, successFunction) {
+	consoleLog("getSunlightReps(");
+	consoleLog(ocd_id);
+	consoleLog(theData);
+	consoleLog(theIndices);
+
+	var apiKey = "f36efc0ec23f4719b097ff89b48cf1ea";
+
+/*
+	// Check for HTML5 geocode, which arrives as an object
+	if ((typeof position !== "object") && (!$.isNumeric(position)) 
+		alert("Sorry, the Sunlight API can only accept a (lat,lon) or zip code for location.");
+	else {
+*/
+	// Now query for the reps
+	var theURL = "https://congress.api.sunlightfoundation.com/legislators?" + 
+		"apikey=" + apiKey + "&" +
+		"per_page=all&" + 
+		"ocd_id=" + ocd_id;
+	$.getJSON(theURL, function(data) {
+		consoleLog("Sunlight Congress data success!");
+		consoleLog(data);
+
+		// Iterate through the reps
+		$.each(data.results, function(i, rep) {
+			consoleLog("finding rep #" + i);
+			consoleLog("Sunlight Name = \"" + rep.first_name + " " + rep.last_name + "\"");
+
+			// See if we can grab their most recent vote
+			var theURL = "https://congress.api.sunlightfoundation.com/votes?" + 
+				"apikey=" + apiKey + "&" +
+				"fields=question,voted_at,bill,result,url,breakdown,required,voters." + rep.bioguide_id + "&" +
+				"order=voted_at&" +
+				"per_page=1&" +
+				"voter_ids." + rep.bioguide_id + "__exists=true"
+			$.getJSON(theURL, function(data) {
+				consoleLog("Sunlight Votes data success!");
+				consoleLog(data);
+
+				rep.latestVote = data.results[0];
+
+			}).fail(function() {
+				consoleLog("Sunlight Votes data error!");
+			}).always(function() {
+
+				// Match this rep up with the existing data
+//				var thisRepID = -1;
+				$.each(theIndices, function(i, v) {
+					if (theData.officials[v].name == rep.first_name + " " + rep.last_name) {
+//						thisRepID = v;
+						consoleLog("found! at #" + v);
+						consoleLog(theData.officials[v]);
+						$.extend(theData.officials[v], rep);
+
+						// Then run the callback for this rep only
+						successFunction(ocd_id, theData, [v]);
+
+					}
+				});
+			});
+
+		});
+
+	}).fail(function() {
+		consoleLog("Sunlight Congress data error!");
+	});
+//	}
+
+};
+
 
 
 // Print out information about a rep
@@ -162,14 +241,18 @@ function printRep(repIndex, data, theSelector) {
 		theReps.find(".p-role").append(" (" + theRep.party.charAt(0) + ")");
 	}
 
-	// Find the division
+	// Find the division, enhance with seniority for US senators
 	var theDivision = -1;
 	$.each(data.divisions, function(id, division) {
 		if (division.officeIndices.indexOf(theOffice) >= 0)
 			theDivision = id;
 	});
-	if (theDivision != -1)
-		theReps.append("<p class=\"p-org\">" + data.divisions[theDivision].name + "</p>");
+	if (theDivision != -1) {
+		if (typeof theRep.state_rank != "undefined")
+			theReps.append("<p class=\"p-org\">The " + theRep.state_rank + " senator from " + data.divisions[theDivision].name + "</p>");
+		else
+			theReps.append("<p class=\"p-org\">" + data.divisions[theDivision].name + "</p>");
+	}
 
 	// Print addresses
 	$.each(theRep.address, function(id, address) {
@@ -195,6 +278,12 @@ function printRep(repIndex, data, theSelector) {
 	$.each(theRep.phones, function(id, phone) {
 		channelLinks.append("<li><a class=\"p-tel fa fa-phone-square\" href=\"tel:" + phone.replace(/\D/g,'') + "\">" + phone + "</a></li>");
 	});
+
+	// Print out Email addresses (including those enhanced from Sunlight)
+	if (typeof theRep.email != "undefined")
+		channelLinks.append("<li><a class=\"u-email fa fa-envelope\" href=\"mailto:" + theRep.email + "\">" + theRep.email + "</a></li>");
+	if (typeof theRep.oc_email != "undefined")
+		channelLinks.append("<li><a class=\"u-email fa fa-envelope\" href=\"mailto:" + theRep.oc_email + "\">" + theRep.oc_email + "</a></li>");
 
 	// Print out each URL
 	$.each(theRep.urls, function(id, url) {
@@ -258,5 +347,21 @@ function printRep(repIndex, data, theSelector) {
 		channelLinks.append("<li><a class=\"u-url " + channel.faLogoClass + "\" href=\"" + channel.urlPrefix(channel.id) + "\">" + channel.id + "</a></li>");
 	});
 
+	// If this rep has a most recent vote, show it
+	if (typeof theRep.latestVote != "undefined") {
+		consoleLog("found a latest vote");
+
+		var theVote = $("<div class=\"vote\"><h3>Latest vote:</h3></div>");
+		theVote.append("<p><a href=\"" + theRep.latestVote.url + "\" target=\"_blank\">" + theRep.latestVote.question + "</a> at " + theRep.latestVote.voted_at + "<br>" +
+						"The <strong>" + theRep.latestVote.result + "</strong> by a vote of " + theRep.latestVote.breakdown.total.Yea + " voting Yea and " + theRep.latestVote.breakdown.total.Nay + " voting Nay.  (More than " + theRep.latestVote.required + " was required to pass.)<br>" + 
+						theRep.title + " " + theRep.last_name + " voted <strong>" + theRep.latestVote.voters[theRep.bioguide_id].vote + "</strong>, as did " + theRep.latestVote.breakdown.party[theRep.party][theRep.latestVote.voters[theRep.bioguide_id].vote] + " other member" + ((theRep.latestVote.breakdown.party[theRep.party][theRep.latestVote.voters[theRep.bioguide_id].vote] != 1) ? "s" : "") + " of " + ((theRep.gender == "M") ? "his" : "her") + " party.</p>");
+		theVote.appendTo(theReps);
+	}
+
+
+	// Add this rep to the DOM
 	theReps.appendTo(theSelector);
 }
+
+
+
