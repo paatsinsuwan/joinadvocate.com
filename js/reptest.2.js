@@ -197,13 +197,23 @@ function getReps(position) {
 			consoleLog("divValue = ");
 			consoleLog(divValue);
 
-			if (divValue.officeIndices) {
+			if (typeof divValue.officeIndices != "undefined") {
 				repData[divValue.name] = {};
 
 				$.each(divValue.officeIndices, function(officeKey, officeValue) {
-					$.each(data.offices[officeValue].officialIndices, function(officialKey, officialValue) {
-						repData[divValue.name][data.offices[officeValue].name] = data.officials[officialValue].name;
-					});
+//					consoleLog("officeKey = " + officeKey);
+//					consoleLog("officeValue = " + officeValue);
+//					consoleLog(data.offices[officeValue].officialIndices);
+
+					if (typeof data.offices[officeValue].officialIndices == "undefined") {
+						// The office is vacant
+//						consoleLog("office is vacant");
+						repData[divValue.name][data.offices[officeValue].name] = "";
+					} else
+						$.each(data.offices[officeValue].officialIndices, function(officialKey, officialValue) {
+//							consoleLog("officialValue = " + officialValue);
+							repData[divValue.name][data.offices[officeValue].name] = data.officials[officialValue].name;
+						});
 				});
 			}
 		}

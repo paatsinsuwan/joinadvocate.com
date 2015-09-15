@@ -224,8 +224,6 @@ function getReps(position) {
 			channelLinks.append("<li><a class=\"u-url " + channel.faLogoClass + "\" href=\"" + channel.urlPrefix(channel.id) + "\">" + channel.id + "</a></li>");
 		});
 
-		
-
 	});
 	return false;
 }

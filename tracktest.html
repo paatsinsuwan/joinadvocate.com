@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<title>Tracking Analytics Test - Join Advocate.com</title>
+<meta name="description" content="A test page that makes various calls to track analytics events." />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
+<!--
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+-->
+<style type="text/css">
+
+	a:link,
+	a:visited {
+		text-decoration: none;
+	}
+	a:hover,
+	a:active {
+		text-decoration: underline;
+	}
+
+</style>
+
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="js/submittest.2.js"></script>
+
+<script type="text/javascript">
+
+
+$(function() {
+
+	debug = true;
+//	var theLocation = null;
+/*
+	// init the geolocation
+	initialize(theLocation);
+*/
+
+	$("#workflow").append("<div id=\"step-1\"><h2>Step 1</h2><a href=\"#\">go to step 2</a></div>");
+	$("#step-1 a").click(function() {
+		$("#step-1 a").remove();
+		$("#step-1").append("done");
+		$("#workflow").append("<div id=\"step-2\"><h2>Step 2</h2><a href=\"#\">go to step 3</a></div>");
+		$("#step-2 a").click(function() {
+			$("#step-2 a").remove();
+			$("#step-2").append("done");
+			$("#workflow").append("<div id=\"step-3\"><h2>Step 3</h2><a href=\"#\">go to step 4</a></div>");
+			$("#step-3 a").click(function() {
+				$("#step-3 a").remove();
+				$("#step-3").append("done");
+				$("#workflow").append("<div id=\"step-4\"><h2>Step 4</h2>done</div>");
+			});
+		});
+	});
+
+
+});
+
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67525790-1', 'auto');
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+</head>
+<body>
+
+<h1>Tracking test</h1>
+
+<div id="page-2">
+	<p><a id="page-2-link" href="tracktest2.html">Go to page 2</a></p>
+</div>
+
+<section id="google">
+	<form action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" id="ss-form" target="_self" onsubmit="">
+		<label for="entry_486126353">Your Name</label>
+		<input type="text" name="entry.486126353" value="" id="entry_486126353" class="name" dir="auto" aria-label="Name" title="" placeholder="Your Name">
+		<br />
+
+		<label for="entry_1188935479">Email Address</label>
+		<input type="email" name="entry.1188935479" value="" id="entry_1188935479" class="email" dir="auto" aria-label="Email  Must be a valid email address" title="Must be a valid email address" placeholder="Email Address">
+		<br />
+
+		<label for="entry_234618797">Role</label>
+		<select name="entry.234618797" id="entry_234618797" class="role" aria-label="Role">
+			<option value=""></option>
+			<option value="Politician">Politician</option>
+			<option value="Citizen">Citizen</option>
+		</select>
+		<br />
+
+		<input type="hidden" name="entry.601326317" id="entry_601326317" class="location" value=""><!-- Location -->
+		<input type="hidden" name="entry.1033723372" id="entry_1033723372" class="referer" value=""><!-- Referer -->
+
+	<!--
+		<input type="hidden" name="draftResponse" value="[,,&quot;8359775871305733741&quot;]">
+		<input type="hidden" name="pageHistory" value="0">
+		<input type="hidden" name="fvv" value="0">
+		<input type="hidden" name="fbzx" value="8359775871305733741">
+	-->
+		<input type="submit" name="submit" value="Submit" id="ss-submit">
+	</form>
+</section>
+
+<div id="workflow"></div>
+
+</body> 
+</html> 

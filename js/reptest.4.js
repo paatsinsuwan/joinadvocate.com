@@ -142,6 +142,7 @@ function getReps(position) {
 }
 
 // Grab US Congress info from Sunlight based on the OCD ID returned from Civic Data API
+// https://sunlightlabs.github.io/congress/
 function getSunlightReps(ocd_id, theData, theIndices, successFunction) {
 	consoleLog("getSunlightReps(");
 	consoleLog(ocd_id);
@@ -160,6 +161,7 @@ function getSunlightReps(ocd_id, theData, theIndices, successFunction) {
 	var theURL = "https://congress.api.sunlightfoundation.com/legislators?" + 
 		"apikey=" + apiKey + "&" +
 		"per_page=all&" + 
+		"fields=party,gender,state,state_name,district,title,chamber,senate_class,state_rank,bioguide_id,ocd_id,first_name,last_name,terms,term_end&" +
 		"ocd_id=" + ocd_id;
 	$.getJSON(theURL, function(data) {
 		consoleLog("Sunlight Congress data success!");
@@ -188,10 +190,8 @@ function getSunlightReps(ocd_id, theData, theIndices, successFunction) {
 			}).always(function() {
 
 				// Match this rep up with the existing data
-//				var thisRepID = -1;
 				$.each(theIndices, function(i, v) {
 					if (theData.officials[v].name == rep.first_name + " " + rep.last_name) {
-//						thisRepID = v;
 						consoleLog("found! at #" + v);
 						consoleLog(theData.officials[v]);
 						$.extend(theData.officials[v], rep);
@@ -252,6 +252,13 @@ function printRep(repIndex, data, theSelector) {
 			theReps.append("<p class=\"p-org\">The " + theRep.state_rank + " senator from " + data.divisions[theDivision].name + "</p>");
 		else
 			theReps.append("<p class=\"p-org\">" + data.divisions[theDivision].name + "</p>");
+	}
+
+	// For enhanced congressional records, show the first and last term
+	if (typeof theRep.terms != "undefined") {
+		var startDate = new Date(theRep.terms[0].start);
+		var endDate = new Date(theRep.term_end);
+		theReps.find(".p-org").append(", " + ((theRep.gender == "F") ? "she" : "he") + " first joined the " + theRep.terms[0].chamber + " in " + startDate.getFullYear() + " and " + ((theRep.gender == "F") ? "her" : "his") + " current term in the " + theRep.chamber + " ends after the " + (endDate.getFullYear()-1) + " election.");
 	}
 
 	// Print addresses
