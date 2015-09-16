@@ -22,7 +22,7 @@
 </style>
 
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="js/submittest.2.js"></script>
+<script src="js/submittest.3.js"></script>
 
 <script type="text/javascript">
 
@@ -36,26 +36,7 @@ $(function() {
 	initialize(theLocation);
 */
 
-	$("#workflow").append("<div id=\"step-1\"><h2>Step 1</h2><a href=\"#\">go to step 2</a></div>");
-	$("#step-1 a").click(function() {
-		$("#step-1 a").remove();
-		$("#step-1").append("done");
-		$("#workflow").append("<div id=\"step-2\"><h2>Step 2</h2><a href=\"#\">go to step 3</a></div>");
-		ga("send", "event", "workflow", "click", "test", 1);
-		$("#step-2 a").click(function() {
-			$("#step-2 a").remove();
-			$("#step-2").append("done");
-			$("#workflow").append("<div id=\"step-3\"><h2>Step 3</h2><a href=\"#\">go to step 4</a></div>");
-			ga("send", "event", "workflow", "click", "test", 2);
-			$("#step-3 a").click(function() {
-				$("#step-3 a").remove();
-				$("#step-3").append("done");
-				ga("send", "event", "workflow", "click", "test", 3);
-				$("#workflow").append("<div id=\"step-4\"><h2>Step 4</h2>done</div>");
-			});
-		});
-	});
-});
+
 
 /*
 About Events - Analytics Help
@@ -64,6 +45,30 @@ https://support.google.com/analytics/answer/1033068?hl=en&utm_id=ad&authuser=1
 Event Tracking - Web Tracking (analytics.js) | Universal Analytics Web Tracking (analytics.js) | Google Developers
 https://developers.google.com/analytics/devguides/collection/analyticsjs/events
 */
+
+
+	$("#workflow").append("<div id=\"step-1\"><h2>Step 1</h2><a href=\"#\">go to step 2</a></div>");
+	$("#step-1 a").click(function() {
+		$("#step-1 a").remove();
+		$("#step-1").append("done");
+		$("#workflow").append("<div id=\"step-2\"><h2>Step 2</h2><a href=\"#\">go to step 3</a></div>");
+		ga("send", "event", "workflow", "click", "step 2", 2);
+
+		$("#step-2 a").click(function() {
+			$("#step-2 a").remove();
+			$("#step-2").append("done");
+			$("#workflow").append("<div id=\"step-3\"><h2>Step 3</h2><a href=\"#\">go to step 4</a></div>");
+			ga("send", "event", "workflow", "click", "step 3", 3);
+
+			$("#step-3 a").click(function() {
+				$("#step-3 a").remove();
+				$("#step-3").append("done");
+				ga("send", "event", "workflow", "click", "step 4", 4);
+				$("#workflow").append("<div id=\"step-4\"><h2>Step 4</h2>done</div>");
+			});
+		});
+	});
+});
 
 </script>
 

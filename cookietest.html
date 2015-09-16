@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<title>Cookie Test - Join Advocate.com</title>
+<meta name="description" content="A test page that saves your information to a first-party cookie" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
+<style type="text/css">
+	#map_canvas {
+		width: 100%;
+		height: 200px;
+		margin: 10px 0;	
+	}
+
+	.ifError {
+		display: none;
+	}
+	.error .ifError {
+		display: block;
+		color: #f00;
+	}
+	.error input[type=text] {
+		border: 1px solid #f00;
+		background: #fcc;
+	}
+
+
+</style>
+
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA"></script>
+<script src="js/cookietest.1.js"></script>
+
+<script type="text/javascript">
+
+
+$(function() {
+
+	debug = true;
+
+	// Figure out which button submitted the form
+	$("#theForm").find("input[type=submit]").click(function() {
+		$("input[type=submit]", $(this).parents("form")).removeAttr("clicked");
+		$(this).attr("clicked", "true");
+	});
+
+	// Handle the form submit
+	$("#theForm").submit(function(event) {
+
+		// Get the location
+		var theLocation = ($(this).find("input[clicked=true]").attr("id") == "cur") ? null : (($(this).find("#loc").val()) || -1);
+		consoleLog("theLocation = \"" + theLocation + "\"");
+
+		// Check for bad location
+		if (theLocation === -1)
+			$(this).addClass("error");
+		else
+			// init the geolocation
+			initialize(theLocation);
+
+		// Reset the page
+		$(this).removeClass("error");
+		$("#location, #map_canvas, #representatives").empty().removeAttr("style, class");
+		$("#loc").val(null);
+
+		event.preventDefault();
+	});
+
+	// Check for the location cookie
+	if (checkCookie("location.lat") && checkCookie("location.lon")) {
+		consoleLog("found cookie: " + getCookie("location.lat") + ", " + getCookie("location.lon"));
+		$("#entry").append("<p>Got location from cookie (" + getCookie("location.lat") + ", " + getCookie("location.lon") + ").  Now <a href=\"cookietest2.html\">sign up</a>!</p>");
+		$("#theForm").find("input[type=text]").val(getCookie("location.lat") + ", " + getCookie("location.lon")).submit();
+	} else {
+		consoleLog("no location cookie found");
+	}
+
+});
+
+</script> 
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67525790-1', 'auto');
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+</head>
+<body>
+	<section id="entry">
+		<form id="theForm">
+			<fieldset>
+				<p class="ifError">Please enter a valid location!</p>
+				<input id="loc" type="text" placeholder="enter location" />
+				<input id="sub" type="submit" value="submit" />
+			</fieldset>
+			<input id="cur" type="submit" value="or use current location" />
+		</form>
+	</section>
+	<section id="location"></section>
+	<section id="map_canvas"></section>
+	<section id="representatives"></section>
+</body> 
+</html> 

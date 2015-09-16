@@ -10,8 +10,6 @@ function consoleLog(msg) {
 
 $(function() {
 
-	debug = true;
-
 	$("form").submit(function(event) {
 		consoleLog("submitted!");
 		consoleLog(event);
@@ -36,6 +34,8 @@ $(function() {
 
 				$("body").append("<p>Thanks!</p>");
 
+				// Log the submission event to Google Analytics
+				ga("send", "event", "Sign Up", "complete", window.location.href);
 
 /*
 This is the Google Spreadsheet:
