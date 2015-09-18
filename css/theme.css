@@ -16,9 +16,6 @@ body {
 	max-width: 960px;
 	margin: 0 auto;
 	height: 100%;
-/*
-	background: #ff0;
-*/
 }
 
 header,
@@ -80,10 +77,6 @@ header {
 	color: #666;
 	position: fixed;
 	top: 0;
-
-/*
-	background: #0f0;
-*/
 }
 
 header a:link,
@@ -102,16 +95,6 @@ header #logo {
 	float: left;
 	margin: 0;
 	padding: 1em;
-
-/*
-	background: #cf9;
-*/
-}
-
-header nav {
-/*
-	background: #9fc;
-*/
 }
 /* @end Header */
 
@@ -119,9 +102,6 @@ header nav {
 #main {
 	margin-top: 4em;
 	margin-bottom: 4em;
-/*
-	background: #f00;
-*/
 }
 /* @end Main */
 
@@ -131,9 +111,6 @@ footer {
 	bottom: 0px;
 	color: #aaa;
 	position: fixed;
-/*
-	background: #00f;
-*/
 }
 
 footer a:link,
@@ -152,15 +129,6 @@ footer p {
 	float: left;
 	margin: 0;
 	padding: 1em;
-/*
-	background: #c9f;
-*/
-}
-
-footer nav {
-/*
-	background: #9cf;
-*/
 }
 /* @end Footer */
 
@@ -176,6 +144,15 @@ label:not(.visible) {
     width: 1px;
 }
 
+fieldset {
+	width: 20em;
+	margin: 2em auto 4em auto;
+}
+
+fieldset:last-child {
+	margin-bottom: 2em;
+}
+
 label.visible,
 input,
 select,
@@ -183,11 +160,11 @@ textarea,
 button {
 	display: block;
 	clear: both;
-	margin-bottom: 1em;
 }
 
 input,
 select,
+textarea,
 button.location {
 	background: none;
 	border: 0;
@@ -195,6 +172,12 @@ button.location {
 	color: #666;
 	padding: 0;
 	width: 20em;
+}
+
+textarea {
+	border: 1px solid #666;
+	height: 5em;
+	resize: none;
 }
 
 ::-webkit-input-placeholder,
@@ -229,25 +212,21 @@ button.location + input {
 button[type="submit"] {
 	float: left;
 }
+
 button[type="reset"] {
 	background: transparent;
 	color: #666;
 	clear: none;
 }
-
 /* @end Forms */
 /* @end Global */
 
-
-/* @group Sections */
+/* @group Intro */
 #intro {
 	margin: 2em auto;
 	padding: 1em;
 	text-align: center;
 	width: 50%;
-/*
-	background: #f9c;
-*/
 }
 
 #main form {
@@ -256,9 +235,47 @@ button[type="reset"] {
 	padding: 1em;
 	text-align: center;
 	width: 50%;
-/*
-	background: #fc9;
-*/
+}
+/* @end Intro */
+
+/* @group Results */
+
+#the-map.fpo {
+	height: 10em;
+	width: 100%;
+	background: #ddd;
 }
 
-/* @end Sections */
+#main.results form {
+	background: #fff;
+	left: 1em;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	top: -9em;
+	width: 20em;
+}
+
+#main.results form fieldset {
+	background: #fff;
+	margin: 0;
+	padding: 0.5em;
+}
+
+#main.results form label.visible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*
+TODO:  Working on styling for the representative search results.
+*/
+
+
+/* @end Results */

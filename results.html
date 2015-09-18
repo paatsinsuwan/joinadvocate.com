@@ -31,15 +31,17 @@
 		</nav>
 	</header>
 
-	<div id="main" role="main">
+	<div id="main" role="main" class="results">
 
-		<div id="the-map"></div>
+		<div id="the-map" class="fpo"></div>
 
 		<form id="loc" action="results.html" autocomplete="on">
 			<label class="visible" for="loc-location">Enter your location to connect with your local reps</label>
-			<button id="loc-current" class="location" type="button" value="current"><img src="img/geocode.png" alt="Use current location" /></button>
-			<input id="loc-location" name="loc-location" type="text" placeholder="Type your zipcode" />
-			<button id="loc-submit" class="hidden" type="submit" value="Submit">Submit</button>
+			<fieldset>
+				<button id="loc-current" class="location" type="button" value="current"><img src="img/geocode.png" alt="Use current location" /></button>
+				<input id="loc-location" name="loc-location" type="text" placeholder="Type your zipcode" />
+				<button id="loc-submit" class="hidden" type="submit" value="Submit">Submit</button>
+			</fieldset>
 		</form>
 
 		<aside id="join">

@@ -38,31 +38,37 @@
 		</section>
 
 		<form id="contact" action="thanks.html" autocomplete="on">
-
-			<label for="contact-name">Enter your name</label>
-			<input id="contact-name" name="contact-name" type="text" required placeholder="Your name" />
-
-			<label for="contact-email">Enter your Email address</label>
-			<input id="contact-email" name="contact-email" type="email" required placeholder="Email address" />
-
-			<label for="contact-location">Enter your location to connect with your local reps</label>
-			<button id="contact-current" class="location" type="button" value="current"><img src="img/geocode.png" alt="Use current location" /></button>
-			<input id="contact-location" name="contact-location" type="text" placeholder="Type your zipcode" />
-
-			<label for="contact-interest">Enter your area of interest</label>
-			<select id="contact-interest">
-				<option value="">Political area of interest</option>
-				<option value="voter">Individual voter</option>
-				<option value="politician">Politician holding office</option>
-				<option value="candidate">Candidate running for office</option>
-				<option value="manager">Campaign manager or staffer</option>
-			</select> 
-
-			<label for="contact-comments">Enter your comments or questions</label>
-			<textarea id="contact-comments" name="contact-comments" placeholder="Your comments"></textarea>
-
-			<button id="contact-submit" type="submit">Submit</button>
-			<button id="contact-cancel" type="reset">cancel</button>
+			<fieldset>
+				<label for="contact-name">Enter your name</label>
+				<input id="contact-name" name="contact-name" type="text" required placeholder="Your name" />
+			</fieldset>
+			<fieldset>
+				<label for="contact-email">Enter your Email address</label>
+				<input id="contact-email" name="contact-email" type="email" required placeholder="Email address" />
+			</fieldset>
+			<fieldset>
+				<label for="contact-location">Enter your location to connect with your local reps</label>
+				<button id="contact-current" class="location" type="button" value="current"><img src="img/geocode.png" alt="Use current location" /></button>
+				<input id="contact-location" name="contact-location" type="text" placeholder="Type your zipcode" />
+			</fieldset>
+			<fieldset>
+				<label for="contact-interest">Enter your area of interest</label>
+				<select id="contact-interest">
+					<option value="">Political area of interest</option>
+					<option value="voter">Individual voter</option>
+					<option value="politician">Politician holding office</option>
+					<option value="candidate">Candidate running for office</option>
+					<option value="manager">Campaign manager or staffer</option>
+				</select> 
+			</fieldset>
+			<fieldset>
+				<label for="contact-comments">Enter your comments or questions</label>
+				<textarea id="contact-comments" name="contact-comments" placeholder="Your comments"></textarea>
+			</fieldset>
+			<fieldset>
+				<button id="contact-submit" type="submit">Submit</button>
+				<button id="contact-cancel" type="reset">cancel</button>
+			</fieldset>
 		</form>
 
 	</div>
