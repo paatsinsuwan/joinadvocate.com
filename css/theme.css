@@ -1,0 +1,264 @@
+/*--------------------------------------------------
+
+Advocate - CAT
+Theme Styles [theme.css]
+
+Joe Morrow <joe@joinadvocate.com>
+9/17/2015
+
+Copyright @ 2015 by Advocate
+
+--------------------------------------------------*/
+
+/* @group Global */
+/* @group Layout */
+body {
+	max-width: 960px;
+	margin: 0 auto;
+	height: 100%;
+/*
+	background: #ff0;
+*/
+}
+
+header,
+#main,
+footer {
+	clear: both;
+	display: block;
+	float: left;
+	max-width: 960px;
+	width: 100%;
+}
+/* @end Layout */
+
+/* @group Navigation */
+nav ul,
+nav ul li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+
+nav ul li a {
+	padding-left: 1em;
+}
+
+nav ul li:first-child a {
+	padding-left: 0;
+}
+
+header nav,
+footer nav {
+	display: block;
+	float: right;
+	padding: 1em;
+}
+/* @end Navigation */
+
+/* @group Appearance */
+body {
+	background: #eee;
+}
+
+a:link,
+a:visited {
+	color: #333;
+	text-decoration: none;
+}
+
+a:hover,
+a:active {
+	color: #333;
+	text-decoration: underline;
+}
+/* @end Appearance */
+
+/* @group Header */
+header {
+	background: #eee;
+	color: #666;
+	position: fixed;
+	top: 0;
+
+/*
+	background: #0f0;
+*/
+}
+
+header a:link,
+header a:visited {
+	color: #666;
+}
+
+header a:hover,
+header a:active {
+	color: #666;
+}
+
+header #logo {
+	clear: both;
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 1em;
+
+/*
+	background: #cf9;
+*/
+}
+
+header nav {
+/*
+	background: #9fc;
+*/
+}
+/* @end Header */
+
+/* @group Main */
+#main {
+	margin-top: 4em;
+	margin-bottom: 4em;
+/*
+	background: #f00;
+*/
+}
+/* @end Main */
+
+/* @group Footer */
+footer {
+	background: #fff;
+	bottom: 0px;
+	color: #aaa;
+	position: fixed;
+/*
+	background: #00f;
+*/
+}
+
+footer a:link,
+footer a:visited {
+	color: #aaa;
+}
+
+footer a:hover,
+footer a:active {
+	color: #aaa;
+}
+
+footer p {
+	clear: both;
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 1em;
+/*
+	background: #c9f;
+*/
+}
+
+footer nav {
+/*
+	background: #9cf;
+*/
+}
+/* @end Footer */
+
+/* @group Forms */
+label:not(.visible) {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+label.visible,
+input,
+select,
+textarea,
+button {
+	display: block;
+	clear: both;
+	margin-bottom: 1em;
+}
+
+input,
+select,
+button.location {
+	background: none;
+	border: 0;
+	border-bottom: 1px solid #666;
+	color: #666;
+	padding: 0;
+	width: 20em;
+}
+
+::-webkit-input-placeholder,
+:-moz-placeholder, /* Firefox 18- */
+::-moz-placeholder,  /* Firefox 19+ */
+:-ms-input-placeholder {  
+   color: #666;  
+}
+
+button,
+a.button {
+	padding: 0.5em;
+	border: 0;
+	border-radius: 0.25em;
+	background: #666;
+	color: #fff;
+}
+
+button.location {
+	padding: 0;
+	border-radius: 0;
+	float: left;
+	padding-right: 1em;
+	width: 10em;
+}
+
+button.location + input {
+	clear: none;
+	width: 10em;
+}
+
+button[type="submit"] {
+	float: left;
+}
+button[type="reset"] {
+	background: transparent;
+	color: #666;
+	clear: none;
+}
+
+/* @end Forms */
+/* @end Global */
+
+
+/* @group Sections */
+#intro {
+	margin: 2em auto;
+	padding: 1em;
+	text-align: center;
+	width: 50%;
+/*
+	background: #f9c;
+*/
+}
+
+#main form {
+	background: #ddd;
+	margin: 2em auto;
+	padding: 1em;
+	text-align: center;
+	width: 50%;
+/*
+	background: #fc9;
+*/
+}
+
+/* @end Sections */
