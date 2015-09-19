@@ -38,20 +38,20 @@
 		<form id="loc" action="results.html" autocomplete="on">
 			<label class="visible" for="loc-location">Enter your location to connect with your local reps</label>
 			<fieldset>
-				<button id="loc-current" class="location" type="button" value="current"><img src="img/geocode.png" alt="Use current location" /></button>
-				<input id="loc-location" name="loc-location" type="text" placeholder="Type your zipcode" />
+				<button id="loc-current" class="current fpo" type="button" value="current"><img src="img/geocode.png" alt="Use current location" /></button>
+				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Type your zipcode" value="Brooklyn, NY 11201" />
 				<button id="loc-submit" class="hidden" type="submit" value="Submit">Submit</button>
 			</fieldset>
 		</form>
 
 		<aside id="join">
 			<p>Begin connecting with your local representatives in <span class="city-state">Brooklyn, NY</span>.</p>
-			<a href="join.html">Join Advocate</a>
+			<a class="button" href="join.html">Join Advocate</a>
 		</aside>
 
 		<div id="results">
 
-			<select id="filter">
+			<select class="filter">
 				<option value="current">Current representatives</option>
 			</select>
 
@@ -61,7 +61,7 @@
 				<ul>
 					<li class="official" id="official-0">
 						<a href="detail.html">
-							<img class="u-photo" src="img/official.png" alt="Photo of Barack Obama">
+							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Barack Obama">
 							<h4 class="p-name">Barack Obama</h4>
 							<p class="p-role">
 								President of the United States<br />
@@ -77,7 +77,7 @@
 
 					<li class="official" id="official-1">
 						<a href="detail.html">
-							<img class="u-photo" src="img/official.png" alt="Photo of Joseph Biden">
+							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Joseph Biden">
 							<h4 class="p-name">Joseph Biden</h4>
 							<p class="p-role">
 								Vice-President of the United States<br />
@@ -98,7 +98,7 @@
 				<ul>
 					<li class="official" id="official-2">
 						<a href="detail.html">
-							<img class="u-photo" src="img/official.png" alt="Photo of Kristen Gillibrand">
+							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Kristen Gillibrand">
 							<h4 class="p-name">Kristen Gillibrand</h4>
 							<p class="p-role">
 								United States Senate<br />
@@ -114,7 +114,7 @@
 
 					<li class="official" id="official-3">
 						<a href="detail.html">
-							<img class="u-photo" src="img/official.png" alt="Photo of Andrew Cuomo">
+							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Andrew Cuomo">
 							<h4 class="p-name">Andrew Cuomo</h4>
 							<p class="p-role">
 								Governor<br />
@@ -130,7 +130,7 @@
 
 					<li class="official" id="official-4">
 						<a href="detail.html">
-							<img class="u-photo" src="img/official.png" alt="Photo of Eric Schneiderman">
+							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Eric Schneiderman">
 							<h4 class="p-name">Eric Schneiderman</h4>
 							<p class="p-role">
 								Attorney General<br />
@@ -146,7 +146,7 @@
 
 					<li class="official" id="official-5">
 						<a href="detail.html">
-							<img class="u-photo" src="img/official.png" alt="Photo of Thomas DiNapoli">
+							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Thomas DiNapoli">
 							<h4 class="p-name">Thomas DiNapoli</h4>
 							<p class="p-role">
 								State Comptroller<br />
@@ -167,7 +167,7 @@
 				<ul>
 					<li class="official" id="official-6">
 						<a href="detail.html">
-							<img class="u-photo" src="img/official.png" alt="Photo of Kristen Gillibrand">
+							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Kristen Gillibrand">
 							<h4 class="p-name">Kristen Gillibrand</h4>
 							<p class="p-role">
 								United States Senate<br />
@@ -183,7 +183,7 @@
 
 					<li class="official" id="official-7">
 						<a href="detail.html">
-							<img class="u-photo" src="img/official.png" alt="Photo of Andrew Cuomo">
+							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Andrew Cuomo">
 							<h4 class="p-name">Andrew Cuomo</h4>
 							<p class="p-role">
 								Governor<br />

@@ -196,17 +196,42 @@ a.button {
 	color: #fff;
 }
 
-button.location {
-	padding: 0;
+button.current {
+	background: transparent;
+	border-bottom: 1px solid #666;
 	border-radius: 0;
 	float: left;
+	padding: 0;
 	padding-right: 1em;
 	width: 10em;
+
 }
 
-button.location + input {
+.home button.current,
+.results button.current {
+	background: #fff;
+	border: none;
+}
+
+button.current.fpo {
+	width: auto;
+}
+
+button.current.fpo img {
+	height: 40px;
+	width: 40px;
+}
+
+button.current + input {
 	clear: none;
-	width: 10em;
+	height: 40px;
+	width: 16em;
+}
+
+.home button.current + input,
+.results button.current + input {
+	background: #fff;
+	border: none;
 }
 
 button[type="submit"] {
@@ -273,9 +298,95 @@ button[type="reset"] {
     width: 1px;
 }
 
-/*
-TODO:  Working on styling for the representative search results.
-*/
+#main.results #join,
+#main.results #results {
+	width: 80%;
+	margin: 0 auto;
+	overflow: auto;
+}
 
+#main.results #join {
+	margin-bottom: 2em;
+}
+
+#main.results #join p {
+	float: left;
+	margin: 0;
+	padding-top: 0.5em;
+}
+
+#main.results #join a.button {
+	float: right;
+	display: block;
+}
+
+#results select.filter {
+	border: none;
+	width: auto;
+}
+
+.division {
+	border-top: 1px solid #333;
+	margin-top: 1em;
+}
+
+.division ul,
+.division li {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+li.official {
+	margin-bottom: 1em;
+	overflow: auto;
+}
+
+li.official > a {
+	display: block;
+	float: left;
+	text-decoration: none;
+	width: 66%;
+}
+
+li.official img.u-photo {
+	float: left;
+	height: 100px;
+	margin-right: 1em;
+	width: 100px;
+}
+
+li.official h4.p-name {
+	font-size: 1.2em;
+	margin: 0;
+}
+
+li.official p.p-role {
+	color: #999;
+	margin: 0;
+}
+
+li.official ul.actions {
+	float: right;
+	margin: 30px 0;
+	padding: 0;
+	text-align: right;
+}
+
+li.official ul.actions li {
+	display: inline;
+	margin-left: 1em;
+}
+
+li.official ul.actions li:first-child {
+	margin-left: 0;
+}
+
+li.official ul.actions li img {
+	width: 40px;
+	height: 40px;
+}
+
+/* My Comment */
 
 /* @end Results */
