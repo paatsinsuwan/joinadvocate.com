@@ -13,9 +13,9 @@ Copyright @ 2015 by Advocate
 /* @group Global */
 /* @group Layout */
 body {
-	max-width: 960px;
-	margin: 0 auto;
 	height: 100%;
+	margin: 0 auto;
+	max-width: 960px;
 }
 
 header,
@@ -32,9 +32,9 @@ footer {
 /* @group Navigation */
 nav ul,
 nav ul li {
+	display: inline;
 	margin: 0;
 	padding: 0;
-	display: inline;
 }
 
 nav ul li a {
@@ -54,7 +54,7 @@ footer nav {
 /* @end Navigation */
 
 /* @group Appearance */
-body {
+body.home {
 	background: #eee;
 }
 
@@ -69,14 +69,22 @@ a:active {
 	color: #333;
 	text-decoration: underline;
 }
+
+address {
+	font-style: normal;
+}
 /* @end Appearance */
 
 /* @group Header */
 header {
-	background: #eee;
-	color: #666;
+	background: #fff;
+	border-bottom: 1px solid #eee;
 	position: fixed;
 	top: 0;
+}
+
+.home header {
+	background: transparent;
 }
 
 header a:link,
@@ -108,6 +116,7 @@ header #logo {
 /* @group Footer */
 footer {
 	background: #fff;
+	border-top: 1px solid #eee;
 	bottom: 0px;
 	color: #aaa;
 	position: fixed;
@@ -145,8 +154,8 @@ label:not(.visible) {
 }
 
 fieldset {
-	width: 20em;
 	margin: 2em auto 4em auto;
+	width: 20em;
 }
 
 fieldset:last-child {
@@ -158,8 +167,8 @@ input,
 select,
 textarea,
 button {
-	display: block;
 	clear: both;
+	display: block;
 }
 
 input,
@@ -189,11 +198,12 @@ textarea {
 
 button,
 a.button {
-	padding: 0.5em;
+	background: #666;
 	border: 0;
 	border-radius: 0.25em;
-	background: #666;
 	color: #fff;
+	padding: 0.5em;
+	text-align: center;
 }
 
 button.current {
@@ -240,8 +250,8 @@ button[type="submit"] {
 
 button[type="reset"] {
 	background: transparent;
-	color: #666;
 	clear: none;
+	color: #666;
 }
 /* @end Forms */
 /* @end Global */
@@ -264,11 +274,10 @@ button[type="reset"] {
 /* @end Intro */
 
 /* @group Results */
-
 #the-map.fpo {
+	background: #ddd;
 	height: 10em;
 	width: 100%;
-	background: #ddd;
 }
 
 #main.results form {
@@ -298,26 +307,26 @@ button[type="reset"] {
     width: 1px;
 }
 
-#main.results #join,
+aside#join,
 #main.results #results {
-	width: 80%;
 	margin: 0 auto;
 	overflow: auto;
+	width: 80%;
 }
 
-#main.results #join {
+aside#join {
 	margin-bottom: 2em;
 }
 
-#main.results #join p {
+aside#join p {
 	float: left;
 	margin: 0;
 	padding-top: 0.5em;
 }
 
-#main.results #join a.button {
-	float: right;
+aside#join a.button {
 	display: block;
+	float: right;
 }
 
 #results select.filter {
@@ -366,27 +375,229 @@ li.official p.p-role {
 	margin: 0;
 }
 
-li.official ul.actions {
+ul.actions {
 	float: right;
 	margin: 30px 0;
 	padding: 0;
 	text-align: right;
 }
 
-li.official ul.actions li {
+ul.actions li {
 	display: inline;
 	margin-left: 1em;
 }
 
-li.official ul.actions li:first-child {
+ul.actions li:first-child {
 	margin-left: 0;
 }
 
-li.official ul.actions li img {
-	width: 40px;
+ul.actions li img {
 	height: 40px;
+	width: 40px;
+}
+/* @end Results */
+
+/* @group Detail */
+#main.detail {
+	margin-top: 10em;
 }
 
-/* My Comment */
+#main.detail > * {
+	margin: 0 auto;
+	overflow: auto;
+	width: 80%;
+}
 
-/* @end Results */
+#main.detail #address {
+	background: #fff;
+	border: 1px solid #ccc;
+}
+
+#main.detail address img.u-photo {
+	float: left;
+	margin: 0 0 0 20px;
+	width: auto;
+}
+
+#main.detail address > * {
+	margin: 1em auto 0 auto;
+	width: 60%;
+}
+
+#main.detail address dt {
+	color: #999;
+	display: block;
+	float: left;
+	margin: 0 0 1em 0;
+}
+
+#main.detail address dd {
+	margin: 0 0 1em 5em;
+}
+
+dd.h-adr span {
+	display: block;
+}
+
+dd.h-adr span.p-locality,
+dd.h-adr span.p-region,
+dd.h-adr span.p-postal-code {
+	display: inline;
+}
+
+ul.channels {
+	margin: 0;
+	margin-bottom: 1em;
+	padding: 0;
+}
+
+ul.channels li {
+	display: inline;
+	margin-left: 1em;
+}
+
+ul.channels li:first-child {
+	margin-left: 0;
+}
+
+ul.channels li img {
+	height: 40px;
+	width: 40px;
+}
+
+/* @group Asides */
+#main.detail aside {
+	margin: 2em auto;
+	overflow: visible;
+	width: 60%;
+}
+
+#main.detail aside h2 {
+	font-size: 1em;
+	font-weight: normal;
+	margin: 0;
+}
+
+#main.detail aside#coming-soon h2 {
+	text-transform: uppercase;
+}
+
+#main.detail aside p {
+	color: #999;
+	margin-top: 0;
+}
+
+#main.detail #invite a.button {
+	display: block;
+	width: 5em;
+}
+
+#main.detail ul#actions {
+	background: #ccc;
+	float: none;
+	margin-bottom: 0;
+	overflow: auto;
+	padding: 0.5em 0;
+	text-align: left;
+}
+
+#main.detail ul#actions li {
+	padding-left: 0;
+}
+
+#main.detail ul#actions li:first-child {
+	padding: 1em 2.5em 1em 4em;
+}
+
+#main.detail ul#actions li img {
+	margin-right: 0.5em;
+}
+
+#main.detail aside#join {
+	background: #aaa;
+	margin: 1em auto;
+	overflow: auto;
+	padding: 1em 0;
+	width: 80%;
+}
+
+#main.detail #join p {
+	color: #000;
+}
+
+#main.detail aside#join :first-child {
+	margin-left: 4em;
+}
+
+#main.detail aside#join :last-child {
+	margin-right: 4em;
+}
+/* @end Asides */
+
+/* @group Votes */
+#main.detail #votes {
+	border: 1px solid #ccc;
+	font-size: 0.8em;
+}
+
+#main.detail #votes h2 {
+	font-size: 1em;
+	margin: 2em 5em;
+}
+
+#main.detail #votes dl.votes {
+	margin: 0 5em;
+}
+#main.detail #votes dt.vote-date {
+	color: #999;
+	border-top: 1px solid #aaa;
+	padding: 1em 0;
+}
+
+#main.detail #votes dd {
+	margin: 0;
+	overflow: auto;
+	padding: 0;
+	padding-bottom: 1em;
+}
+
+#main.detail #votes .description {
+	float: left;
+	width: 75%;
+}
+
+#main.detail #votes .description h3 {
+	font-size: 1em;
+	margin: 0;
+}
+
+#main.detail #votes .description p.action {
+	color: #666;
+	margin: 0;
+}
+
+#main.detail #votes .description p.result {
+	color: #999;
+	margin: 0;
+}
+
+#main.detail #votes .results {
+	float: right;
+	width: 25%;
+}
+
+#main.detail #votes .results span {
+	display: block;
+	float: left;
+	width: 33%;
+}
+
+#main.detail #votes .results dt {
+	color: #999;
+}
+
+#main.detail #votes .results dd {
+	font-size: 1.2em;
+}
+/* @end Votes */
+/* @end Detail */
