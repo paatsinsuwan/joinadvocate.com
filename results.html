@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html data-ng-app="catApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html data-ng-app="catApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html data-ng-app="catApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html data-ng-app="catApp" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -16,8 +16,10 @@
 	<link rel="stylesheet" href="css/theme.css">
 
 	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+
 </head>
-<body>
+<body class="results" data-ng-controller="catResultsCtrl">
 	<!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
@@ -33,26 +35,28 @@
 
 	<div id="main" role="main" class="results">
 
-		<div id="the-map" class="fpo"></div>
+		<div id="map" class="fpo"></div>
 
 		<form id="loc" action="results.html" autocomplete="on">
 			<label class="visible" for="loc-location">Enter your location to connect with your local reps</label>
 			<fieldset>
-				<button id="loc-current" class="current fpo" type="button" value="current"><img src="img/geocode.png" alt="Use current location" /></button>
-				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Type your zipcode" value="Brooklyn, NY 11201" />
+				<button id="loc-current" class="current fpo" type="button" value="current" title="Use current location"><img src="img/geocode.png" alt="Use current location" /></button>
+				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Type your zipcode" />
+				<input id="loc-hidden" class="hidden" name="loc-hidden" type="hidden" />
 				<button id="loc-submit" class="hidden" type="submit" value="Submit">Submit</button>
 			</fieldset>
 		</form>
 
 		<aside id="join">
-			<p>Begin connecting with your local representatives in <span class="city-state">Brooklyn, NY</span>.</p>
+			<p>Begin connecting with your local representatives<span data-ng-bind="cityState(' in ')" class="cityState"> in Brooklyn, NY</span>.</p>
 			<a class="button" href="join.html">Join Advocate</a>
 		</aside>
 
 		<div id="results">
-
+<!--
 			<select class="filter">
-				<option value="current">Current representatives</option>
+				<option value="current" selected="selected">Current representatives</option>
+				<option value="candidates">Candidates for office</option>
 			</select>
 
 			<section class="division" id="ocd-division/country:us">
@@ -198,7 +202,7 @@
 					</li>
 				</ul>
 			</section>
-
+-->
 		</div>
 	</div>
 
@@ -219,8 +223,14 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
 
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA"></script>
+
 	<script src="js/plugins.js"></script>
+	<script src="js/lib.js"></script>
 	<script src="js/main.js"></script>
+
+	<script src="js/catApp.js"></script>
+	<script src="js/catCtrl.js"></script>
 
 	<!-- Google Analytics -->
 	<script>

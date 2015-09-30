@@ -1,3 +1,18 @@
+/*--------------------------------------------------
+
+Advocate - CAT
+Plugin Scripts [plugins.js]
+
+Joe Morrow <joe@joinadvocate.com>
+9/23/2015
+
+From HTML5 Boilerplate
+https://html5boilerplate.com/
+
+Copyright @ 2015 by Advocate
+
+--------------------------------------------------*/
+
 // Avoid `console` errors in browsers that lack a console.
 (function() {
     var method;
