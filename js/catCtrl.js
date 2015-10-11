@@ -15,13 +15,15 @@ app.controller("catHomeCtrl", function($scope) {
 	// Set the default debugging level
 	window.console.debugLevel = 1;
 
-	$scope.page = new Page("#loc-location", "#loc-hidden", null, ["#join"]);
+	$scope.page = new Page("#loc-location", "#loc-hidden", null, [["#join","header a.join","#join a.close, #join-cancel","#joinForm"]]);
 });
 
 app.controller("catResultsCtrl", function($scope) {
 
 	// Set the default debugging level
 	window.console.debugLevel = 2;
+
+// TODO:  Add modals to results.html
 
 	$scope.page = new Page("#loc-location", "#loc-hidden", null, ["#join"], "#map", "#results");
 	$scope.page.setNgScope($scope);

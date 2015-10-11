@@ -220,13 +220,16 @@ button.current {
 	padding: 0;
 	padding-right: 1em;
 	width: 10em;
-
 }
 
 .home button.current,
 .results button.current {
 	background: #fff;
 	border: none;
+}
+
+.modal button.current {
+	border-bottom: 1px solid #666;
 }
 
 button.current.fpo {
@@ -250,8 +253,13 @@ button.current + input {
 	border: none;
 }
 
+.modal button.current + input {
+	border-bottom: 1px solid #666;
+}
+
 button[type="submit"] {
 	float: left;
+	margin-right: 2em;
 }
 
 button[type="reset"] {
@@ -287,6 +295,62 @@ button[type="reset"] {
 	width: 5em;
 }
 /* @end Loading */
+
+/* @group Modal */
+.modal {
+	background-color: rgba(0,0,0,0.5);
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 10;
+}
+
+.modal .container {
+	background: #fff;
+	border-radius: 0.5em;
+    box-shadow: 0 2px 2px #333;
+    left: 50%;
+	margin: 0;
+	margin-right: -50%;
+	padding: 2em;
+	position: absolute;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.modal header {
+	background: transparent;
+	float: none;
+	left: auto;
+	overflow: auto;
+	padding: 0 0 2em 3em;
+	position: static;
+	top: auto;
+	width: auto;
+	z-index: auto;
+}
+
+.modal h1 {
+	display: block;
+	float: left;
+	font-size: 1.5em;
+	margin: 0;
+}
+
+.modal a.close {
+	display: block;
+	float: right;
+}
+
+.modal form {
+	clear: both;
+	display: block;
+	margin: 0 3em;
+}
+/* @end Modal */
 /* @end Global */
 
 /* @group Intro */

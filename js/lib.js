@@ -98,8 +98,8 @@ window.console.debug = function(msg, level) {
 
 
 //	Page Object
-function Page(theLocationFieldID, theLocationHiddenID, theModalIDs, theModalFormIDs, theMapID, theRepListID, theRepDataID, theVoteID) {
-	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theModalIDs + ", " + theModalFormIDs + ", " + theMapID + ", " + theRepListID + ", " + theRepDataID + ", " + theVoteID + ") {");
+function Page(theLocationFieldID, theLocationHiddenID, theModalObjs, theModalFormObjs, theMapID, theRepListID, theRepDataID, theVoteID) {
+	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theModalObjs + ", " + theModalFormObjs + ", " + theMapID + ", " + theRepListID + ", " + theRepDataID + ", " + theVoteID + ") {");
 
 	// If initializing as Page(), we're just getting a handle to run Page methods
 	if (arguments.length > 0) {
@@ -107,12 +107,12 @@ function Page(theLocationFieldID, theLocationHiddenID, theModalIDs, theModalForm
 			this.location = new Location(theLocationFieldID, theLocationHiddenID, null, true, this);
 		}
 		this.modals = new Array();
-		if (typeof theModalIDs != "undefined")
-			for (i in theModalIDs)
-				this.modals.push(new Modal(theModalIDs[i]));
-		if (typeof theModalFormIDs != "undefined")
-			for (i in theModalFormIDs)
-				this.modals.push(new ModalForm(theModalFormIDs[i]));
+		if (typeof theModalObjs != "undefined")
+			for (i in theModalObjs)
+				this.modals.push(new Modal(theModalObjs[i]));
+		if (typeof theModalFormObjs != "undefined")
+			for (i in theModalFormObjs)
+				this.modals.push(new ModalForm(theModalFormObjs[i]));
 		this.tracker = new Tracker(window.location.href);
 		this.map = (typeof theMapID != "undefined") ? new Map(theMapID, this.location) : null;
 		this.repList = (typeof theRepListID != "undefined") ? new RepList(theRepListID, this.location) : null;
@@ -159,6 +159,7 @@ function Location(theFieldID, theHiddenID, theLocation, doUpdateCookie, thePage)
 	this.hidden = (typeof theHiddenID != "undefined") ? $(theHiddenID) : null;
 	this.form = (this.field != null) ? this.field.parents("form") : null;
 	this.location = ((typeof theLocation != "undefined") && theLocation) ? theLocation : this.getNew();
+	// Note that we're using doUpdateCookie to also indicate that the form shouldn't be submitted, which is the case for join and contact forms.
 	this.doUpdateCookie = (typeof doUpdateCookie != "undefined") ? doUpdateCookie : true;
 	this.valid = this.setFromCookie();
 	this.target = "results.html";
@@ -608,7 +609,13 @@ Location.prototype.handleUseCurrentLocation = function(event) {
 		console.debug(that);
 
 		that.updateFields();
-		that.form.submit();
+
+		// Only submit the form if we're also updating the cookie
+// TODO:  Add a separate form update flag
+		if (that.doUpdateCookie)
+			that.form.submit();
+		else
+			that.page.stopLoading();
 	}, that);
 
 	event.preventDefault();
@@ -647,12 +654,34 @@ Location.prototype.handleSubmit = function(event) {
 
 
 // Modal Object
-function Modal(theElementID, theTitle, theContents) {
-	console.debug("new Modal(" + theElementID + ", " + theTitle + ", " + theContents + ") {");
+function Modal(theElementObj, theTitle, theContents) {
+	console.debug("new Modal(");
+	console.debug(theElementObj);
+	console.debug(theTitle);
+	console.debug(theContents);
 
-	this.element = $(theElementID);
+	this.element = null;
+	this.open = null;
+	this.close = null;
 	this.title = (typeof theTitle != "undefined") ? theTitle : null;
 	this.contents = (typeof theContents != "undefined") ? theContents : null;
+
+	// Initialize modals and click handlers
+	if ((typeof theElementObj != "undefined") && (theElementObj.length == 3)) {
+		this.element = $(theElementObj[0]);
+		this.open = $(theElementObj[1]);
+		this.close = $(theElementObj[2]);
+
+		// Set up initial state
+		this.element.hide().removeClass("hidden");
+		this.open.data("target", theElementObj[0]);
+		this.close.data("target", theElementObj[0]);
+
+		// Set up event handlers
+		this.open.click(this.show);
+		this.close.click(this.hide);
+	}
+
 }
 // Modal Methods
 Modal.prototype.getElement = function() {
@@ -685,34 +714,68 @@ Modal.prototype.setContents = function(theContents) {
 };
 Modal.prototype.show = function() {
 	console.debug("Modal.show()");
-	
+
+	$($(this).data("target")).show();
+	return false;
 };
 Modal.prototype.hide = function() {
 	console.debug("Modal.hide()");
-	
+
+	$($(this).data("target")).hide();
+	return false;
 };
 
 
 // ModalForm Object
-function ModalForm(theElementID, title, theForm) {
-	console.debug("new ModalForm(" + theElementID + ", " + title + ", " + theForm + ") {");
+function ModalForm(theElementObj, theTitle, theForm) {
+	console.debug("new ModalForm(" + theElementObj + ", " + theTitle + ", " + theForm + ") {");
 
-	this.element = $(theElementID);
-	this.title = (typeof title != "undefined") ? title : null;
-	this.form = (typeof theForm != "undefined") ? theForm : null;
+	this.form = null;
+	this.location = null;
+
+	if ((typeof theElementObj != "undefined") && (theElementObj.length == 4)) {
+
+		// Call the parent's constructor to make a Modal
+		Modal.call(this, theElementObj.slice(0,3), theTitle);
+		this.form = $(theElementObj.pop());
+		this.form.submit(this.submit);
+		$("button[type=reset]", this.form).click(this.cancel);
+
+		// If the form has a location (Join Advocate, Contact Us), set up a proper Location object to handle these.
+		if ($("input.location", this.form).attr("id")) {
+			this.location = new Location("#" + $("input.location", this.form).attr("id"), "#" + $("input.location", this.form).siblings("input[type=hidden]").attr("id"), null, false);
+		}
+
+	} else {
+		console.debug("bad theElementObj");
+
+// TODO:  Handle error
+
+	}
+	console.debug(this);
 }
 // Inherits from Modal
-ModalForm.prototype = new Modal();
+// http://stackoverflow.com/a/15399594
+ModalForm.prototype = Object.create(Modal.prototype);
 ModalForm.prototype.constructor = ModalForm;
-ModalForm.prototype.parent = Modal.prototype;
 // ModalForm Methods
-ModalForm.prototype.submit = function() {
-	console.debug("ModalForm.submit()");
+ModalForm.prototype.submit = function(event) {
+	console.debug("ModalForm.submit(");
+	console.debug(event);
 
+// TODO:  Handle submit
+
+	alert("submit!");
+
+	event.preventDefault();
+	return false;
 };
 ModalForm.prototype.cancel = function() {
 	console.debug("ModalForm.cancel()");
-	
+
+	// Clear inputs
+	$(":not(input[type=hidden]), input, select, textarea", this.form).val("");
+	return false;
 };
 ModalForm.prototype.handleSubmitSuccess = function() {
 	console.debug("ModalForm.handleSubmitSuccess()");
@@ -726,14 +789,21 @@ ModalForm.prototype.handleSubmitError = function(err) {
 ModalForm.prototype.validateLocation = function(theFieldID) {
 	console.debug("ModalForm.validateLocation(" + theFieldID + ")");
 
+// TODO:  Handle location elements in form
+// TODO:  Actually do the validation *or* switch to HTML5 default validation	
+
 };
 ModalForm.prototype.validateEmail = function(theFieldID) {
 	console.debug("ModalForm.validateEmail(" + theFieldID + ")");
+
+// TODO:  Actually do the validation *or* switch to HTML5 default validation	
 	
 };
 ModalForm.prototype.validateExistance = function(theFieldID) {
 	console.debug("ModalForm.validateExistance(" + theFieldID + ")");
-	
+
+// TODO:  Actually do the validation *or* switch to HTML5 default validation	
+
 };
 
 
