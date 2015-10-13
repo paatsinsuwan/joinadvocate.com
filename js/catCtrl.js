@@ -50,4 +50,106 @@ app.controller("catResultsCtrl", function($scope) {
 
 });
 
+// Contact Us Controller
+app.controller("catContactCtrl", function($scope) {
+
+	// Set the default debugging level
+	window.console.debugLevel = 1;
+
+	// Add the Join Advocate form to the page
+	ModalForm.prototype.getJoinForm();
+
+	// Initialize the JS
+	$scope.page = new Page("#loc-location", "#loc-hidden", null, [["#join", "header a.join", "#join a.close, form.join button.reset", "form.join"]]);
+
+
+
+
+// TODO:  Fix the Join modal location field
+
+
+
+
+	// Set up the form submission
+	$("form.contact").submit(function(event) {
+		console.debug("submitting...");
+		console.debug(event);
+
+		var that = this;
+
+/*
+	ModalForm.prototype.submit = function(event) {
+		console.debug("ModalForm.submit(");
+		console.debug(event);
+
+		// Grab the context
+		var that = event.data;
+		console.debug(that, 2);
+*/
+		// Turn on the loading spinner while the submit happens
+	//	that.location.page.startLoading("Submitting...");
+		$scope.page.startLoading("Submitting...");
+
+		// Set hidden fields
+	//	$("input.referer", that.form).val(window.location.href);
+	//	$("input.type", that.form).val("Join");
+
+/*
+		This is the Google Spreadsheet:
+
+		<iframe src="
+			https://docs.google.com/spreadsheets/d/1f_GAYfF76upMt2Us3kuVCK92Zc93np82U_yoq-MXeQo/pubhtml?gid=677216200&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+			https://docs.google.com/spreadsheets/d/1f_GAYfF76upMt2Us3kuVCK92Zc93np82U_yoq-MXeQo/pubhtml
+
+		Using google Spreadsheets as a Database with the Google Visualization API Query Language - OUseful.Info, the blog...
+		http://blog.ouseful.info/2009/05/18/using-google-spreadsheets-as-a-databace-with-the-google-visualisation-api-query-language/
+*/
+
+		$("input.referer", that).val(window.location.href);
+
+
+
+		// Submit the form to Google Spreadsheets via AJAX
+		$.ajax({
+			url: $(that).attr("action"), 
+			data: $(that).serialize(),
+			success: function(data) {
+				console.debug("success");
+			},
+			error: function(jqXHR) {
+				console.debug("error");
+
+// TODO:  Handle the CORS error
+
+			},
+			complete: function completeCallback(data) {
+				console.debug("complete!");
+				console.debug(data, 2);
+
+// TODO:  Show thank you message
+
+//				that.close.click();
+
+				$(that).hide();
+				$(that).parent().append("<section><p>Thank you message</p></section>");
+
+
+				$scope.page.stopLoading();
+			}
+		});
+
+		event.preventDefault();
+		return false;
+	});
+
+
+
+
+});
+
+
+
+
+
+
 window.console.debugLevel = 2;
