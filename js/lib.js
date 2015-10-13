@@ -611,7 +611,9 @@ Location.prototype.handleUseCurrentLocation = function(event) {
 		that.updateFields();
 
 		// Only submit the form if we're also updating the cookie
+
 // TODO:  Add a separate form update flag
+
 		if (that.doUpdateCookie)
 			that.form.submit();
 		else
@@ -720,6 +722,7 @@ Modal.prototype.show = function() {
 };
 Modal.prototype.hide = function() {
 	console.debug("Modal.hide()");
+	console.debug(this, 2);
 
 	$($(this).data("target")).hide();
 	return false;
@@ -738,7 +741,7 @@ function ModalForm(theElementObj, theTitle, theForm) {
 		// Call the parent's constructor to make a Modal
 		Modal.call(this, theElementObj.slice(0,3), theTitle);
 		this.form = $(theElementObj.pop());
-		this.form.submit(this.submit);
+		this.form.submit(this, this.submit);
 		$("button[type=reset]", this.form).click(this.cancel);
 
 		// If the form has a location (Join Advocate, Contact Us), set up a proper Location object to handle these.
@@ -759,31 +762,138 @@ function ModalForm(theElementObj, theTitle, theForm) {
 ModalForm.prototype = Object.create(Modal.prototype);
 ModalForm.prototype.constructor = ModalForm;
 // ModalForm Methods
+ModalForm.prototype.getJoinForm = function() {
+	console.debug("ModalForm.getJoinForm()");
+
+	// Add the Join Advocate form to the page
+	$("body").append('<div id="join" class="modal hidden">' +
+						'<div class="container">' +
+							'<header>' +
+								'<h1>Join Advocate</h1>' +
+								'<a class="close" href="#" title="close">x</a>' +
+							'</header>' +
+
+							'<form class="join" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" id="ss-form" target="_self" onsubmit="" autocomplete="on">' +
+
+								'<fieldset>' +
+									'<label class="name" for="entry_486126353">Enter your name</label>' +
+									'<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Your Name">' +
+								'</fieldset>' +
+
+								'<fieldset>' +
+									'<label class="email" for="entry_1188935479">Enter your Email address</label>' +
+									'<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email address">' +
+								'</fieldset>' +
+
+								'<fieldset>' +
+									'<label class="location" for="entry_601326317">Enter your location to connect with your local reps</label>' +
+									'<button id="join-current" class="current fpo" name="join-current" type="button" value="current" title="Use current location"><img src="img/geocode.png" alt="Use current location" /></button>' +
+									'<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Type your zipcode">' +
+									'<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">' +
+								'</fieldset>' +
+
+								'<fieldset>' +
+									'<label class="interest" for="entry_1235129365">Enter your area of interest</label>' +
+									'<select class="interest" name="entry.1235129365" id="entry_1235129365" aria-label="Area of Interest" title="">' +
+										'<option value="">Political area of interest</option>' +
+										'<option value="voter">Individual voter</option>' +
+										'<option value="politician">Politician holding office</option>' +
+										'<option value="candidate">Candidate running for office</option>' +
+										'<option value="manager">Campaign manager or staffer</option>' +
+									'</select>' +
+								'</fieldset>' +
+/*
+								'<fieldset>' +
+									'<label class="comments" for="entry_670622658">Comments</label>' +
+									'<textarea class="comments" name="entry.670622658" id="entry_670622658" dir="auto" aria-label="Comments" placeholder="Your comments"></textarea>' +
+								'</fieldset>' +
+*/
+								'<input class="type" type="hidden" name="entry.1285458186" value="" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">' +
+								'<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">' +
+
+								'<button class="submit" type="submit" name="submit" value="Submit" id="ss-submit">Join Advocate</button>' +
+								'<button class="reset" type="reset" name="cancel" value="Cancel" id="ss-cancel">cancel</button>' +
+
+							'</form>' +
+						'</div>' +
+					'</div>');
+
+	return $("#join");
+};
 ModalForm.prototype.submit = function(event) {
 	console.debug("ModalForm.submit(");
 	console.debug(event);
 
-// TODO:  Handle submit
+	// Grab the context
+	var that = event.data;
+	console.debug(that, 2);
 
-	alert("submit!");
+	// Turn on the loading spinner while the submit happens
+	that.location.page.startLoading("Submitting...");
+
+	// Set hidden fields
+	$("input.referer", that.form).val(window.location.href);
+	$("input.type", that.form).val("Join");
+
+/*
+	This is the Google Spreadsheet:
+
+	<iframe src="
+		https://docs.google.com/spreadsheets/d/1f_GAYfF76upMt2Us3kuVCK92Zc93np82U_yoq-MXeQo/pubhtml?gid=677216200&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+		https://docs.google.com/spreadsheets/d/1f_GAYfF76upMt2Us3kuVCK92Zc93np82U_yoq-MXeQo/pubhtml
+
+	Using google Spreadsheets as a Database with the Google Visualization API Query Language - OUseful.Info, the blog...
+	http://blog.ouseful.info/2009/05/18/using-google-spreadsheets-as-a-databace-with-the-google-visualisation-api-query-language/
+*/
+
+	// Submit the form to Google Spreadsheets via AJAX
+	$.ajax({
+		url: $(that.form).attr("action"), 
+		data: $(that.form).serialize(),
+		success: function(data) {
+			console.debug("success");
+		},
+		error: function(jqXHR) {
+			console.debug("error");
+
+// TODO:  Handle the CORS error
+
+		},
+		complete: function completeCallback(data) {
+			console.debug("complete!");
+			console.debug(data, 2);
+
+// TODO:  Show thank you message
+
+			that.close.click();
+			that.location.page.stopLoading();
+		}
+	});
 
 	event.preventDefault();
 	return false;
 };
-ModalForm.prototype.cancel = function() {
-	console.debug("ModalForm.cancel()");
+ModalForm.prototype.cancel = function(event) {
+	console.debug("ModalForm.cancel(");
+	console.debug(event);
+
+// TODO:  Figure out how to keep from showing error states when empyting required inputs
 
 	// Clear inputs
-	$(":not(input[type=hidden]), input, select, textarea", this.form).val("");
+	$("input:not([type=hidden]), select, textarea", this.form).val("");
 	return false;
 };
 ModalForm.prototype.handleSubmitSuccess = function() {
 	console.debug("ModalForm.handleSubmitSuccess()");
-	
+
+// TODO:  Should be using this, probably
+
 };
 ModalForm.prototype.handleSubmitError = function(err) {
 	console.debug("ModalForm.handleSubmitError(");
 	console.debug(err);
+
+// TODO:  Should be using this, probably
 
 };
 ModalForm.prototype.validateLocation = function(theFieldID) {

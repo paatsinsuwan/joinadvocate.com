@@ -10,22 +10,30 @@ Copyright @ 2015 by Advocate
 
 --------------------------------------------------*/
 
+// Home Page Controller
 app.controller("catHomeCtrl", function($scope) {
 
 	// Set the default debugging level
 	window.console.debugLevel = 1;
 
-	$scope.page = new Page("#loc-location", "#loc-hidden", null, [["#join","header a.join","#join a.close, #join-cancel","#joinForm"]]);
+	// Add the Join Advocate form to the page
+	ModalForm.prototype.getJoinForm();
+
+	// Initialize the JS
+	$scope.page = new Page("#loc-location", "#loc-hidden", null, [["#join", "header a.join", "#join a.close, form.join button.reset", "form.join"]]);
 });
 
+// Results Page Controller
 app.controller("catResultsCtrl", function($scope) {
 
 	// Set the default debugging level
 	window.console.debugLevel = 2;
 
-// TODO:  Add modals to results.html
+	// Add the Join Advocate form to the page
+	ModalForm.prototype.getJoinForm();
 
-	$scope.page = new Page("#loc-location", "#loc-hidden", null, ["#join"], "#map", "#results");
+	// Initialize the JS
+	$scope.page = new Page("#loc-location", "#loc-hidden", null, [["#join", "header a.join, #joinPromo a.button", "#join a.close, form.join button.reset", "form.join"]], "#map", "#results");
 	$scope.page.setNgScope($scope);
 
 	// Set up various page content
