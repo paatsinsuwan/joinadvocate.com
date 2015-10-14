@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html data-ng-app="catApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html data-ng-app="catApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html data-ng-app="catApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html data-ng-app="catApp" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -19,7 +19,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
 
 </head>
-<body>
+<body class="join" data-ng-controller="catContactCtrl">
 	<!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
@@ -28,7 +28,7 @@
 		<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo.png" alt="|adv&#333;cate|" /></a></section>
 		<nav>
 			<ul>
-				<li><a href="join.html" id="join">Join Advocate</a></li>
+				<li><a href="join.html" class="join">Join Advocate</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -39,6 +39,53 @@
 			<h1>Join Advocate</h1>
 		</section>
 
+
+		<form class="contact" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" id="join-form" target="_self" onsubmit="" autocomplete="on">
+
+			<fieldset>
+				<label class="name" for="entry_486126353">Enter your name</label>
+				<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Your Name">
+			</fieldset>
+
+			<fieldset>
+				<label class="email" for="entry_1188935479">Enter your Email address</label>
+				<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email address">
+			</fieldset>
+
+			<fieldset>
+				<label class="location" for="entry_601326317">Enter your location to connect with your local reps</label>
+				<button id="join-current" class="current fpo" name="join-current" type="button" value="current" title="Use current location"><img src="img/geocode.png" alt="Use current location" /></button>
+				<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Type your zipcode">
+				<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">
+			</fieldset>
+
+			<fieldset>
+				<label class="interest" for="entry_1235129365">Enter your area of interest</label>
+				<select class="interest" name="entry.1235129365" id="entry_1235129365" aria-label="Area of Interest" title="">
+					<option value="">Political area of interest</option>
+					<option value="voter">Individual voter</option>
+					<option value="politician">Politician holding office</option>
+					<option value="candidate">Candidate running for office</option>
+					<option value="manager">Campaign manager or staffer</option>
+				</select>
+			</fieldset>
+<!--
+			<fieldset>
+				<label class="comments" for="entry_670622658">Comments</label>
+				<textarea class="comments" name="entry.670622658" id="entry_670622658" dir="auto" aria-label="Comments" placeholder="Your comments"></textarea>
+			</fieldset>
+-->
+			<input class="type" type="hidden" name="entry.1285458186" value="Join Page" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
+			<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">
+
+			<fieldset>
+				<button class="submit" type="submit" name="submit" value="Submit" id="ss-submit">Join Advocate</button>
+				<button class="reset" type="reset" name="cancel" value="Cancel" id="ss-cancel">cancel</button>
+			</fieldset>
+
+		</form>
+
+<!--
 		<form id="join" action="thanks.html" autocomplete="on">
 
 			<fieldset>
@@ -65,7 +112,7 @@
 				<button id="join-cancel" type="reset">cancel</button>
 			</fieldset>
 		</form>
-
+-->
 	</div>
 
 	<footer>
@@ -88,6 +135,9 @@
 	<script src="js/plugins.js"></script>
 	<script src="js/lib.js"></script>
 	<script src="js/main.js"></script>
+
+	<script src="js/catApp.js"></script>
+	<script src="js/catCtrl.js"></script>
 
 	<!-- Google Analytics -->
 	<script>

@@ -20,7 +20,7 @@ app.controller("catHomeCtrl", function($scope) {
 	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("#loc-location", "#loc-hidden", null, [["#join", "header a.join", "#join a.close, form.join button.reset", "form.join"]]);
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "form.join"]]);
 });
 
 // Results Page Controller
@@ -33,7 +33,7 @@ app.controller("catResultsCtrl", function($scope) {
 	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("#loc-location", "#loc-hidden", null, [["#join", "header a.join, #joinPromo a.button", "#join a.close, form.join button.reset", "form.join"]], "#map", "#results");
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "header a.join, #joinPromo a.button", "#join a.close, form.join button.reset", "form.join"]], "#map", "#results");
 	$scope.page.setNgScope($scope);
 
 	// Set up various page content
@@ -60,15 +60,7 @@ app.controller("catContactCtrl", function($scope) {
 	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("#loc-location", "#loc-hidden", null, [["#join", "header a.join", "#join a.close, form.join button.reset", "form.join"]]);
-
-
-
-
-// TODO:  Fix the Join modal location field
-
-
-
+	$scope.page = new Page("form.contact input.location", "form.contact input.hidden", false, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "form.join"]]);
 
 	// Set up the form submission
 	$("form.contact").submit(function(event) {
@@ -77,22 +69,8 @@ app.controller("catContactCtrl", function($scope) {
 
 		var that = this;
 
-/*
-	ModalForm.prototype.submit = function(event) {
-		console.debug("ModalForm.submit(");
-		console.debug(event);
-
-		// Grab the context
-		var that = event.data;
-		console.debug(that, 2);
-*/
 		// Turn on the loading spinner while the submit happens
-	//	that.location.page.startLoading("Submitting...");
 		$scope.page.startLoading("Submitting...");
-
-		// Set hidden fields
-	//	$("input.referer", that.form).val(window.location.href);
-	//	$("input.type", that.form).val("Join");
 
 /*
 		This is the Google Spreadsheet:
@@ -106,7 +84,6 @@ app.controller("catContactCtrl", function($scope) {
 */
 
 		$("input.referer", that).val(window.location.href);
-
 
 
 		// Submit the form to Google Spreadsheets via AJAX
@@ -132,7 +109,6 @@ app.controller("catContactCtrl", function($scope) {
 
 				$(that).hide();
 				$(that).parent().append("<section><p>Thank you message</p></section>");
-
 
 				$scope.page.stopLoading();
 			}

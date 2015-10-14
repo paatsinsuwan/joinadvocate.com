@@ -98,13 +98,13 @@ window.console.debug = function(msg, level) {
 
 
 //	Page Object
-function Page(theLocationFieldID, theLocationHiddenID, theModalObjs, theModalFormObjs, theMapID, theRepListID, theRepDataID, theVoteID) {
-	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theModalObjs + ", " + theModalFormObjs + ", " + theMapID + ", " + theRepListID + ", " + theRepDataID + ", " + theVoteID + ") {");
+function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie, theModalObjs, theModalFormObjs, theMapID, theRepListID, theRepDataID, theVoteID) {
+	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theLocationDoUpdateCookie + ", " + theModalObjs + ", " + theModalFormObjs + ", " + theMapID + ", " + theRepListID + ", " + theRepDataID + ", " + theVoteID + ") {");
 
 	// If initializing as Page(), we're just getting a handle to run Page methods
 	if (arguments.length > 0) {
 		if ((typeof theLocationFieldID != "undefined") && (typeof theLocationHiddenID != "undefined")) {
-			this.location = new Location(theLocationFieldID, theLocationHiddenID, null, true, this);
+			this.location = new Location(theLocationFieldID, theLocationHiddenID, null, theLocationDoUpdateCookie, this);
 		}
 		this.modals = new Array();
 		if (typeof theModalObjs != "undefined")
@@ -746,7 +746,8 @@ function ModalForm(theElementObj, theTitle, theForm) {
 
 		// If the form has a location (Join Advocate, Contact Us), set up a proper Location object to handle these.
 		if ($("input.location", this.form).attr("id")) {
-			this.location = new Location("#" + $("input.location", this.form).attr("id"), "#" + $("input.location", this.form).siblings("input[type=hidden]").attr("id"), null, false);
+//			this.location = new Location("#" + $("input.location", this.form).attr("id"), "#" + $("input.location", this.form).siblings("input[type=hidden]").attr("id"), null, false);
+			this.location = new Location("#" + $(this.form).attr("id") + " input.location", "#" + $(this.form).attr("id") + " input.location ~ input[type=hidden]", null, false);
 		}
 
 	} else {
@@ -808,7 +809,7 @@ ModalForm.prototype.getJoinForm = function() {
 									'<textarea class="comments" name="entry.670622658" id="entry_670622658" dir="auto" aria-label="Comments" placeholder="Your comments"></textarea>' +
 								'</fieldset>' +
 */
-								'<input class="type" type="hidden" name="entry.1285458186" value="" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">' +
+								'<input class="type" type="hidden" name="entry.1285458186" value="Join Modal" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">' +
 								'<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">' +
 
 								'<button class="submit" type="submit" name="submit" value="Submit" id="ss-submit">Join Advocate</button>' +
@@ -833,7 +834,6 @@ ModalForm.prototype.submit = function(event) {
 
 	// Set hidden fields
 	$("input.referer", that.form).val(window.location.href);
-	$("input.type", that.form).val("Join");
 
 /*
 	This is the Google Spreadsheet:
@@ -899,7 +899,6 @@ ModalForm.prototype.handleSubmitError = function(err) {
 ModalForm.prototype.validateLocation = function(theFieldID) {
 	console.debug("ModalForm.validateLocation(" + theFieldID + ")");
 
-// TODO:  Handle location elements in form
 // TODO:  Actually do the validation *or* switch to HTML5 default validation	
 
 };
