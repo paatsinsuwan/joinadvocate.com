@@ -98,8 +98,8 @@ window.console.debug = function(msg, level) {
 
 
 //	Page Object
-function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie, theModalObjs, theModalFormObjs, theMapID, theRepListID, theRepDataID, theVoteID) {
-	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theLocationDoUpdateCookie + ", " + theModalObjs + ", " + theModalFormObjs + ", " + theMapID + ", " + theRepListID + ", " + theRepDataID + ", " + theVoteID + ") {");
+function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie, theModalObjs, theModalFormObjs, theMapID, theRepListID, theRepDetailsID, theVoteID) {
+	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theLocationDoUpdateCookie + ", [" + theModalObjs + "], [" + theModalFormObjs + "], " + theMapID + ", " + theRepListID + ", " + theRepDetailsID + ", " + theVoteID + ") {");
 
 	// If initializing as Page(), we're just getting a handle to run Page methods
 	if (arguments.length > 0) {
@@ -114,17 +114,16 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 			for (i in theModalFormObjs)
 				this.modals.push(new ModalForm(theModalFormObjs[i]));
 		this.tracker = new Tracker(window.location.href);
-		this.map = (typeof theMapID != "undefined") ? new Map(theMapID, this.location) : null;
-		this.repList = (typeof theRepListID != "undefined") ? new RepList(theRepListID, this.location) : null;
-		this.repData = (typeof theRepDataID != "undefined") ? new RepData(theRepDataID, theVoteID) : null;
+		this.map = ((typeof theMapID != "undefined") && theMapID) ? new Map(theMapID, this.location) : null;
+		this.repList = ((typeof theRepListID != "undefined") && theRepListID) ? new RepList(theRepListID, this.location) : null;
+		this.repDetails = ((typeof theRepDetailsID != "undefined") && theRepDetailsID) ? new RepDetails(theRepDetailsID, theVoteID, null, null, null, null, this) : null;
 		this.ngScope = null;
 	} else
 		console.debug("initializing empty Page object");
 
 
-
 // TODO:  Handle form submissions and grab the variables
-// TODO:  If we don't have a location on a page that needs one, use a default location
+// TODO:  If we don't have a location on a page that needs one, use a default location to show example data
 
 
 }
@@ -932,8 +931,8 @@ Tracker.prototype.logFormAction = function(theFormID, theAction) {
 
 	// theAction = [start,submit,cancel,error]
 };
-Tracker.prototype.logRepAction = function(theRep, theRepData, theAction) {
-	console.debug("Tracker.logRepAction(" + theRep + ", " + theRepData + ", " + theAction + ")");
+Tracker.prototype.logRepAction = function(theRep, theRepDetails, theAction) {
+	console.debug("Tracker.logRepAction(" + theRep + ", " + theRepDetails + ", " + theAction + ")");
 
 	// theAction = [list,detail,share,favorite,invite,connect-[web,email,phone,twitter,facebook,linkedin,youtube,instagram,google+],vote]]
 };
@@ -986,6 +985,35 @@ Map.prototype.draw = function() {
 		console.debug("location is valid", 2);
 		console.debug(this.location, 2);
 
+		// These are the Google Map styles per design
+		var stylesArray = [
+			{"featureType": "landscape.man_made", "elementType": "geometry", "stylers": [{"color": "#f4f4f4"}]}, 
+			{"featureType": "water", "stylers": [{"color": "#E6F1F7"}]}, 
+			{"featureType": "poi.park", "elementType": "geometry", "stylers": [{"color": "#e7f1ed"}]}, 
+			{"featureType": "road.highway", "elementType": "geometry.fill", "stylers": [{"color": "#e3e3e3"}]}, 
+			{"featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{"color": "#aeafaf"}]}, 
+			{"featureType": "poi.medical", "stylers": [{"color": "#808080" }, { "visibility": "off"}]}, 
+			{"featureType": "poi.school", "stylers": [{"visibility": "off"}]}, 
+			{"featureType": "poi.business", "stylers": [{"visibility": "off"}]}, 
+			{"featureType": "poi.sports_complex", "elementType": "geometry", "stylers": [{"visibility": "off"}]}, 
+			{"featureType": "transit", "elementType": "geometry", "stylers": [{"visibility": "off"}]}, 
+			{"featureType": "landscape.natural.terrain", "elementType": "geometry.fill", "stylers": [{"color": "#f2f2f2"}]}, 
+			{"featureType": "landscape.natural.terrain", "stylers": [{"color": "#f2f2f2"}]}, 
+			{"featureType": "landscape", "elementType": "labels.text", "stylers": [{"visibility": "off"}]}, 
+			{"featureType": "road.local", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9"}]}, 
+			{"featureType": "road.arterial", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9"}]}, 
+			{"featureType": "road.highway", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9"}]}, 
+			{"featureType": "transit.station", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9"}]}, 
+			{"featureType": "poi.attraction", "elementType": "labels.text.fill", "stylers": [{"color": "#808080"}]}, 
+			{"featureType": "poi.place_of_worship", "elementType": "labels.text.fill", "stylers": [{"color": "#808080"}]}, 
+			{"featureType": "road.local", "elementType": "labels.text", "stylers": [{"visibility": "off"}]}, 
+			{"featureType": "road", "elementType": "labels", "stylers": [{"visibility": "off"}]}, 
+			{"featureType": "poi.park", "elementType": "labels.text", "stylers": [{"visibility": "off"}]}, 
+			{"featureType": "administrative.locality", "elementType": "labels.text.fill", "stylers": [{"color": "#6f6f6f"}]}, 
+			{"featureType": "poi", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9" }, { "visibility": "on"}]}, 
+			{"featureType": "transit.station.rail", "elementType": "labels", "stylers": [{"visibility": "off"}]}
+		];
+
 		// If we're using the current location, draw a circle of uncertainty
 		if (this.location.getLocationIsCurrent()) {
 			console.debug("Using a current location",2);
@@ -995,12 +1023,24 @@ Map.prototype.draw = function() {
 
 // TODO:  Switch to static map API
 
+
+/*
+			// Create a new StyledMapType
+			// https://developers.google.com/maps/documentation/javascript/styling?hl=en
+			var styledMap = new google.maps.StyledMapType(stylesArray,
+				{name: "Styled Map"});
+*/
+
 			// Create the map with mostly default values
 			this.gMap = new google.maps.Map(document.getElementById(this.element.attr("id")), {
 				disableDefaultUI: true,
 				draggable: false,
 				scrollwheel: false
 			});
+
+			// Style the map
+			// https://developers.google.com/maps/tutorials/customizing/styling-the-base-map
+			this.gMap.set("styles", stylesArray);
 
 			// Draw the circle of uncertainty
 			var circle = new google.maps.Circle({
@@ -1052,6 +1092,10 @@ Map.prototype.draw = function() {
 							draggable: false,
 							scrollwheel: false
 						});
+
+						// Style the map
+						// https://developers.google.com/maps/tutorials/customizing/styling-the-base-map
+						that.gMap.set("styles", stylesArray);
 
 						// Scale and reposition the map appropriately
 						that.gMap.setCenter(results[0].geometry.location);
@@ -1131,6 +1175,9 @@ function RepList(theElementID, theLocation) {
 							"(202) 224-3841"
 						],
 						photoUrl: "http://feinstein.senate.gov/public/_images/aboutdianne/officiaphoto-thumbl.jpg",
+						roles: [
+							"legislatorUpperBody"
+						],
 						urls: [
 							"http://www.feinstein.senate.gov/public/"
 						]
@@ -1200,52 +1247,15 @@ RepList.prototype.load = function() {
 			"key=" + this.getGoogleAPIKey() + "&" +
 			"address=" + address;
 
-		// Store our current scope for the callback, below
-		var that = this;
+		// Run the query
+		$.ajax({
+			context: this,
+			dataType: "json",
+			url: theURL,
+			success: this.handleLoadSuccess,
+			error: this.handleLoadError
+		});
 
-		$.getJSON(theURL, function(data) {
-			console.debug("Success querying the Civic Info API");
-			console.debug(data);
-
-			// Sort the data
-			var sortedDivisions = Object.keys(data.divisions).sort();
-			console.debug("sorted divisions = ", 2);
-			console.debug(sortedDivisions, 2);
-
-			// Grab the reps
-			var repData = {};
-			for (var divKey in sortedDivisions) {
-				var divValue = data.divisions[sortedDivisions[divKey]];
-
-				console.debug("divKey = " + divKey + ", divValue = ", 2);
-				console.debug(divValue, 2);
-
-				if (typeof divValue.officeIndices != "undefined") {
-					repData[sortedDivisions[divKey]] = {
-						name: divValue.name,
-						offices: {}
-					};
-
-					$.each(divValue.officeIndices, function(officeKey, officeValue) {
-						repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name] = new Array();
-						if (typeof data.offices[officeValue].officialIndices == "undefined") {
-
-							// The office is vacant
-							console.debug("office is vacant", 2);
-						} else
-							$.each(data.offices[officeValue].officialIndices, function(officialKey, officialValue) {
-								console.debug("officialValue = " + officialValue, 2);
-								repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name].push(data.officials[officialValue]);
-							});
-					});
-				}
-			}
-
-			that.data = repData;
-			console.debug("that.data = ", 2);
-			console.debug(that.data, 2);
-			that.show();
-		}).error(this.handleLoadError);
 	} else {
 		console.debug("no valid address");
 
@@ -1253,12 +1263,55 @@ RepList.prototype.load = function() {
 
 	}
 };
-/*
-RepList.prototype.handleLoadSuccess = function() {
-	console.debug("RepList.handleLoadSuccess()");
 
+RepList.prototype.handleLoadSuccess = function(data) {
+	console.debug("RepList.handleLoadSuccess(");
+	console.debug(data);
+
+	// Store our current scope for the callback, below
+	var that = this;
+
+	// Sort the data
+	var sortedDivisions = Object.keys(data.divisions).sort();
+	console.debug("sorted divisions = ", 2);
+	console.debug(sortedDivisions, 2);
+
+	// Grab the reps
+	var repData = {};
+	for (var divKey in sortedDivisions) {
+		var divValue = data.divisions[sortedDivisions[divKey]];
+
+		console.debug("divKey = " + divKey + ", divValue = ", 2);
+		console.debug(divValue, 2);
+
+		if (typeof divValue.officeIndices != "undefined") {
+			repData[sortedDivisions[divKey]] = {
+				name: divValue.name,
+				offices: {}
+			};
+
+			$.each(divValue.officeIndices, function(officeKey, officeValue) {
+				repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name] = new Array();
+				if (typeof data.offices[officeValue].officialIndices == "undefined") {
+
+					// The office is vacant
+					console.debug("office is vacant", 2);
+				} else
+					$.each(data.offices[officeValue].officialIndices, function(officialKey, officialValue) {
+						console.debug("officialValue = " + officialValue, 2);
+						// Grab the role for the office this official holds, which we need to query for the rep details
+						data.officials[officialValue].roles = data.offices[officeValue].roles;
+						repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name].push(data.officials[officialValue]);
+					});
+			});
+		}
+	}
+
+	that.data = repData;
+	console.debug("that.data = ", 2);
+	console.debug(that.data, 2);
+	that.show();
 };
-*/
 RepList.prototype.handleLoadError = function(err) {
 	console.debug("RepList.handleLoadError(");
 	console.debug(err);
@@ -1304,7 +1357,8 @@ RepList.prototype.show = function() {
 					console.debug(official, 2);
 
 					thisDivision.children("ul").append("<li class=\"official\">" + 
-															"<a href=\"detail.html?ocd_id=" + ocd_id + "&office=" + office + "&official=" + official.name + "\">" + 
+//															"<a href=\"detail.html?ocd_id=" + ocd_id + "&office=" + office + "&official=" + official.name + "\">" + 
+															"<a href=\"detail.html?ocd_id=" + ocd_id + "&office=" + office + "&official=" + official.name + "&role=" + (((typeof official.roles != "undefined") && (official.roles.length > 0)) ? official.roles[0] : "") + "\">" + 
 																"<div class=\"u-photo circle\" style=\"background-image: url(" + ((typeof official.photoUrl != "undefined") ? official.photoUrl : "img/fpo-official.png") + ")\" title=\"Photo of " + official.name + "\" />" + 
 																"<h4 class=\"p-name\">" + official.name + "</h4>" + 
 																"<p class=\"p-role\">" + 
@@ -1365,18 +1419,39 @@ RepList.prototype.handleShare = function(theRep) {
 	alert("Share!");
 };
 
-
+// Get a JSON object of URL query parameters
+// https://css-tricks.com/snippets/jquery/get-query-params-object/
+function parseURL(theURL) {
+	console.debug("parseURL(" + theURL + ")");
+	var results = (theURL || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = decodeURIComponent(n[1]),this}.bind({}))[0];
+	
+	console.debug(results);
+	return results;
+}
 
 // RepDetails Object
-function RepDetails(theRepElementID, theVotesElementID, theOCD_ID, theName) {
-	console.debug("new RepDetails(" + theRepElementID + ", " + theVotesElementID + ", " + theOCD_ID + ", " + theName + ") {");
+function RepDetails(theRepElementID, theVotesElementID, theOCD_ID, theRole, theOffice, theOfficial, thePage) {
+	console.debug("new RepDetails(" + theRepElementID + ", " + theVotesElementID + ", " + theOCD_ID + ", " + theRole + ", " + theOffice + ", " + theOfficial + ", " + thePage + ") {");
+
+	// Check for and then grab query string parameters so we can get started
+	var query = parseURL();
 
 	this.element = $(theRepElementID);
 	this.voteElement = $(theVotesElementID);
-	this.OCD_ID = (typeof theOCD_ID != "undefined") ? theOCD_ID : null;
-	this.name = (typeof theName != "undefined") ? theName : null;
+	this.OCD_ID = ((typeof theOCD_ID != "undefined") && theOCD_ID) ? theOCD_ID : (((typeof query.ocd_id != undefined) && query.ocd_id) ? decodeURIComponent(query.ocd_id) : "");
+	this.role = ((typeof theRole != "undefined") && theRole) ? theRole : (((typeof query.role != undefined) && query.role) ? decodeURIComponent(query.role) : "");
+	this.office = ((typeof theOffice != "undefined") && theOffice) ? theOffice : (((typeof query.office != undefined) && query.office) ? decodeURIComponent(query.office) : "");
+	this.official = ((typeof theOfficial != "undefined") && theOfficial) ? theOfficial : (((typeof query.official != undefined) && query.official) ? decodeURIComponent(query.official) : "");
+	this.page = (thePage instanceof Page) ? thePage : new Page();
 	this.data = {};
 	this.votes = {};
+	this.googleAPIKey = "AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA";
+
+	this.loadExtended();
+
+	// Init the rep data
+	this.loadBasic();
+
 }
 // RepDetails Methods
 RepDetails.prototype.getElement = function() {
@@ -1401,61 +1476,199 @@ RepDetails.prototype.setOCD_ID = function(theOCD_ID) {
 
 	this.OCD_ID = (typeof theOCD_ID != "undefined") ? theOCD_ID : null;
 };
-RepDetails.prototype.getName = function() {
-	console.debug("RepDetails.getName()");
-	console.debug(this.name);
+RepDetails.prototype.getRole = function() {
+	console.debug("RepDetails.getRole()");
+	console.debug(this.role);
 
-	return this.name;
+	return this.role;
 };
-RepDetails.prototype.setName = function(theName) {
-	console.debug("RepDetails.setName(" + theName + ")");
+RepDetails.prototype.setRole = function(theRole) {
+	console.debug("RepDetails.setRole(" + theRole + ")");
 
-	this.name = (typeof theName != "undefined") ? theName : null;
+	this.role = (typeof theRole != "undefined") ? theRole : null;
+};
+RepDetails.prototype.getOffice = function() {
+	console.debug("RepDetails.getOffice()");
+	console.debug(this.office);
+
+	return this.office;
+};
+RepDetails.prototype.setOffice = function(theOffice) {
+	console.debug("RepDetails.setOffice(" + theOffice + ")");
+
+	this.office = (typeof theOffice != "undefined") ? theOffice : null;
+};
+RepDetails.prototype.getOfficial = function() {
+	console.debug("RepDetails.getOfficial()");
+	console.debug(this.official);
+
+	return this.official;
+};
+RepDetails.prototype.setOfficial = function(theOfficial) {
+	console.debug("RepDetails.setOfficial(" + theOfficial + ")");
+
+	this.official = (typeof theOfficial != "undefined") ? theOfficial : null;
 };
 RepDetails.prototype.loadBasic = function() {
 	console.debug("RepDetails.loadBasic()");
-	
+	console.debug("getting data for OCD_ID = \"" + this.OCD_ID + "\", role = \"" + this.role + "\", office = \"" + this.office + "\", official = \"" + this.official + "\"", 2);
+
+	// Build the query string for Google Civic Data API
+	// https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByDivision
+	var theURL = "https://www.googleapis.com/civicinfo/v2/representatives/" + encodeURIComponent(this.OCD_ID) + 
+		"?key=" + this.googleAPIKey + 
+		((this.role) ? "&roles=" + this.role : "");
+	console.debug("theURL = " + theURL, 2);
+
+	// Now query for the reps
+	$.ajax({
+		context: this,
+		dataType: "json",
+		url: theURL,
+		success: this.handleLoadBasicSuccess,
+		error: this.handleLoadBasicError
+	});
 };
-RepDetails.prototype.handleLoadBasicSuccess = function() {
-	console.debug("RepDetails.handleLoadBasicSuccess()");
+RepDetails.prototype.handleLoadBasicSuccess = function(data) {
+	console.debug("RepDetails.handleLoadBasicSuccess(");
+	console.debug(data);
+
+	// Store our current scope for the callback, below
+	var that = this;
 	
+	// Find the right rep by name
+	console.debug("looking for official \"" + that.official + "\"", 2);
+	$.each(data.officials, function(officialKey, official) {
+		console.debug(officialKey + ": ", 2);
+		console.debug(official, 2);
+
+		if (official.name == that.official) {
+			console.debug("found official \"" + official.name + "\"", 2);
+
+			// Grab the rep's basic data
+			that.data = official;
+
+			// Grab the rep's division
+			that.data.division = data.divisions[that.OCD_ID].name;
+
+			// Find this rep's office
+			$.each(data.offices, function(officeKey, office) {
+				console.debug(officeKey + ": ", 2);
+				console.debug(office, 2);
+				
+				if (office.officialIndices.indexOf(officialKey) >= 0) {
+					console.debug("found office \"" + office.name + "\"", 2);
+
+					that.data.office = office;
+				}
+			});
+
+			// Load any extended data
+			that.loadExtended();
+		}
+	});
+	console.debug("this.data = ", 2);
+	console.debug(that.data, 2);
 };
 RepDetails.prototype.handleLoadBasicError = function(err) {
 	console.debug("RepDetails.handleLoadBasicError(");
 	console.debug(err);
 
+// TODO:  Handle error
+
 };
 RepDetails.prototype.loadExtended = function() {
 	console.debug("RepDetails.loadExtended()");
-	
-};
-RepDetails.prototype.handleLoadExtendedSuccess = function() {
-	console.debug("RepDetails.handleLoadExtendedSuccess()");
 
+// TODO:  Figure out when to load extended data for a rep, limited to US Congress (for now)
+
+	if (!$.isEmptyObject(this.data)) {
+		console.debug("found data, checking role for extended availability");
+
+
+
+
+// TODO:  The test to see whether this person is in US Congress or US Senate
+
+
+
+/*
+			if (((typeof office.levels != "undefined") && (office.levels.indexOf("country") > -1)) && ((typeof office.roles != "undefined") && (office.roles.indexOf("legislatorUpperBody") > -1))) {
+				theOCD_ID = office.divisionId;
+				$.each(office.officialIndices, function(i, oi) {
+					senatorIndices.push(oi);
+				});
+			}
+		});
+*/
+
+
+		this.handleLoadExtendedSuccess(this);
+
+
+	} else {
+		console.debug("no data found, skipping extended load");
+	}
+};
+RepDetails.prototype.handleLoadExtendedSuccess = function(scope) {
+	console.debug("RepDetails.handleLoadExtendedSuccess(");
+	console.debug(scope);
+
+	var that = scope;
+
+// TODO:  Handle the successful load
+
+	// Display the rep details
+	that.show();
+
+	// Now, see if we can load the votes, limited to US Congress (for now)
+	that.loadVotes();
 };
 RepDetails.prototype.handleLoadExtendedError = function(err) {
 	console.debug("RepDetails.handleLoadExtendedError(");
 	console.debug(err);
 
+// TODO:  Handle error
+
 };
 RepDetails.prototype.show = function() {
 	console.debug("RepDetails.show()");
-	
+
+	// Transfer rep data into the Angular scope, so we can update the view
+	var ngScope = this.page.getNgScope();
+	if (ngScope) {
+		console.debug("Found Angular scope!", 2);
+		ngScope.repData = this.data;
+
+		// Also apply the updates to Angular
+		ngScope.$apply();
+	} else
+		console.debug("No Angular scope found!", 2);
 };
 RepDetails.prototype.loadVotes = function(n) {
 	console.debug("RepDetails.loadVotes(" + n + ")");
-	
+
+// TODO:  Figure out when votes are available, then load them
+
 };
 RepDetails.prototype.handleLoadVotesSuccess = function() {
 	console.debug("RepDetails.handleLoadVotesSuccess()");
-	
+
+// TODO:  Handle the successful load
+
+	// Display the vote results
+	this.showVotes()
 };
 RepDetails.prototype.handleLoadVotesError = function(err) {
 	console.debug("RepDetails.handleLoadVotesError(");
 	console.debug(err);
 
+// TODO:  Handle error
+
 };
 RepDetails.prototype.showVotes = function() {
 	console.debug("RepDetails.showVotes()");
-	
+
+// TODO:  Display the vote information
+
 };

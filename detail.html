@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html data-ng-app="catApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html data-ng-app="catApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html data-ng-app="catApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html data-ng-app="catApp" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -19,7 +19,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
 
 </head>
-<body>
+<body class="detail" data-ng-controller="catDetailsCtrl">
 	<!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
@@ -28,37 +28,60 @@
 		<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo.png" alt="|adv&#333;cate|" /></a></section>
 		<nav>
 			<ul>
-				<li><a href="join.html" id="join">Join Advocate</a></li>
+				<li><a href="join.html" class="join">Join Advocate</a></li>
 			</ul>
 		</nav>
 	</header>
 
 	<div id="main" role="main" class="detail">
 
+
+<!-- TODO:  Add the map in here per design -->
+<!--
+		<div id="map" class="fpo"></div>
+-->
+
 		<section id="address">
 			<address class="vcard">
+
+<!-- TODO:  Need to update attributes through Angular -->
+<!-- TODO:  Need to update page title through Angular -->
+
 				<img class="u-photo" src="img/fpo-kristen-gillibrand.png" alt="Photo of Kirsten Gillibrand" />
-				<h1><span class="p-role">Representative</span> <span class="p-name">Kirsten Gillibrand</span></h1>
+
+<!-- TODO:  Need to get the role -->
+
+				<h1><!--<span class="p-role">Representative</span> --><span class="p-name" data-ng-bind="repData.name"><!--Kirsten Gillibrand--></span></h1>
+
+<!--<span data-ng-bind="cityState(' in ')" class="cityState">-->
+
+
 				<p class="p-org">
-					United States Senate<br />
-					<span class="p-category">Democrat</span><br />
-					New York State - District 8
+					<span data-ng-bind="repData.office.name"><!--United States Senate--></span><br />
+					<span class="p-category" data-ng-bind="repData.party"><!--Democrat--></span><br />
+					<span data-ng-bind="repData.division"><!--New York State - District 8--></span>
 				</p>
+
+<!-- TODO:  Add conditionals in Angular to only add contact info we have -->
+<!-- TODO:  Add looping in Angular to iterate through multiple entries for URLs, Addresses, Phone Numbers, Channels -->
+
 				<dl>
 					<dt>Website</dt>
-					<dd><a class="u-url" href="http://www.gillibrand.house.gov/">www.gillibrand.house.gov</a></dd>
+					<dd><a class="u-url" href="http://www.gillibrand.house.gov/" data-ng-bind="repData.urls[0]"><!--www.gillibrand.house.gov--></a></dd>
+
+<!-- TODO:  Need to capitalize strings through Angular -->
 
 					<dt>Address</dt>
 					<dd class="h-adr">
-						<span class="p-street-address">Capitol Hill</span>
-						<span class="p-extended-address">478 Russell Senate Office Building</span>
-						<span class="p-locality">Washington</span>
-						<span class="p-region">DC</span>
-						<span class="p-postal-code">20510</span>
+<!--						<span class="p-street-address">Capitol Hill</span>-->
+						<span class="p-extended-address" data-ng-bind="repData.address[0].line1"><!--478 Russell Senate Office Building--></span>
+						<span class="p-locality" data-ng-bind="repData.address[0].city"><!--Washington--></span>
+						<span class="p-region" data-ng-bind="repData.address[0].state"><!--DC--></span>
+						<span class="p-postal-code" data-ng-bind="repData.address[0].zip"><!--20510--></span>
 					</dd>
 
 					<dt>Phone</dt>
-					<dd><a class="p-tel" href="tel:2022254965">(202) 225-4965</a></dd>
+					<dd><a class="p-tel" href="tel:2022254965" data-ng-bind="repData.phones[0]"><!--(202) 225-4965--></a></dd>
 
 					<dt>Connect</dt>
 					<dd>
@@ -73,17 +96,17 @@
 			</address>
 
 			<aside id="invite">
-				<h2>Invite <span class="role">Representative</span> <span class="name">Kirsten Gillibrand</span> to join Advocate</h2>
+				<h2>Invite <span class="role">Representative</span> <span class="name" data-ng-bind="repData.name"><!--Kirsten Gillibrand--></span> to join Advocate</h2>
 				<a class="button" href="invite.html">Invite</a>
 			</aside>
 
 			<aside id="coming-soon">
 				<h2>Coming soon</h2>
-				<p>You will be able to follow updates and connect with <span class="name">Kirsten Gillibrand</span> directly on <a href="/">Advocate</a>.</p>
+				<p>You will be able to follow updates and connect with <span class="name" data-ng-bind="repData.name"><!--Kirsten Gillibrand--></span> directly on <a href="/">Advocate</a>.</p>
 			</aside>
 
 			<ul id="actions" class="actions">
-				<li><a class="claim" href="claim.html"><strong>Get verified</strong> to claim <span class="name">Kirsten Gillibrand</span>'s profile</a></li>
+				<li><a class="claim" href="claim.html"><strong>Get verified</strong> to claim <span class="name" data-ng-bind="repData.name"><!--Kirsten Gillibrand--></span>'s profile</a></li>
 				<li><a class="favorite" href="favorite.html"><img src="img/favorite.png" alt="favorite" />Favorite</a></li>
 				<li><a class="share" href="share.html"><img src="img/share.png" alt="share" />Share</a></li>
 			</ul>
@@ -91,12 +114,12 @@
 		</section>
 
 		<aside id="joinPromo">
-			<p>Begin connecting with your local representatives and candidates.</p>
+			<p>Begin connecting with your local representatives<span data-ng-bind="cityState(' in ')" class="cityState"><!-- in Brooklyn, NY--></span>.</p>
 			<a class="button" href="join.html">Join Advocate</a>
 		</aside>
 
 		<section id="votes">
-			<h2><span class="name">Kirstin Gillibrand</span>'s latest votes</h2>
+			<h2><span class="name" data-ng-bind="repData.name"><!--Kirsten Gillibrand--></span>'s latest votes</h2>
 
 			<dl class="votes">
 				<dt class="vote-date">September 9th, 2015</dt>
@@ -157,6 +180,9 @@
 	<script src="js/plugins.js"></script>
 	<script src="js/lib.js"></script>
 	<script src="js/main.js"></script>
+
+	<script src="js/catApp.js"></script>
+	<script src="js/catCtrl.js"></script>
 
 	<!-- Google Analytics -->
 	<script>

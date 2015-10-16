@@ -47,8 +47,35 @@ app.controller("catResultsCtrl", function($scope) {
 
 	// Build the Rep List
 	$scope.page.repList.load();
-
 });
+
+
+// Details Page Controller
+app.controller("catDetailsCtrl", function($scope) {
+
+	// Set the default debugging level
+	window.console.debugLevel = 2;
+
+	// Add the Join Advocate form to the page
+	ModalForm.prototype.getJoinForm();
+
+	// Initialize the JS
+	$scope.page = new Page(null, null, false, null, [["#join", "header a.join, #joinPromo a.button", "#join a.close, form.join button.reset", "form.join"]], null, null, "#main", "#votes");
+	$scope.page.setNgScope($scope);
+
+	// Set up various page content
+	$scope.cityState = function(pre) {
+		if ($scope.page.location.getLocationIsGeocoded())
+			return pre + $scope.page.location.getLocationCity() + ", " + $scope.page.location.getLocationState();
+	};
+
+	// Draw the Google map
+//	$scope.page.map.draw();
+
+	// Build the Rep List
+//	$scope.page.repList.load();
+});
+
 
 // Contact Us Controller
 app.controller("catContactCtrl", function($scope) {
@@ -104,8 +131,6 @@ app.controller("catContactCtrl", function($scope) {
 				console.debug(data, 2);
 
 // TODO:  Show thank you message
-
-//				that.close.click();
 
 				$(that).hide();
 				$(that).parent().append("<section><p>Thank you message</p></section>");

@@ -629,11 +629,11 @@ ul.channels li img {
 	color: #000;
 }
 
-#main.detail aside#joinPromo :first-child {
+#main.detail aside#joinPromo > :first-child {
 	margin-left: 4em;
 }
 
-#main.detail aside#joinPromo :last-child {
+#main.detail aside#joinPromo > :last-child {
 	margin-right: 4em;
 }
 /* @end Asides */
