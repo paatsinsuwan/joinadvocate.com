@@ -66,7 +66,7 @@ app.controller("catDetailsCtrl", function($scope) {
 	// Set up various page content
 	$scope.cityState = function(pre) {
 		if ($scope.page.location.getLocationIsGeocoded())
-			return pre + $scope.page.location.getLocationCity() + ", " + $scope.page.location.getLocationState();
+			return ((typeof pre != "undefined") ? pre : "") + $scope.page.location.getLocationCity() + ", " + $scope.page.location.getLocationState();
 	};
 
 	// Draw the Google map

@@ -517,15 +517,21 @@ ul.actions li img {
 	border: 1px solid #ccc;
 }
 
-#main.detail address img.u-photo {
-	float: left;
-	margin: 0 0 0 20px;
-	width: auto;
-}
-
 #main.detail address > * {
 	margin: 1em auto 0 auto;
 	width: 60%;
+}
+
+#main.detail address .u-photo {
+	display: block;
+	float: left;
+	margin: 0 1em 0 20px;
+	height: 100px;
+	width: 100px;
+}
+
+#main.detail address p.p-org span {
+	display: block;
 }
 
 #main.detail address dt {
@@ -541,6 +547,7 @@ ul.actions li img {
 
 dd.h-adr span {
 	display: block;
+	text-transform: capitalize;
 }
 
 dd.h-adr span.p-locality,

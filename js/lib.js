@@ -987,31 +987,32 @@ Map.prototype.draw = function() {
 
 		// These are the Google Map styles per design
 		var stylesArray = [
-			{"featureType": "landscape.man_made", "elementType": "geometry", "stylers": [{"color": "#f4f4f4"}]}, 
-			{"featureType": "water", "stylers": [{"color": "#E6F1F7"}]}, 
-			{"featureType": "poi.park", "elementType": "geometry", "stylers": [{"color": "#e7f1ed"}]}, 
-			{"featureType": "road.highway", "elementType": "geometry.fill", "stylers": [{"color": "#e3e3e3"}]}, 
-			{"featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{"color": "#aeafaf"}]}, 
-			{"featureType": "poi.medical", "stylers": [{"color": "#808080" }, { "visibility": "off"}]}, 
-			{"featureType": "poi.school", "stylers": [{"visibility": "off"}]}, 
-			{"featureType": "poi.business", "stylers": [{"visibility": "off"}]}, 
-			{"featureType": "poi.sports_complex", "elementType": "geometry", "stylers": [{"visibility": "off"}]}, 
-			{"featureType": "transit", "elementType": "geometry", "stylers": [{"visibility": "off"}]}, 
-			{"featureType": "landscape.natural.terrain", "elementType": "geometry.fill", "stylers": [{"color": "#f2f2f2"}]}, 
-			{"featureType": "landscape.natural.terrain", "stylers": [{"color": "#f2f2f2"}]}, 
-			{"featureType": "landscape", "elementType": "labels.text", "stylers": [{"visibility": "off"}]}, 
-			{"featureType": "road.local", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9"}]}, 
-			{"featureType": "road.arterial", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9"}]}, 
-			{"featureType": "road.highway", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9"}]}, 
-			{"featureType": "transit.station", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9"}]}, 
-			{"featureType": "poi.attraction", "elementType": "labels.text.fill", "stylers": [{"color": "#808080"}]}, 
-			{"featureType": "poi.place_of_worship", "elementType": "labels.text.fill", "stylers": [{"color": "#808080"}]}, 
-			{"featureType": "road.local", "elementType": "labels.text", "stylers": [{"visibility": "off"}]}, 
-			{"featureType": "road", "elementType": "labels", "stylers": [{"visibility": "off"}]}, 
-			{"featureType": "poi.park", "elementType": "labels.text", "stylers": [{"visibility": "off"}]}, 
-			{"featureType": "administrative.locality", "elementType": "labels.text.fill", "stylers": [{"color": "#6f6f6f"}]}, 
-			{"featureType": "poi", "elementType": "labels.text.fill", "stylers": [{"color": "#a9a9a9" }, { "visibility": "on"}]}, 
-			{"featureType": "transit.station.rail", "elementType": "labels", "stylers": [{"visibility": "off"}]}
+			{"featureType": "landscape.man_made", "elementType": "geometry", "stylers":[{"color": "#f4f4f4"}]},
+			{"featureType": "water", "stylers":[{"color": "#E6F1F7"}]},
+			{"featureType": "poi.park", "elementType": "geometry", "stylers":[{"color": "#e7f1ed"}]},
+			{"featureType": "road.highway", "elementType": "geometry.fill", "stylers":[{"color": "#e3e3e3"}]},
+			{"featureType": "road.highway", "elementType": "geometry.stroke", "stylers":[{"color": "#aeafaf"}]},
+			{"featureType": "poi.medical", "stylers":[{"color": "#808080"}, {"visibility": "off"}]},
+			{"featureType": "poi.school", "stylers":[{"visibility": "off"}]},
+			{"featureType": "poi.business", "stylers":[{"visibility": "off"}]},
+			{"featureType": "poi.sports_complex", "elementType": "geometry", "stylers":[{"visibility": "off"}]},
+			{"featureType": "transit", "elementType": "geometry", "stylers":[{"visibility": "off"}]},
+			{"featureType": "landscape.natural.terrain", "elementType": "geometry.fill", "stylers":[{"color": "#f2f2f2"}]},
+			{"featureType": "landscape.natural.terrain", "stylers":[{"color": "#f2f2f2"}]},
+			{"featureType": "landscape", "elementType": "labels.text", "stylers":[{"visibility": "off"}]},
+			{"featureType": "road.local", "elementType": "labels.text.fill", "stylers":[{"color": "#a9a9a9"}]},
+			{"featureType": "road.arterial", "elementType": "labels.text.fill", "stylers":[{"color": "#a9a9a9"}]},
+			{"featureType": "road.highway", "elementType": "labels.text.fill", "stylers":[{"color": "#a9a9a9"}]},
+			{"featureType": "transit.station", "elementType": "labels.text.fill", "stylers":[{"color": "#a9a9a9"}]},
+			{"featureType": "poi.attraction", "elementType": "labels.text.fill", "stylers":[{"color": "#808080"}]},
+			{"featureType": "poi.place_of_worship", "elementType": "labels.text.fill", "stylers":[{"color": "#808080"}]},
+			{"featureType": "road.local", "elementType": "labels.text", "stylers":[{"visibility": "off"}]},
+			{"featureType": "road", "elementType": "labels", "stylers":[{"visibility": "off"}]},
+			{"featureType": "poi.park", "elementType": "labels.text", "stylers":[{"visibility": "off"}]},
+			{"featureType": "administrative.locality", "elementType": "labels.text.fill", "stylers":[{"color": "#6f6f6f"}]},
+			{"featureType": "poi", "elementType": "labels.text.fill", "stylers":[{"color": "#a9a9a9"}, {"visibility": "on"}]},
+			{"featureType": "transit.station.rail", "elementType": "labels", "stylers":[{"visibility": "off"}]},
+			{"featureType": "poi", "elementType": "labels", "stylers":[{"visibility": "off"}]}
 		];
 
 		// If we're using the current location, draw a circle of uncertainty
@@ -1357,7 +1358,6 @@ RepList.prototype.show = function() {
 					console.debug(official, 2);
 
 					thisDivision.children("ul").append("<li class=\"official\">" + 
-//															"<a href=\"detail.html?ocd_id=" + ocd_id + "&office=" + office + "&official=" + official.name + "\">" + 
 															"<a href=\"detail.html?ocd_id=" + ocd_id + "&office=" + office + "&official=" + official.name + "&role=" + (((typeof official.roles != "undefined") && (official.roles.length > 0)) ? official.roles[0] : "") + "\">" + 
 																"<div class=\"u-photo circle\" style=\"background-image: url(" + ((typeof official.photoUrl != "undefined") ? official.photoUrl : "img/fpo-official.png") + ")\" title=\"Photo of " + official.name + "\" />" + 
 																"<h4 class=\"p-name\">" + official.name + "</h4>" + 
