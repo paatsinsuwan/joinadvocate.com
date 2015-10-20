@@ -579,7 +579,7 @@ ul.channels li img {
 /* @group Asides */
 #main.detail aside {
 	margin: 2em auto;
-	overflow: visible;
+	overflow: auto;
 	width: 60%;
 }
 
@@ -587,6 +587,12 @@ ul.channels li img {
 	font-size: 1em;
 	font-weight: normal;
 	margin: 0;
+}
+
+#main.detail aside#invite h2 {
+	float: left;
+	margin: 0;
+	padding-top: 0.5em;
 }
 
 #main.detail aside#coming-soon h2 {
@@ -600,6 +606,7 @@ ul.channels li img {
 
 #main.detail #invite a.button {
 	display: block;
+	float: right;
 	width: 5em;
 }
 

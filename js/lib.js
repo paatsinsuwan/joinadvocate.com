@@ -1324,6 +1324,8 @@ RepList.prototype.show = function() {
 	console.debug("RepList.show()");
 	console.debug(this.data);
 
+// TODO:  Should be doing this through Angular
+
 	// Make sure we have Rep data
 	if (this.data && Object.keys(this.data).length) {
 		console.debug("found data to show:", 2);
@@ -1444,70 +1446,81 @@ function RepDetails(theRepElementID, theVotesElementID, theOCD_ID, theRole, theO
 	this.official = ((typeof theOfficial != "undefined") && theOfficial) ? theOfficial : (((typeof query.official != undefined) && query.official) ? decodeURIComponent(query.official) : "");
 	this.page = (thePage instanceof Page) ? thePage : new Page();
 	this.data = {};
+	this.hasData = false;
+	this.hasExtended = false;
 	this.votes = {};
+	this.hasVotes = false;
 	this.googleAPIKey = "AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA";
-
-	this.loadExtended();
+	this.sunlightAPIKey = "f36efc0ec23f4719b097ff89b48cf1ea";
 
 	// Init the rep data
 	this.loadBasic();
-
 }
 // RepDetails Methods
 RepDetails.prototype.getElement = function() {
 	console.debug("RepDetails.getElement()");
 	console.debug(this.element);
-
 	return this.element;
 };
 RepDetails.prototype.setElement = function(theElementID) {
 	console.debug("RepDetails.setElement(" + theElementID + ")");
-
 	this.element = $(theRepElementID);
+	return this.element;
 };
 RepDetails.prototype.getOCD_ID = function() {
 	console.debug("RepDetails.getOCD_ID()");
 	console.debug(this.OCD_ID);
-
 	return this.OCD_ID;
 };
 RepDetails.prototype.setOCD_ID = function(theOCD_ID) {
 	console.debug("RepDetails.setOCD_ID(" + theOCD_ID + ")");
-
 	this.OCD_ID = (typeof theOCD_ID != "undefined") ? theOCD_ID : null;
+	return this.OCD_ID;
 };
 RepDetails.prototype.getRole = function() {
 	console.debug("RepDetails.getRole()");
 	console.debug(this.role);
-
 	return this.role;
 };
 RepDetails.prototype.setRole = function(theRole) {
 	console.debug("RepDetails.setRole(" + theRole + ")");
-
 	this.role = (typeof theRole != "undefined") ? theRole : null;
+	return this.role;
 };
 RepDetails.prototype.getOffice = function() {
 	console.debug("RepDetails.getOffice()");
 	console.debug(this.office);
-
 	return this.office;
 };
 RepDetails.prototype.setOffice = function(theOffice) {
 	console.debug("RepDetails.setOffice(" + theOffice + ")");
-
 	this.office = (typeof theOffice != "undefined") ? theOffice : null;
+	return this.office;
 };
 RepDetails.prototype.getOfficial = function() {
 	console.debug("RepDetails.getOfficial()");
 	console.debug(this.official);
-
 	return this.official;
 };
 RepDetails.prototype.setOfficial = function(theOfficial) {
 	console.debug("RepDetails.setOfficial(" + theOfficial + ")");
-
 	this.official = (typeof theOfficial != "undefined") ? theOfficial : null;
+	return this.official;
+};
+RepDetails.prototype.getHasData = function() {
+	console.debug("RepDetails.getHasData()");
+	console.debug(this.hasData);
+	return this.hasData;
+};
+RepDetails.prototype.getHasExtended = function() {
+	console.debug("RepDetails.getHasExtended()");
+	console.debug(this.hasExtended);
+	return this.hasExtended;
+};
+RepDetails.prototype.getHasVotes = function() {
+	console.debug("RepDetails.getHasVotes()");
+	console.debug(this.hasVotes);
+	return this.hasVotes;
 };
 RepDetails.prototype.loadBasic = function() {
 	console.debug("RepDetails.loadBasic()");
@@ -1526,7 +1539,8 @@ RepDetails.prototype.loadBasic = function() {
 		dataType: "json",
 		url: theURL,
 		success: this.handleLoadBasicSuccess,
-		error: this.handleLoadBasicError
+		error: this.handleLoadBasicError,
+		complete: this.show
 	});
 };
 RepDetails.prototype.handleLoadBasicSuccess = function(data) {
@@ -1547,6 +1561,7 @@ RepDetails.prototype.handleLoadBasicSuccess = function(data) {
 
 			// Grab the rep's basic data
 			that.data = official;
+			that.hasData = true;
 
 			// Grab the rep's division
 			that.data.division = data.divisions[that.OCD_ID].name;
@@ -1583,46 +1598,60 @@ RepDetails.prototype.loadExtended = function() {
 // TODO:  Figure out when to load extended data for a rep, limited to US Congress (for now)
 
 	if (!$.isEmptyObject(this.data)) {
-		console.debug("found data, checking role for extended availability");
+		console.debug("found data, checking role for extended availability", 2);
 
+		// See if this rep is in the upper or lower body of a country-level office (US Senate or US House)
+		if (((typeof this.data.office.levels != "undefined") && (this.data.office.levels.indexOf("country") > -1)) && ((typeof this.data.office.roles != "undefined") && ((this.data.office.roles.indexOf("legislatorUpperBody") > -1) || (this.data.office.roles.indexOf("legislatorLowerBody") > -1)))) {
+			console.debug("US Congress!", 2);
 
+			// Now query Sunlight's Congress API for the extended rep data
+			// https://sunlightlabs.github.io/congress/
+			var theURL = "https://congress.api.sunlightfoundation.com/legislators?" + 
+				"apikey=" + this.sunlightAPIKey + "&" +
+				"per_page=all&" + 
+				"fields=party,gender,state,state_name,district,title,chamber,senate_class,state_rank,bioguide_id,ocd_id,first_name,last_name,terms,term_end&" +
+				"ocd_id=" + this.OCD_ID + "&" +
+				"query=" + this.data.name.split(" ").slice(-1)[0];
 
+			console.debug("theURL = " + theURL, 2);
 
-// TODO:  The test to see whether this person is in US Congress or US Senate
+			// Now query for the reps
+			$.ajax({
+				context: this,
+				dataType: "json",
+				url: theURL,
+				success: this.handleLoadExtendedSuccess,
+				error: this.handleLoadExtendedError,
+				complete: this.show
+			});
+		} else
+			console.debug("not US Congress", 2);
+	} else
+		console.debug("no data found, skipping extended load", 2);
+};
+RepDetails.prototype.handleLoadExtendedSuccess = function(data) {
+	console.debug("RepDetails.handleLoadExtendedSuccess(");
+	console.debug(data);
 
+	// Store our current scope for the callback, below
+	var that = this;
 
+	// Make sure we just got the one best result
+	if ((typeof data.results[0] != "undefined") && (data.results.length == 1)) {
 
-/*
-			if (((typeof office.levels != "undefined") && (office.levels.indexOf("country") > -1)) && ((typeof office.roles != "undefined") && (office.roles.indexOf("legislatorUpperBody") > -1))) {
-				theOCD_ID = office.divisionId;
-				$.each(office.officialIndices, function(i, oi) {
-					senatorIndices.push(oi);
-				});
-			}
-		});
-*/
+		// Now, enrich the rep data with the Sunlight extended data
+		that.data.extended = data.results[0];
+		that.hasExtended = true;
 
-
-		this.handleLoadExtendedSuccess(this);
-
+		// Now, see if we can load the votes, limited to US Congress (for now)
+		that.loadVotes(2);
 
 	} else {
-		console.debug("no data found, skipping extended load");
+		console.debug("Error:  More than one result returned from Sunlight!", 2)
+
+// TODO:  Handle this error
+
 	}
-};
-RepDetails.prototype.handleLoadExtendedSuccess = function(scope) {
-	console.debug("RepDetails.handleLoadExtendedSuccess(");
-	console.debug(scope);
-
-	var that = scope;
-
-// TODO:  Handle the successful load
-
-	// Display the rep details
-	that.show();
-
-	// Now, see if we can load the votes, limited to US Congress (for now)
-	that.loadVotes();
 };
 RepDetails.prototype.handleLoadExtendedError = function(err) {
 	console.debug("RepDetails.handleLoadExtendedError(");
@@ -1630,9 +1659,12 @@ RepDetails.prototype.handleLoadExtendedError = function(err) {
 
 // TODO:  Handle error
 
+	console.debug("Sunlight Congress data error!");
+
 };
 RepDetails.prototype.show = function() {
 	console.debug("RepDetails.show()");
+	console.debug(this.data);
 
 	// Transfer rep data into the Angular scope, so we can update the view
 	var ngScope = this.page.getNgScope();
@@ -1648,16 +1680,56 @@ RepDetails.prototype.show = function() {
 RepDetails.prototype.loadVotes = function(n) {
 	console.debug("RepDetails.loadVotes(" + n + ")");
 
-// TODO:  Figure out when votes are available, then load them
+	// Check for extended data, which should exist for members of congress 
+	if (this.hasExtended) {
+		console.debug("Found extended congressional data", 2);
 
+		// Set a default number of votes to load
+		if ((typeof n == "undefined") || !n)
+			n = 5;
+
+		// See if we can grab their most recent vote
+		var theURL = "https://congress.api.sunlightfoundation.com/votes?" + 
+			"apikey=" + this.sunlightAPIKey + "&" +
+			"fields=question,voted_at,bill,result,url,breakdown,required,voters." + this.data.extended.bioguide_id + "&" +
+			"order=voted_at&" +
+			"per_page=" + n + "&" +
+			"voter_ids." + this.data.extended.bioguide_id + "__exists=true"
+
+		console.debug("theURL = " + theURL, 2);
+
+		// Now query for the votes
+		$.ajax({
+			context: this,
+			dataType: "json",
+			url: theURL,
+			success: this.handleLoadVotesSuccess,
+			error: this.handleLoadVotesError,
+			complete: this.showVotes
+		});
+	} else
+		console.debug("Did not find extended congressional data, skipping vote data.", 2);
 };
-RepDetails.prototype.handleLoadVotesSuccess = function() {
-	console.debug("RepDetails.handleLoadVotesSuccess()");
+RepDetails.prototype.handleLoadVotesSuccess = function(data) {
+	console.debug("RepDetails.handleLoadVotesSuccess(");
+	console.debug(data);
 
-// TODO:  Handle the successful load
+	// Store our current scope for the callback, below
+	var that = this;
 
-	// Display the vote results
-	this.showVotes()
+	// Make sure we just got the one best result
+	if ((typeof data.results[0] != "undefined") && (data.results.length > 0)) {
+
+		// Now, enrich the rep data with the Sunlight votes data
+		that.data.votes = data.results;
+		that.hasVotes = true;
+
+	} else {
+		console.debug("Error with vote results returned from Sunlight!", 2)
+
+// TODO:  Handle this error
+
+	}
 };
 RepDetails.prototype.handleLoadVotesError = function(err) {
 	console.debug("RepDetails.handleLoadVotesError(");
@@ -1668,7 +1740,21 @@ RepDetails.prototype.handleLoadVotesError = function(err) {
 };
 RepDetails.prototype.showVotes = function() {
 	console.debug("RepDetails.showVotes()");
+	console.debug(this.data);
 
-// TODO:  Display the vote information
+	if (this.hasVotes) {
+		console.debug("found votes", 2);
 
+		// Update the Angular view
+		var ngScope = this.page.getNgScope();
+		if (ngScope) {
+			console.debug("Found Angular scope!", 2);
+
+			// Also apply the updates to Angular
+			ngScope.$apply();
+		} else
+			console.debug("No Angular scope found!", 2);
+
+	} else
+		console.debug("no votes found", 2);
 };

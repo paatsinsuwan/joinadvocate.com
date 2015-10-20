@@ -118,47 +118,26 @@
 			<a class="button" href="join.html">Join Advocate</a>
 		</aside>
 
-<!-- TODO:  Fill in the votes -->
-
-<!--
-		<section id="votes">
+		<section id="votes" data-ng-if="repData.votes.length > 0">
 			<h2><span class="name" data-ng-bind="repData.name">Your representative</span>'s latest votes</h2>
 			<dl class="votes">
-				<dt class="vote-date">September 9th, 2015</dt>
-				<dd class="vote" id="vote-0">
-					<div class="description">
-						<h3><a href="vote.html" class="vote-title">Hire More Heroes Act of 2015</a></h3>
-						<p class="action"><span class="short-role">Sen</span> <span class="last-name">Gillibrand</span> voted <span class="vote">Nay</span>, as did <span class="vote-count-party">40</span> other members of <span class="pronoun">her</span> party.</p>
-						<p class="result">
-							<span class="vote-type">The Cloture Motion</span> <span class="vote-result">Rejected</span> by a vote of <span class="vote-yea">56</span> voting Yea and <span class="vote-nay">42</span> voting Nay<br />
-							(More than <span class="vote-required">3/5</span> was required to pass.)
-						</p>
-					</div>
-					<dl class="results">
-						<span><dt>Yea</dt><dd><span class="vote-yea">56</span></dd></span>
-						<span><dt>Nay</dt><dd><span class="vote-nay">42</span></dd></span>
-						<span><dt>Abstain</dt><dd><span class="vote-abstain">2</span></dd></span>
-					</dl>
-				</dd>
-				
-				<dt class="vote-date">September 7th, 2015</dt>
-				<dd class="vote" id="vote-1">
-					<div class="description">
-						<h3><a href="vote.html">Vote Name</a></h3>
-						<p class="action"><span class="short-role">Sen</span> <span class="last-name">Gillibrand</span> voted <span class="vote">Nay</span>, as did <span class="vote-count-party">40</span> other members of her party.</p>
-						<p class="result">
-							<span class="vote-type">The Cloture Motion</span> <span class="vote-result">Rejected</span> by a vote of <span class="vote-yea">56</span> voting Yea and <span class="vote-nay">42</span> voting Nay<br />
-							(More than <span class="vote-required">3/5</span> was required to pass.)
-						</p>
-					</div>
-					<dl class="results">
-						<span><dt>Yea</dt><dd><span class="vote-yea">56</span></dd></span>
-						<span><dt>Nay</dt><dd><span class="vote-nay">42</span></dd></span>
-						<span><dt>Abstain</dt><dd><span class="vote-abstain">2</span></dd></span>
-					</dl>
-				</dd>
+				<span data-ng-repeat="(key, vote) in repData.votes">
+					<dt class="vote-date" data-ng-bind="vote.voted_at | date: 'longDate'"><!--September 9th, 2015--></dt>
+					<dd class="vote" id="vote-{{key}}">
+						<div class="description">
+							<h3><a href="{{vote.url}}" class="vote-title" data-ng-bind="vote.question" target="_blank"><!--Hire More Heroes Act of 2015--></a></h3>
+							<p class="action"><span class="short-role" data-ng-bind="repData.extended.title"><!--Sen--></span> <span class="last-name" data-ng-bind="repData.extended.last_name"><!--Gillibrand--></span> voted <span class="vote" data-ng-bind="vote.voters[repData.extended.bioguide_id].vote"><!--Nay--></span>, as did <span class="vote-count-party" data-ng-bind="vote.breakdown.party[repData.extended.party][vote.voters[repData.extended.bioguide_id].vote]"><!--40--></span> other member{{ ((vote.breakdown.party[repData.extended.party][vote.voters[repData.extended.bioguide_id].vote] != 1) ? "s" : "") }} of <span class="pronoun" data-ng-bind="((repData.extended.gender == 'M') ? 'his' : 'her')"><!--her--></span> party.</p>
+							<p class="result">
+								<span class="vote-type" data-ng-bind="vote.result"><!--The Cloture Motion</span> <span class="vote-result">Rejected--></span> by a vote of <span class="vote-yea" data-ng-bind="vote.breakdown.total.Yea"><!--56--></span> voting Yea and <span class="vote-nay" data-ng-bind="vote.breakdown.total.Nay"><!--42--></span> voting Nay<br />
+								(More than <span class="vote-required" data-ng-bind="vote.required"><!--3/5--></span> was required to pass.)
+							</p>
+						</div>
+						<dl class="results">
+							<span data-ng-repeat="(which, count) in vote.breakdown.total" data-ng-if="count > 0"><dt data-ng-bind="which"></dt><dd><span class="vote-{{which | lowercase}}" data-ng-bind="count"><!--56--></span></dd></span>
+						</dl>
+					</dd>
+				</span>
 			</dl>
--->
 		</section>
 	</div>
 
