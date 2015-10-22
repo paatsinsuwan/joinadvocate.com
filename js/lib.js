@@ -115,7 +115,7 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 				this.modals.push(new ModalForm(theModalFormObjs[i]));
 		this.tracker = new Tracker(window.location.href);
 		this.map = ((typeof theMapID != "undefined") && theMapID) ? new Map(theMapID, this.location) : null;
-		this.repList = ((typeof theRepListID != "undefined") && theRepListID) ? new RepList(theRepListID, this.location) : null;
+		this.repList = ((typeof theRepListID != "undefined") && theRepListID) ? new RepList(theRepListID, this.location, this) : null;
 		this.repDetails = ((typeof theRepDetailsID != "undefined") && theRepDetailsID) ? new RepDetails(theRepDetailsID, theVoteID, null, null, null, null, this) : null;
 		this.ngScope = null;
 	} else
@@ -430,6 +430,7 @@ Location.prototype.updateFields = function() {
 	console.debug(this);
 	
 	var fieldVal = this.field.val();
+	var fieldClass = "current";
 	var hiddenVal = this.hidden.val();
 	var placeholder = this.field.attr("placeholder");
 	var foundLocation = false;
@@ -443,6 +444,7 @@ Location.prototype.updateFields = function() {
 				console.debug("using geocode", 2);
 				placeholder = "Using your current location";
 				fieldVal = "";
+				fieldClass += " active";
 				foundLocation = true;
 			}
 
@@ -452,8 +454,9 @@ Location.prototype.updateFields = function() {
 			// See if it's been geocoded yet
 			if ((typeof this.location.isGeocoded != "undefined") && !this.location.isGeocoded) {
 				console.debug("using ungeocoded text", 2);
-				placeholder = "Type your zipcode";
+				placeholder = "Where do you live?";
 				fieldVal = this.location.text;
+				fieldClass += " active";
 				foundLocation = true;
 			} else {
 				// Otherwise, use the formatted address returned from the geocode search
@@ -472,13 +475,15 @@ Location.prototype.updateFields = function() {
 	if (!foundLocation) {
 		console.debug("No valid location yet, usting location.text", 2);
 		fieldVal = ((typeof this.location.text != "undefined") && this.location.text) ? this.location.text : "";
-		placeholder = "Type your zipcode";
+		placeholder = "Where do you live?";
 		hiddenVal = null;
 	}
 
 	this.field.val(fieldVal);
 	this.hidden.val(hiddenVal);
 	this.field.attr("placeholder", placeholder);
+	this.field.attr("class", fieldClass);
+	this.field.siblings("button:not(.submit, .hidden)").attr("class", fieldClass);
 
 	// Also apply the updates to Angular
 	var ngScope = this.page.getNgScope();
@@ -788,7 +793,7 @@ ModalForm.prototype.getJoinForm = function() {
 								'<fieldset>' +
 									'<label class="location" for="entry_601326317">Enter your location to connect with your local reps</label>' +
 									'<button id="join-current" class="current fpo" name="join-current" type="button" value="current" title="Use current location"><img src="img/geocode.png" alt="Use current location" /></button>' +
-									'<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Type your zipcode">' +
+									'<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Where do you live?">' +
 									'<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">' +
 								'</fieldset>' +
 
@@ -1032,6 +1037,7 @@ Map.prototype.draw = function() {
 				{name: "Styled Map"});
 */
 
+
 			// Create the map with mostly default values
 			this.gMap = new google.maps.Map(document.getElementById(this.element.attr("id")), {
 				disableDefaultUI: true,
@@ -1043,13 +1049,31 @@ Map.prototype.draw = function() {
 			// https://developers.google.com/maps/tutorials/customizing/styling-the-base-map
 			this.gMap.set("styles", stylesArray);
 
-			// Draw the circle of uncertainty
-			var circle = new google.maps.Circle({
+			// Draw the circle of uncertainty (two, as per design)
+			var circle1 = new google.maps.Circle({
+/*
 				strokeColor: '#FF0000',
 				strokeOpacity: 0.8,
 				strokeWeight: 2,
-				fillColor: '#FF0000',
-				fillOpacity: 0.35,
+*/
+				strokeOpacity: 0,
+				fillColor: '#FD4848',
+				fillOpacity: 0.4,
+				map: this.gMap,
+				center: {lat: geo.lat, lng: geo.lon},
+				radius: (accuracy * 7/4)	// This circle is a little larger than the accuracy
+			});
+
+			// Draw the circle of uncertainty
+			var circle2 = new google.maps.Circle({
+/*
+				strokeColor: '#FF0000',
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+*/
+				strokeOpacity: 0,
+				fillColor: '#FD4848',
+				fillOpacity: 0.5,
 				map: this.gMap,
 				center: {lat: geo.lat, lng: geo.lon},
 				radius: accuracy
@@ -1057,8 +1081,8 @@ Map.prototype.draw = function() {
 
 			// Scale and reposition the map appropriately
 			var bounds = new google.maps.LatLngBounds();
-			bounds.extend(new google.maps.LatLng(geo.lat + (accuracy / 111000), geo.lon));
-			bounds.extend(new google.maps.LatLng(geo.lat - (accuracy / 111000), geo.lon));
+			bounds.extend(new google.maps.LatLng(geo.lat + ((accuracy*3) / 111000), geo.lon));
+			bounds.extend(new google.maps.LatLng(geo.lat - ((accuracy*3) / 111000), geo.lon));
 			this.gMap.fitBounds(bounds);
 
 // TODO:  See if we can reverse geocode from the Google Map, so we don't need to do it separately.
@@ -1139,11 +1163,12 @@ Map.prototype.roundTenth = function(x) {
 
 
 // RepList Object
-function RepList(theElementID, theLocation) {
-	console.debug("new RepList(" + theElementID + ", " + theLocation + ") {");
+function RepList(theElementID, theLocation, thePage) {
+	console.debug("new RepList(" + theElementID + ", " + theLocation +  + ", " + thePage + ") {");
 
 	this.element = $(theElementID);
 	this.location = (theLocation instanceof Location) ? theLocation : null;
+	this.page = (thePage instanceof Page) ? thePage : new Page();
 	this.data = {};
 /*
 	this.data = [
@@ -1288,11 +1313,11 @@ RepList.prototype.handleLoadSuccess = function(data) {
 		if (typeof divValue.officeIndices != "undefined") {
 			repData[sortedDivisions[divKey]] = {
 				name: divValue.name,
-				offices: {}
+				offices: new Array()
 			};
 
 			$.each(divValue.officeIndices, function(officeKey, officeValue) {
-				repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name] = new Array();
+//				repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name] = new Array();
 				if (typeof data.offices[officeValue].officialIndices == "undefined") {
 
 					// The office is vacant
@@ -1301,8 +1326,12 @@ RepList.prototype.handleLoadSuccess = function(data) {
 					$.each(data.offices[officeValue].officialIndices, function(officialKey, officialValue) {
 						console.debug("officialValue = " + officialValue, 2);
 						// Grab the role for the office this official holds, which we need to query for the rep details
-						data.officials[officialValue].roles = data.offices[officeValue].roles;
-						repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name].push(data.officials[officialValue]);
+						data.officials[officialValue].role = ((typeof data.offices[officeValue].roles != "undefined") && (data.offices[officeValue].roles.length > 0)) ? data.offices[officeValue].roles[0] : "";
+						data.officials[officialValue].office = data.offices[officeValue].name;
+//						data.officials[officialValue].photoUrl = (typeof data.officials[officialValue].photoUrl != "undefined") ? data.officials[officialValue].photoUrl : "img/fpo-official.png";
+						data.officials[officialValue].photoUrl = (typeof data.officials[officialValue].photoUrl != "undefined") ? data.officials[officialValue].photoUrl : "";
+//						repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name].push(data.officials[officialValue]);
+						repData[sortedDivisions[divKey]].offices.push(data.officials[officialValue]);
 					});
 			});
 		}
@@ -1324,13 +1353,23 @@ RepList.prototype.show = function() {
 	console.debug("RepList.show()");
 	console.debug(this.data);
 
-// TODO:  Should be doing this through Angular
-
 	// Make sure we have Rep data
 	if (this.data && Object.keys(this.data).length) {
 		console.debug("found data to show:", 2);
 		console.debug(this.data, 2);
 
+		// Transfer rep data into the Angular scope, so we can update the view
+		var ngScope = this.page.getNgScope();
+		if (ngScope) {
+			console.debug("Found Angular scope!", 2);
+			ngScope.results = this.data;
+
+			// Also apply the updates to Angular
+			ngScope.$apply();
+		} else
+			console.debug("No Angular scope found!", 2);
+
+/*
 		var that = this;
 
 		// Construct the HTML for the search results
@@ -1383,7 +1422,7 @@ RepList.prototype.show = function() {
 			console.debug(thisDivision, 2);
 			that.element.append(thisDivision);
 		});
-
+*/
 		return true;
 	} else {
 		console.debug("no valid rep data");

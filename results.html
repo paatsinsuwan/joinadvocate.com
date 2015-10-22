@@ -11,13 +11,15 @@
 	<title>Your Representatives - Advocate</title>
 	<meta name="description" content="Redefining democracy.">
 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/normalize.min.css">
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/theme.css">
 
 	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
-
+<!-- For testing, turning off live loads -->
+	<script src="js/vendor/angular.min.js"></script>
+<!--	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>-->
 </head>
 <body class="results" data-ng-controller="catResultsCtrl">
 	<!--[if lt IE 7]>
@@ -25,204 +27,101 @@
 	<![endif]-->
 
 	<header>
-		<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo.png" alt="|adv&#333;cate|" /></a></section>
-		<nav>
-			<ul>
-				<li><a href="join.html" class="join">Join Advocate</a></li>
-			</ul>
-		</nav>
+		<div class="container">
+			<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo@2x.png" alt="advocate" width="134" height="24" /></a></section>
+			<nav>
+				<ul>
+<!--					<li>Want to keep in touch?</li>-->
+					<li><a href="join.html" class="join button primary">Sign Up</a></li>
+				</ul>
+			</nav>
+		</div>
 	</header>
 
-	<div id="main" role="main" class="results">
+	<div id="map" class="fpo"></div>
 
-		<div id="map" class="fpo"></div>
-
+	<aside class="location">
 		<form id="loc" action="results.html" autocomplete="on">
-			<label class="visible" for="loc-location">Enter your location to connect with your local reps</label>
+			<label class="hidden" for="loc-location">In the meantime, enter your location<br /> to get to know your local representatives.</label>
 			<fieldset>
-				<button id="loc-current" class="current fpo" type="button" value="current" title="Use current location"><img src="img/geocode.png" alt="Use current location" /></button>
-				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Type your zipcode" />
+				<button id="loc-current" class="current" type="button" value="current" title="Use current location"></button>
+				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Where do you live?" />
 				<input id="loc-hidden" class="hidden" name="loc-hidden" type="hidden" />
 				<button id="loc-submit" class="hidden" type="submit" value="Submit">Submit</button>
 			</fieldset>
 		</form>
+	</aside>
 
+	<div id="main" role="main" class="results">
+
+<!--
 		<aside id="joinPromo">
-			<p>Begin connecting with your local representatives<span data-ng-bind="cityState(' in ')" class="cityState"><!-- in Brooklyn, NY--></span>.</p>
+			<p>Begin connecting with your local representatives in <span data-ng-bind="cityState()" class="cityState">your area</span>.</p>
 			<a class="button" href="join.html">Join Advocate</a>
 		</aside>
+-->
 
 		<div id="results">
-<!--
-			<select class="filter">
-				<option value="current" selected="selected">Current representatives</option>
-				<option value="candidates">Candidates for office</option>
-			</select>
-
-			<section class="division" id="ocd-division/country:us">
-				<h3>United States</h3>
-
+			<h1>Your representatives for <span class="cityState" data-ng-bind="cityState()">your city</span></h1>
+			<nav>
 				<ul>
-					<li class="official" id="official-0">
-						<a href="detail.html">
-							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Barack Obama">
-							<h4 class="p-name">Barack Obama</h4>
-							<p class="p-role">
-								President of the United States<br />
-								Democrat
-							</p>
-						</a>
-						<ul class="actions">
-							<li><a class="connect" href="connect.html"><img src="img/connect.png" alt="connect" /></a></li>
-							<li><a class="favorite" href="favorite.html"><img src="img/favorite.png" alt="favorite" /></a></li>
-							<li><a class="share" href="share.html"><img src="img/share.png" alt="share" /></a></li>
-						</ul>
-					</li>
+					<li><a href="#" class="share primary">Share list</a></li>
+					<li><a href="#" class="email primary">Email</a></li>
+				</ul>
+			</nav>
 
-					<li class="official" id="official-1">
-						<a href="detail.html">
-							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Joseph Biden">
-							<h4 class="p-name">Joseph Biden</h4>
+			<section data-ng-repeat="(ocd_id, division) in results" class="division" id="{{ocd_id}}">
+				<h3 data-ng-bind="division.name">Division</h3>
+				<ul>
+					<li data-ng-repeat="(i, official) in division.offices" class="official">
+
+						<a href="detail.html?ocd_id={{ocd_id}}&office={{official.office}}&official={{official.name}}&role={{official.role}}">
+							<div class="u-photo circle" style="background-image: url({{official.photoUrl}})" title="Photo of {{official.name}}"></div>
+
+							<h4 class="p-name" data-ng-bind="official.name">Your representative</h4>
 							<p class="p-role">
-								Vice-President of the United States<br />
-								Democrat
+								{{official.office}}<br />
+								{{official.party}}
 							</p>
 						</a>
 						<ul class="actions">
-							<li><a class="connect" href="connect.html"><img src="img/connect.png" alt="connect" /></a></li>
-							<li><a class="favorite" href="favorite.html"><img src="img/favorite.png" alt="favorite" /></a></li>
-							<li><a class="share" href="share.html"><img src="img/share.png" alt="share" /></a></li>
+							<li><a class="view" href="#" title="view details" /></a></li>
+							<li><a class="invite" href="#" title="invite" /></a></li>
 						</ul>
 					</li>
 				</ul>
 			</section>
-
-			<section class="division" id="ocd-division/country:us/state:ny">
-				<h3>New York State</h3>
-				<ul>
-					<li class="official" id="official-2">
-						<a href="detail.html">
-							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Kristen Gillibrand">
-							<h4 class="p-name">Kristen Gillibrand</h4>
-							<p class="p-role">
-								United States Senate<br />
-								Party Affiliation
-							</p>
-						</a>
-						<ul class="actions">
-							<li><a class="connect" href="connect.html"><img src="img/connect.png" alt="connect" /></a></li>
-							<li><a class="favorite" href="favorite.html"><img src="img/favorite.png" alt="favorite" /></a></li>
-							<li><a class="share" href="share.html"><img src="img/share.png" alt="share" /></a></li>
-						</ul>
-					</li>
-
-					<li class="official" id="official-3">
-						<a href="detail.html">
-							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Andrew Cuomo">
-							<h4 class="p-name">Andrew Cuomo</h4>
-							<p class="p-role">
-								Governor<br />
-								Party Affiliation
-							</p>
-						</a>
-						<ul class="actions">
-							<li><a class="connect" href="connect.html"><img src="img/connect.png" alt="connect" /></a></li>
-							<li><a class="favorite" href="favorite.html"><img src="img/favorite.png" alt="favorite" /></a></li>
-							<li><a class="share" href="share.html"><img src="img/share.png" alt="share" /></a></li>
-						</ul>
-					</li>
-
-					<li class="official" id="official-4">
-						<a href="detail.html">
-							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Eric Schneiderman">
-							<h4 class="p-name">Eric Schneiderman</h4>
-							<p class="p-role">
-								Attorney General<br />
-								Party Affiliation
-							</p>
-						</a>
-						<ul class="actions">
-							<li><a class="connect" href="connect.html"><img src="img/connect.png" alt="connect" /></a></li>
-							<li><a class="favorite" href="favorite.html"><img src="img/favorite.png" alt="favorite" /></a></li>
-							<li><a class="share" href="share.html"><img src="img/share.png" alt="share" /></a></li>
-						</ul>
-					</li>
-
-					<li class="official" id="official-5">
-						<a href="detail.html">
-							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Thomas DiNapoli">
-							<h4 class="p-name">Thomas DiNapoli</h4>
-							<p class="p-role">
-								State Comptroller<br />
-								Party Affiliation
-							</p>
-						</a>
-						<ul class="actions">
-							<li><a class="connect" href="connect.html"><img src="img/connect.png" alt="connect" /></a></li>
-							<li><a class="favorite" href="favorite.html"><img src="img/favorite.png" alt="favorite" /></a></li>
-							<li><a class="share" href="share.html"><img src="img/share.png" alt="share" /></a></li>
-						</ul>
-					</li>
-				</ul>
-			</section>
-
-			<section class="division" id="ocd-division/country:us/state:ny/place:new_york">
-				<h3>Kings County, New York</h3>
-				<ul>
-					<li class="official" id="official-6">
-						<a href="detail.html">
-							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Kristen Gillibrand">
-							<h4 class="p-name">Kristen Gillibrand</h4>
-							<p class="p-role">
-								United States Senate<br />
-								Party Affiliation
-							</p>
-						</a>
-						<ul class="actions">
-							<li><a class="connect" href="connect.html"><img src="img/connect.png" alt="connect" /></a></li>
-							<li><a class="favorite" href="favorite.html"><img src="img/favorite.png" alt="favorite" /></a></li>
-							<li><a class="share" href="share.html"><img src="img/share.png" alt="share" /></a></li>
-						</ul>
-					</li>
-
-					<li class="official" id="official-7">
-						<a href="detail.html">
-							<img class="u-photo" src="img/fpo-official.png" alt="Photo of Andrew Cuomo">
-							<h4 class="p-name">Andrew Cuomo</h4>
-							<p class="p-role">
-								Governor<br />
-								Party Affiliation
-							</p>
-						</a>
-						<ul class="actions">
-							<li><a class="connect" href="connect.html"><img src="img/connect.png" alt="connect" /></a></li>
-							<li><a class="favorite" href="favorite.html"><img src="img/favorite.png" alt="favorite" /></a></li>
-							<li><a class="share" href="share.html"><img src="img/share.png" alt="share" /></a></li>
-						</ul>
-					</li>
-				</ul>
-			</section>
--->
 		</div>
+
+		<aside id="signUpPromo">
+			<h2>Be a part of retooling democracy.</h2>
+			<p>Sign up for our beta to connect with your local representatives and see how they are voting on the issues that impact you and your community.</p>
+			<a href="join.html" class="join button primary">Sign Up</a>
+		</aside>
+
 	</div>
 
 	<footer>
-		<p>Copyright &copy; 2015 by Advocate</p>
-		<nav>
-			<ul>
-				<li><a href="https://angel.co/joinadvocate" class="a">AngelList</a></li>
-				<li><a href="https://www.facebook.com/joinadvocate" class="fb">Facebook</a></li>
-				<li><a href="https://twitter.com/joinadvocate" clas="t">Twitter</a></li>
-				<li><a href="https://www.linkedin.com/company/advocate-llc" class="li">LinkedIn</a></li>
-				<li><a href="https://instagram.com/joinadvocate" class="i">Instagram</a></li>
-				<li><a href="contact.html" class="contact">Contact Us</a></li>
-			</ul>
-		</nav>
+		<div class="container">
+			<p>Copyright &copy; 2015 by Advocate</p>
+			<nav>
+				<ul>
+					<li><a href="https://angel.co/joinadvocate" class="a">AngelList</a></li>
+					<li><a href="https://www.facebook.com/joinadvocate" class="fb">Facebook</a></li>
+					<li><a href="https://twitter.com/joinadvocate" clas="t">Twitter</a></li>
+					<li><a href="https://www.linkedin.com/company/advocate-llc" class="li">LinkedIn</a></li>
+					<li><a href="https://instagram.com/joinadvocate" class="i">Instagram</a></li>
+					<li><a href="contact.html" class="contact">Contact Us</a></li>
+				</ul>
+			</nav>
+		</div>
 	</footer>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- For testing, turning off live loads -->
+<!--	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
 	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
 
+<!-- For testing, turning off live loads -->
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA"></script>
 
 	<script src="js/plugins.js"></script>
@@ -233,7 +132,8 @@
 	<script src="js/catCtrl.js"></script>
 
 	<!-- Google Analytics -->
-	<script>
+<!-- For testing, turning off live loads -->
+<!--
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -242,5 +142,6 @@
 		ga('require', 'linkid', 'linkid.js');
 		ga('send', 'pageview');
 	</script>
+-->
 </body>
 </html>
