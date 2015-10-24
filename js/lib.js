@@ -1027,16 +1027,7 @@ Map.prototype.draw = function() {
 			var geo = this.location.getLocationGeo();
 			var accuracy = this.location.getLocationAccuracy();
 
-// TODO:  Switch to static map API
-
-
-/*
-			// Create a new StyledMapType
-			// https://developers.google.com/maps/documentation/javascript/styling?hl=en
-			var styledMap = new google.maps.StyledMapType(stylesArray,
-				{name: "Styled Map"});
-*/
-
+// TODO:  See if we can switch to static map API
 
 			// Create the map with mostly default values
 			this.gMap = new google.maps.Map(document.getElementById(this.element.attr("id")), {
@@ -1051,11 +1042,6 @@ Map.prototype.draw = function() {
 
 			// Draw the circle of uncertainty (two, as per design)
 			var circle1 = new google.maps.Circle({
-/*
-				strokeColor: '#FF0000',
-				strokeOpacity: 0.8,
-				strokeWeight: 2,
-*/
 				strokeOpacity: 0,
 				fillColor: '#FD4848',
 				fillOpacity: 0.4,
@@ -1066,11 +1052,6 @@ Map.prototype.draw = function() {
 
 			// Draw the circle of uncertainty
 			var circle2 = new google.maps.Circle({
-/*
-				strokeColor: '#FF0000',
-				strokeOpacity: 0.8,
-				strokeWeight: 2,
-*/
 				strokeOpacity: 0,
 				fillColor: '#FD4848',
 				fillOpacity: 0.5,
@@ -1126,11 +1107,18 @@ Map.prototype.draw = function() {
 						that.gMap.setCenter(results[0].geometry.location);
 						that.gMap.fitBounds(results[0].geometry.viewport);
 
+						// Set a minimum zoom level
+						google.maps.event.addListenerOnce(that.gMap, "zoom_changed", function() {
+							console.debug("rezooming map if greater than 15 (was " + that.gMap.getZoom() + ")", 2);
+							that.gMap.setZoom(Math.min(15, that.gMap.getZoom()));
+						});
+
 						// Draw the point
 						var marker = new google.maps.Marker({
 							position: results[0].geometry.location,
 							map: that.gMap
 						});
+
 					} else {
 						console.debug("Geocode was not successful for the following reason: " + status);
 
@@ -1317,7 +1305,6 @@ RepList.prototype.handleLoadSuccess = function(data) {
 			};
 
 			$.each(divValue.officeIndices, function(officeKey, officeValue) {
-//				repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name] = new Array();
 				if (typeof data.offices[officeValue].officialIndices == "undefined") {
 
 					// The office is vacant
@@ -1325,12 +1312,11 @@ RepList.prototype.handleLoadSuccess = function(data) {
 				} else
 					$.each(data.offices[officeValue].officialIndices, function(officialKey, officialValue) {
 						console.debug("officialValue = " + officialValue, 2);
-						// Grab the role for the office this official holds, which we need to query for the rep details
+
+						// Grab and tweak a few specific values for display and subsequent queries
 						data.officials[officialValue].role = ((typeof data.offices[officeValue].roles != "undefined") && (data.offices[officeValue].roles.length > 0)) ? data.offices[officeValue].roles[0] : "";
 						data.officials[officialValue].office = data.offices[officeValue].name;
-//						data.officials[officialValue].photoUrl = (typeof data.officials[officialValue].photoUrl != "undefined") ? data.officials[officialValue].photoUrl : "img/fpo-official.png";
 						data.officials[officialValue].photoUrl = (typeof data.officials[officialValue].photoUrl != "undefined") ? data.officials[officialValue].photoUrl : "";
-//						repData[sortedDivisions[divKey]].offices[data.offices[officeValue].name].push(data.officials[officialValue]);
 						repData[sortedDivisions[divKey]].offices.push(data.officials[officialValue]);
 					});
 			});
@@ -1369,60 +1355,8 @@ RepList.prototype.show = function() {
 		} else
 			console.debug("No Angular scope found!", 2);
 
-/*
-		var that = this;
-
-		// Construct the HTML for the search results
-		this.element.empty().append("<select class=\"filter\">" + 
-										"<option value=\"current\" selected=\"selected\">Current representatives</option>" + 
-										"<option value=\"candidates\">Candidates for office</option>" + 
-									"</select>");
-
-		// Iterate through the divisions
-		$.each(this.data, function(ocd_id, division) {
-			console.debug(ocd_id + ": ", 2);
-			console.debug(division, 2);
-
-			var thisDivision = $("<section class=\"division\" id=\"" + ocd_id + "\">" + 
-									"<h3>" + division.name + "</h3>" + 
-									"<ul></ul>" + 
-								"</section>");
-
-			// Iterate through the offices
-			$.each(division.offices, function(office, officials) {
-				console.debug(office + ": ", 2);
-				console.debug(officials, 2);
-
-				// Iterate through the officials (most offices will only have one)
-				$.each(officials, function(officialKey, official) {
-					console.debug(officialKey + ": ", 2);
-					console.debug(official, 2);
-
-					thisDivision.children("ul").append("<li class=\"official\">" + 
-															"<a href=\"detail.html?ocd_id=" + ocd_id + "&office=" + office + "&official=" + official.name + "&role=" + (((typeof official.roles != "undefined") && (official.roles.length > 0)) ? official.roles[0] : "") + "\">" + 
-																"<div class=\"u-photo circle\" style=\"background-image: url(" + ((typeof official.photoUrl != "undefined") ? official.photoUrl : "img/fpo-official.png") + ")\" title=\"Photo of " + official.name + "\" />" + 
-																"<h4 class=\"p-name\">" + official.name + "</h4>" + 
-																"<p class=\"p-role\">" + 
-																	office + "<br />" + 
-																	official.party +
-																"</p>" +
-															"</a>" + 
-															"<ul class=\"actions\">" + 
-																"<li><a class=\"connect\" href=\"#\"><img src=\"img/connect.png\" alt=\"connect\" /></a></li>" + 
-																"<li><a class=\"favorite\" href=\"#\"><img src=\"img/favorite.png\" alt=\"favorite\" /></a></li>" + 
-																"<li><a class=\"share\" href=\"#\"><img src=\"img/share.png\" alt=\"share\" /></a></li>" + 
-															"</ul>" + 
-														"</li>");
-
 // TODO:  Turn on connect, favorite, and share handlers
 
-				});
-			});
-			
-			console.debug(thisDivision, 2);
-			that.element.append(thisDivision);
-		});
-*/
 		return true;
 	} else {
 		console.debug("no valid rep data");
@@ -1605,6 +1539,15 @@ RepDetails.prototype.handleLoadBasicSuccess = function(data) {
 			// Grab the rep's division
 			that.data.division = data.divisions[that.OCD_ID].name;
 
+			// Build out a set of address queries for Google Maps hyperlinks
+			$.each(that.data.address, function(i, address) {
+				var q = "";
+				$.each(address, function(key, value) {
+					q += value + "+";
+				});
+				that.data.address[i].q = q;
+			});
+
 			// Find this rep's office
 			$.each(data.offices, function(officeKey, office) {
 				console.debug(officeKey + ": ", 2);
@@ -1758,6 +1701,35 @@ RepDetails.prototype.handleLoadVotesSuccess = function(data) {
 
 	// Make sure we just got the one best result
 	if ((typeof data.results[0] != "undefined") && (data.results.length > 0)) {
+
+		// Clean up the votes data for display
+		$.each(data.results, function(vote, result) {
+			console.debug("cleaning vote #" + vote, 2);
+			console.debug(result, 2);
+
+			// Pull out this rep's vote, to make it easier to find
+			data.results[vote].myVote = result.voters[Object.keys(result.voters)[0]].vote;
+			delete data.results[vote].voters;
+
+			// Set the order of the votes for display
+			var keys = ["Yea", "Nay", "Present", "Not Voting"];
+			var voteArray = [];
+			$.each(keys, function(i, key) {
+				if (typeof result.breakdown.total[key] != "undefined")
+					voteArray.push({type: key, count: result.breakdown.total[key]});
+					delete result.breakdown.total[key];
+			});
+			// Now get any nonstandard vote types that slip through
+			$.each(result.breakdown.total, function(key, vote) {
+				voteArray.push({type: key, count: vote});
+				delete result.breakdown.total[key];
+			});
+			
+			console.debug("vote array = ", 2);
+			console.debug(voteArray, 2);
+			
+			data.results[vote].breakdown.total = voteArray;
+		});
 
 		// Now, enrich the rep data with the Sunlight votes data
 		that.data.votes = data.results;

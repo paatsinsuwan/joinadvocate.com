@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html data-ng-app="catApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html data-ng-app="catApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html data-ng-app="catApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html data-ng-app="catApp" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html data-ng-app="catApp" data-ng-controller="catResultsCtrl" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html data-ng-app="catApp" data-ng-controller="catResultsCtrl" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html data-ng-app="catApp" data-ng-controller="catResultsCtrl" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html data-ng-app="catApp" data-ng-controller="catResultsCtrl" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -21,7 +21,7 @@
 	<script src="js/vendor/angular.min.js"></script>
 <!--	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>-->
 </head>
-<body class="results" data-ng-controller="catResultsCtrl">
+<body class="results">
 	<!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
@@ -100,6 +100,37 @@
 		</aside>
 
 	</div>
+
+<!-- TODO:  Update the footer form -->
+
+<!--
+	<aside id="joinFooter">
+		<div class="container">
+
+			<h5>Sign up for updates</h5>
+			<p>Be a part of retooling democracy.</p>
+
+			<form class="join" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" id="ss-form" target="_self" onsubmit="" autocomplete="on">
+				<fieldset>
+					<label class="email hidden" for="entry_1188935479">Enter your Email address</label>
+					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email Address">
+				</fieldset>
+
+				<fieldset>
+					<label class="location hidden" for="entry_601326317">Enter your location to connect with your local reps</label>
+					<button id="join-current" class="current fpo" name="join-current" type="button" value="current" title="Use current location"><img src="img/geocode.png" alt="Use current location" /></button>
+					<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Where do you live?">
+					<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">
+				</fieldset>
+
+				<input class="type" type="hidden" name="entry.1285458186" value="Join Footer" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
+				<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">
+
+				<button class="submit" type="submit" name="submit" value="Sign Up" id="ss-submit">Sign Up</button>
+			</form>
+		</div>
+	</aside>
+-->
 
 	<footer>
 		<div class="container">

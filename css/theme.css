@@ -92,9 +92,10 @@ footer .container {
 
 
 #main {
-
 	margin-bottom: 63px;
 	overflow: auto;
+
+	margin-bottom: 163px;
 }
 
 /* @end Layout */
@@ -171,28 +172,40 @@ h6 {
 	font-size: 16px
 }
 
-a:link,
-a:visited {
+nav a:link,
+a.secondary:link,
+nav a:visited,
+a.secondary:visited {
 	color: #6A6A6A;
 	text-decoration: none;
 }
 
-a:hover,
-a:active {
+nav a:hover,
+a.secondary:hover,
+nav a:active,
+a.secondary:active {
 	color: #8C8C8C;
 	text-decoration: none;
 }
 
+/*
 a.primary:link,
 a.primary:visited {
+*/
+a:link,
+a:visited {
 	color: #FD4848;
-	text-decoration: underline;
+	text-decoration: none;
 }
 
+/*
 a.primary:hover,
 a.primary:active {
+*/
+a:hover,
+a:active {
 	color: #FF637E;
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 strong a:link,
@@ -460,7 +473,8 @@ button.current {
 }
 
 .home button.current,
-.results button.current {
+/*.results button.current {*/
+aside.location button.current {
 	background: #fff url(../img/location-icon@2x.png) no-repeat bottom left;
 	border: none;
 	height: 48px;
@@ -470,10 +484,12 @@ button.current {
 	height: 50px;
 	width: 50px;
 	background-size: 50px 100px;
+	background-position: 0 -52px;
 }
 
 .home button.current.active,
-.results button.current.active {
+/*.results button.current.active {*/
+aside.location button.current.active {
 	background-position: top left;
 }
 
@@ -502,12 +518,14 @@ button.current + input {
 }
 
 .home button.current + input,
-.results button.current + input {
+/*.results button.current + input {*/
+aside.location button.current + input {
 	background: #fff;
 	border: none;
 }
 
-.results button.current + input {
+/*.results button.current + input {*/
+aside.location button.current + input {
 	height: 50px;
 }
 
@@ -715,22 +733,18 @@ button[type="reset"] {
 
 /* @end Intro */
 
-/* @group Results */
-/*
-header {
-	box-shadow: none !important;
-}
-*/
-
+/* @group Map */
 #map.fpo {
 	background: #efe;
 	height: 300px;
 	width: 100%;
 	border-bottom: 2px solid #F34B3C;
 	margin-top: 60px;
+
+	margin-bottom: -42px;	
 }
 
-.results aside.location {
+aside.location {
 	margin: 0 auto;
 	max-width: 1150px;
 	min-width: 720px;
@@ -751,10 +765,10 @@ header {
 	top: -232px;
 }
 
-.results aside.location form {
+aside.location form {
 	float: left;
 }
-.results aside.location form fieldset {
+aside.location form fieldset {
 /*
 	background: #fff;
 	margin: 0;
@@ -770,12 +784,12 @@ header {
 	width: 300px;
 }
 
-.results aside.location form input,
-.results aside.location form button {
+aside.location form input,
+aside.location form button {
 	border: none;
 }
 
-.results aside.location form button.current + input {
+aside.location form button.current + input {
 	width: 250px;
 }
 /*
@@ -790,12 +804,15 @@ header {
     width: 1px;
 }
 */
+/* @end Map */
 
-
-#map {
-	margin-bottom: -42px;
-	
+/* @group Results */
+/*
+header {
+	box-shadow: none !important;
 }
+*/
+
 
 /*
 aside#joinPromo,
@@ -833,11 +850,22 @@ aside#joinPromo,
 	margin-top: 16px;
 */
 	line-height: 38px;
-
 }
 
 #results > nav li:last-child {
 	padding-right: 24px;
+}
+
+#results > nav a:link,
+#results > nav a:visited {
+	color: #FD4848;
+	text-decoration: underline;
+}
+
+#results > nav a:hover,
+#results > nav a:active {
+	color: #FF637E;
+	text-decoration: underline;
 }
 
 aside#signUpPromo {
@@ -907,6 +935,10 @@ aside#joinPromo a.button {
 	border-top: 2px solid #A9A9A9;
 	border-right: 1px solid #E2E2E2;
 	border-left: 1px solid #E2E2E2;
+}
+
+.division:last-child {
+	border-bottom: 1px solid #E2E2E2;
 }
 
 .division h3 {
@@ -984,7 +1016,7 @@ li.official p.p-role {
 	line-height: 20px;
 }
 
-ul.actions {
+#results ul.actions {
 	float: right;
 	margin: 30px 0;
 	padding: 0;
@@ -993,7 +1025,7 @@ ul.actions {
 	margin: 10px 0 0 0;
 }
 
-ul.actions li {
+#results ul.actions li {
 	display: inline;
 /*
 	margin-left: 1em;
@@ -1005,7 +1037,7 @@ ul.actions li:first-child {
 */
 }
 
-ul.actions li a {
+#results ul.actions li a {
 	background: transparent /*url(../img/fpo-official.png)*/ no-repeat bottom left;
 	background-size: 40px 120px;
 	height: 40px;
@@ -1019,76 +1051,159 @@ ul.actions li a {
 
 }
 
-ul.actions li a.view {
+#results ul.actions li a.view {
 	background-image: url(../img/view-icon.png);
 }
 
-ul.actions li a.invite {
+#results ul.actions li a.invite {
 	background-image: url(../img/invite-icon.png);
 }
 
-ul.actions li a:link,
-ul.actions li a:visited {
+#results ul.actions li a:link,
+#results ul.actions li a:visited {
 	background-position: bottom left;
 }
 
-ul.actions li a:hover {
+#results ul.actions li a:hover {
 	background-position: top left;
 }
 
-ul.actions li a:active {
+#results ul.actions li a:active {
 	background-position: middle left;
 }
 /* @end Results */
 
 
 /* @group Detail */
-#main.detail {
-	margin-top: 10em;
+body.detail {
+	background-color: #F6F6F6;
 }
 
+body.detail #map {
+	margin-bottom: -274px;
+}
+
+body.detail aside.location {
+	top: auto;
+}
+
+#main.detail {
+/*
+	margin-top: 10em;
+*/
+	width: 950px;
+	margin: 0 auto inherit auto;
+	overflow: auto;
+/*
+	z-index: 99;
+*/
+	position: relative;
+	top: 12px;
+}
+
+/*
 #main.detail > * {
-	margin: 0 auto;
 	overflow: auto;
 	width: 80%;
 }
-
-#main.detail #address {
-	background: #fff;
-	border: 1px solid #ccc;
+*/
+body.detail #map {
+/*
+	position: absolute;
+	z-index: 0;
+	margin-bottom: 0;
+*/
 }
 
+#main.detail section {
+	background: #fff;
+	border: 1px solid #DEDEDE;
+/*
+	z-index: 99;
+	position: absolute;
+*/
+}
+
+/*
 #main.detail address > * {
 	margin: 1em auto 0 auto;
 	width: 60%;
 }
+*/
 
-#main.detail address .u-photo {
+#main.detail address {
+	padding: 30px;
+	border-bottom: 1px solid #DEDEDE;
+	overflow: auto;
+	padding-bottom: 0;
+	color: #3C3C3C;
+}
+
+address .u-photo {
 	display: block;
 	float: left;
-	margin: 0 1em 0 20px;
-	height: 100px;
-	width: 100px;
+	margin: 30px 70px 60px 40px;
+	height: 160px;
+	width: 160px;
 }
 
-#main.detail address p.p-org span {
+address h1 {
+	font-size: 24px;
+	margin: 0;
+}
+
+address p.p-org span {
 	display: block;
 }
 
-#main.detail address dt {
+address dl {
+/*
+	margin-left: 270px;
+*/
+	float: left;
+	display: block;
+	line-height: 32px;
+}
+
+address dt {
+/*
 	color: #999;
+	margin: 0 0 1em 0;
+*/
 	display: block;
 	float: left;
-	margin: 0 0 1em 0;
+	clear: left;
+
+	color: #9B9B9B;
+	font-size: 12px;
+	margin: 0 0 20px 0;
+	width: 70px;
+	padding-top: 1px;
+
 }
 
-#main.detail address dd {
+address dd {
+/*
 	margin: 0 0 1em 5em;
+*/
+
+	display: block;
+	float: left;
+	margin: 0 0 20px 0;
+	font-size: 16px;
 }
 
 dd.h-adr span {
 	display: block;
 	text-transform: capitalize;
+/*
+	line-height: 16px;
+*/
+	margin-top: -16px;
+}
+
+dd.h-adr span:first-child {
+	margin-top: 0;
 }
 
 dd.h-adr span.p-locality,
@@ -1099,88 +1214,225 @@ dd.h-adr span.p-postal-code {
 
 ul.channels {
 	margin: 0;
+/*
 	margin-bottom: 1em;
+*/
 	padding: 0;
 }
 
 ul.channels li {
 	display: inline;
+/*
 	margin-left: 1em;
+*/
+	font-size: 32px;
+	margin-left: 20px;
 }
 
 ul.channels li:first-child {
 	margin-left: 0;
 }
 
+/*
 ul.channels li img {
 	height: 40px;
 	width: 40px;
 }
+*/
 
 /* @group Asides */
-#main.detail aside {
-	margin: 2em auto;
-	overflow: auto;
-	width: 60%;
-}
-
 #main.detail aside h2 {
+/*
 	font-size: 1em;
+*/
 	font-weight: normal;
 	margin: 0;
+	font-size: 14px;
+	color: #6F6F6F;
 }
 
+/* @group Invite */
+#main.detail aside#invite {
+/*
+	margin: 2em auto;
+	width: 60%;
+*/
+	overflow: auto;
+	float: right;
+	position: relative;
+
+	width: 238px;
+	border: 1px solid #DEDEDE;
+	padding: 19px;
+	margin: 0;
+	top: 0;
+	right: 0;
+}
+
+#main.detail aside#invite a.button {
+	display: block;
+/*
+	float: right;
+	width: 5em;
+*/
+	background: #FD4848 url(../img/invite-white-icon@2x.png) no-repeat 25% 50%;
+	background-size: 21px 24px;
+	width: 80px;
+
+}
+/* @end Invite */
+
+/* @group Coming Soon */
+
+#main.detail aside#coming-soon {
+	overflow: auto;
+	background: #FFFFFB url(../img/bookmark-icon@2x.png) no-repeat 245px 40px;
+	background-size: 15px 26px;
+	padding: 40px 0 40px 290px;
+	border-bottom: 1px solid #DEDEDE;
+
+}
+
+/*
 #main.detail aside#invite h2 {
 	float: left;
 	margin: 0;
 	padding-top: 0.5em;
 }
+*/
 
 #main.detail aside#coming-soon h2 {
 	text-transform: uppercase;
 }
 
-#main.detail aside p {
+#main.detail aside#coming-soon p {
+/*
 	color: #999;
+*/
 	margin-top: 0;
+	font-size: 16px;
+	max-width: 400px;
 }
 
-#main.detail #invite a.button {
-	display: block;
-	float: right;
-	width: 5em;
-}
+/* @end Coming Soon */
 
-#main.detail ul#actions {
+/* @group Actions */
+
+aside#actions {
+/*
 	background: #ccc;
 	float: none;
 	margin-bottom: 0;
-	overflow: auto;
-	padding: 0.5em 0;
 	text-align: left;
+	padding: 0.5em 0;
+*/
+	overflow: auto;
 }
 
-#main.detail ul#actions li {
+/*
+aside#actions ul {
+	background: #ccc;
+	overflow: auto;
+	text-align: left;
+	float: none;
+	margin: 0;
+	padding: 0;
+}
+
+aside#actions ul li {
 	padding-left: 0;
 }
+*/
 
-#main.detail ul#actions li:first-child {
+/*
+aside#actions ul li:first-child {
 	padding: 1em 2.5em 1em 4em;
 }
+*/
 
-#main.detail ul#actions li img {
+/*
+aside#actions ul li img {
 	margin-right: 0.5em;
 }
+*/
 
-#main.detail aside#joinPromo {
-	background: #aaa;
-	margin: 1em auto;
-	overflow: auto;
-	padding: 1em 0;
-	width: 80%;
+
+aside#actions ul.actions {
+/*
+	float: right;
+	margin: 30px 0;
+	margin: 10px 0 0 0;
+	text-align: right;
+*/
+	padding: 0;
+	margin: 0;
 }
 
-#main.detail #joinPromo p {
+aside#actions ul.actions li {
+	display: inline;
+	float: left;
+	padding: 18px 98px;
+	font-size: 16px;
+/*
+	margin-left: 1em;
+	margin: 0;
+*/
+}
+
+aside#actions ul.actions li:last-child {
+	border-left: 1px solid #DEDEDE;
+	padding: 20px 40px;
+	float: right;
+	font-size: 14px;
+}
+
+aside#actions ul.actions i.fa {
+	padding-right: 20px;
+}
+/*
+aside#actions ul.actions li a {
+	background-size: 40px 120px;
+	height: 40px;
+	width: 40px;
+	display: block;
+	clear: none;
+	float: left;
+
+
+	margin: 0 25px 0 15px;
+
+}
+*/
+/* @end Actions */
+
+/* @group Join Promo */
+
+#main.detail aside#joinPromo {
+/*
+	background: #aaa;
+	margin: 1em auto;
+	padding: 1em 0;
+	width: 80%;
+*/
+	overflow: auto;
+	font-size: 16px;
+	display: block;
+	padding: 46px 84px 76px 100px
+}
+
+
+#main.detail aside#joinPromo p {
+	float: left;
+	display: block;
+}
+
+#main.detail aside#joinPromo a {
+	float: right;
+	display: block;
+}
+
+/*
+#main.detail aside#joinPromo p {
 	color: #000;
 }
 
@@ -1191,72 +1443,167 @@ ul.channels li img {
 #main.detail aside#joinPromo > :last-child {
 	margin-right: 4em;
 }
+*/
+
+/* @end Join Promo */
 /* @end Asides */
 
 /* @group Votes */
 #main.detail #votes {
-	border: 1px solid #ccc;
+	border: 1px solid #DEDEDE;
+/*
 	font-size: 0.8em;
+*/
 }
 
 #main.detail #votes h2 {
+/*
 	font-size: 1em;
 	margin: 2em 5em;
+	margin: 0;
+*/
+
+	font-size: 22px;
+	color: #000;
+	margin: 30px 50px 30px 98px;
 }
 
 #main.detail #votes dl.votes {
+/*
 	margin: 0 5em;
+*/
 }
+
 #main.detail #votes dt.vote-date {
+/*
 	color: #999;
-	border-top: 1px solid #aaa;
 	padding: 1em 0;
+*/
+
+	border-top: 1px solid #DEDEDE;
+	color: #A9A9A9;
+	font-size: 14px;
+	padding: 20px 0 0 98px;
 }
 
 #main.detail #votes dd {
 	margin: 0;
 	overflow: auto;
 	padding: 0;
+/*
 	padding-bottom: 1em;
+*/
 }
 
 #main.detail #votes .description {
 	float: left;
+/*
 	width: 75%;
+*/
+	width: 500px;
+	padding: 20px 0 40px 98px;
 }
 
 #main.detail #votes .description h3 {
+/*
 	font-size: 1em;
+*/
 	margin: 0;
+
+	font-size: 20px;
+	font-weight: 400;
+	margin-bottom: 25px;
+
+}
+
+#main.detail #votes .description h3 a:link,
+#main.detail #votes .description h3 a:visited {
+	color: #000;
+}
+#main.detail #votes .description h3 a:hover,
+#main.detail #votes .description h3 a:active {
+	color: #4A4A4A;
+}	
+
+#main.detail #votes .description p {
+	margin: 0;
+	font-size: 16px;
 }
 
 #main.detail #votes .description p.action {
+/*
 	color: #666;
 	margin: 0;
+
+	font-size: 16px;	
+*/
+	color: #4A4A4A;
 }
 
 #main.detail #votes .description p.result {
+/*
 	color: #999;
 	margin: 0;
+
+*/
+	color: #9B9B9B;
 }
 
 #main.detail #votes .results {
 	float: right;
+/*
 	width: 25%;
+*/
+
+	width: 280px;
+	margin-right: 40px;
+
+	width: 256px;
 }
 
-#main.detail #votes .results span {
+#main.detail #votes .results > span {
 	display: block;
 	float: left;
+/*
 	width: 33%;
+*/
+
+	width: 25%;
+	display: table-cell;
+	vertical-align: bottom;
+	height: 50px;
 }
 
 #main.detail #votes .results dt {
+/*
 	color: #999;
+*/
+	color: #9B9B9B;
+	display: table;
+	height: 50px;
+	width: 100%;
+}
+
+#main.detail #votes .results dt > span {
+	display: table-cell;
+	text-align: center;
+	vertical-align: bottom;
 }
 
 #main.detail #votes .results dd {
+/*
 	font-size: 1.2em;
+*/
+
+	color: #000;
+	font-size: 22px;
+	font-weight: 300;
+	text-align: center;
 }
+
+#main.detail #votes .results dd.selected {
+	font-weight: 700;
+}
+
 /* @end Votes */
 /* @end Detail */

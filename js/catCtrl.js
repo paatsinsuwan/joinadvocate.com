@@ -60,7 +60,7 @@ app.controller("catDetailsCtrl", function($scope) {
 	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page(null, null, false, null, [["#join", "header a.join, #joinPromo a.button", "#join a.close, form.join button.reset", "form.join"]], null, null, "#main", "#votes");
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "header a.join, #joinPromo a.button", "#join a.close, form.join button.reset", "form.join"]], "#map", null, "#main", "#votes");
 	$scope.page.setNgScope($scope);
 
 	// Set up various page content
@@ -70,7 +70,7 @@ app.controller("catDetailsCtrl", function($scope) {
 	};
 
 	// Draw the Google map
-//	$scope.page.map.draw();
+	$scope.page.map.draw();
 
 	// Build the Rep List
 //	$scope.page.repList.load();
