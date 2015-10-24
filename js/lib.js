@@ -666,6 +666,20 @@ function Modal(theElementObj, theTitle, theContents) {
 	console.debug(theTitle);
 	console.debug(theContents);
 
+/*
+	theElementObj = [
+		[
+			this.element, // The jQuery selector for the modal container
+			this.open, // The jQuery selector for the trigger that opens the modal
+			this.close, // The jQuery selector for the trigger that closes the modal (and cancels submit)
+			this.title // The title of the modal
+		],
+		[
+			..
+		]
+	];
+*/
+
 	this.element = null;
 	this.open = null;
 	this.close = null;
@@ -673,10 +687,16 @@ function Modal(theElementObj, theTitle, theContents) {
 	this.contents = (typeof theContents != "undefined") ? theContents : null;
 
 	// Initialize modals and click handlers
-	if ((typeof theElementObj != "undefined") && (theElementObj.length == 3)) {
+	if ((typeof theElementObj != "undefined") && (theElementObj.length >= 3)) {
 		this.element = $(theElementObj[0]);
 		this.open = $(theElementObj[1]);
 		this.close = $(theElementObj[2]);
+
+		// Get the title if it's passed
+		if (typeof theElementObj[3] != "undefined") {
+			console.debug("title = " + theElementObj[3], 2);
+			this.title = theElementObj[3];
+		}
 
 		// Set up initial state
 		this.element.hide().removeClass("hidden");
@@ -687,7 +707,6 @@ function Modal(theElementObj, theTitle, theContents) {
 		this.open.click(this.show);
 		this.close.click(this.hide);
 	}
-
 }
 // Modal Methods
 Modal.prototype.getElement = function() {
@@ -737,16 +756,33 @@ Modal.prototype.hide = function() {
 function ModalForm(theElementObj, theTitle, theForm) {
 	console.debug("new ModalForm(" + theElementObj + ", " + theTitle + ", " + theForm + ") {");
 
+	// Add the Join Advocate form to the page
+	this.getJoinForm();
+
 	this.form = null;
 	this.location = null;
 
-	if ((typeof theElementObj != "undefined") && (theElementObj.length == 4)) {
+	if ((typeof theElementObj != "undefined") && (theElementObj.length == 5)) {
+
+/*
+	theElementObj = [
+		[
+			this.element, // The jQuery selector for the modal container
+			this.open, // The jQuery selector for the trigger that opens the modal
+			this.close, // The jQuery selector for the trigger that closes the modal (and cancels submit)
+			this.title, // The title of the modal
+			this.form // The jQuery selector of the form
+		]
+	];
+*/
 
 		// Call the parent's constructor to make a Modal
-		Modal.call(this, theElementObj.slice(0,3), theTitle);
+		Modal.call(this, theElementObj.slice(0,4), theTitle);
 		this.form = $(theElementObj.pop());
 		this.form.submit(this, this.submit);
 		$("button[type=reset]", this.form).click(this.cancel);
+
+		console.debug("ModalForm title = " + this.title, 2);
 
 		// If the form has a location (Join Advocate, Contact Us), set up a proper Location object to handle these.
 		if ($("input.location", this.form).attr("id")) {
@@ -767,14 +803,16 @@ function ModalForm(theElementObj, theTitle, theForm) {
 ModalForm.prototype = Object.create(Modal.prototype);
 ModalForm.prototype.constructor = ModalForm;
 // ModalForm Methods
-ModalForm.prototype.getJoinForm = function() {
-	console.debug("ModalForm.getJoinForm()");
+ModalForm.prototype.getJoinForm = function(theTitle) {
+	console.debug("ModalForm.getJoinForm(" + theTitle + ")");
+
+	var title = (typeof theTitle != "undefined") ? theTitle : ((typeof this.title != "undefined") ? this.title : "Join Advocate");
 
 	// Add the Join Advocate form to the page
 	$("body").append('<div id="join" class="modal hidden">' +
 						'<div class="container">' +
 							'<header>' +
-								'<h1>Join Advocate</h1>' +
+								'<h1>' + title + '</h1>' +
 								'<a class="close" href="#" title="close">x</a>' +
 							'</header>' +
 
@@ -1357,6 +1395,12 @@ RepList.prototype.show = function() {
 
 // TODO:  Turn on connect, favorite, and share handlers
 
+		// Turn on tooltips in the newly loaded content
+		$('.tooltip').tooltipster({
+			offsetX: 5,
+			position: "bottom-left"
+		});
+
 		return true;
 	} else {
 		console.debug("no valid rep data");
@@ -1656,6 +1700,13 @@ RepDetails.prototype.show = function() {
 
 		// Also apply the updates to Angular
 		ngScope.$apply();
+
+		// Turn on tooltips in the newly loaded content
+		$('.tooltip').tooltipster({
+			offsetX: 5,
+			position: "bottom-left"
+		});
+
 	} else
 		console.debug("No Angular scope found!", 2);
 };

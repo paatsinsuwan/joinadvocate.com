@@ -58,12 +58,12 @@
 
 				<aside id="invite">
 					<h2>Invite <span class="name" data-ng-bind="repData.name">this representative</span> to join Advocate</h2>
-					<a class="button primary" href="invite.html">Invite</a>
+					<a class="invite button primary" href="invite.html">Invite</a>
 				</aside>
 
 				<div class="u-photo circle" style="background-image: url({{repData.photoUrl}})" title="Photo of {{repData.name}}"></div>
 
-				<a href="results.html" class="back">Back to list</a>
+				<a href="javascript:history.go(-1)" class="back">Back to list</a>
 
 <!-- TODO:  Need to get the role -->
 
@@ -78,7 +78,7 @@
 				<dl>
 					<span data-ng-repeat="url in repData.urls">
 						<dt>Website</dt>
-						<dd><a class="u-url" href="{{url}}" data-ng-bind="url"><!--www.gillibrand.house.gov--></a></dd>
+						<dd><a class="u-url" href="{{url}}" target="_blank" data-ng-bind="url"><!--www.gillibrand.house.gov--></a></dd>
 					</span>
 
 					<span data-ng-repeat="address in repData.address">
@@ -96,7 +96,7 @@
 
 					<span data-ng-repeat="phone in repData.phones">
 						<dt>Phone</dt>
-						<dd><a class="p-tel" href="tel:{{phone}}" data-ng-bind="phone"></a></dd>
+						<dd><a class="p-tel secondary" href="tel:{{phone}}" data-ng-bind="phone"></a></dd>
 					</span>
 
 					<span data-ng-if="repData.channels.length > 0">
@@ -104,10 +104,10 @@
 						<dd>
 							<ul class="channels">
 								<li data-ng-repeat="channel in repData.channels" data-ng-switch="channel.type | lowercase">
-									<a data-ng-switch-when="facebook" class="u-url" href="https://www.facebook.com/{{channel.id}}"><i class="fa fa-{{channel.type | lowercase}}-square" title="{{channel.type}}"></i></a>
-									<a data-ng-switch-when="twitter" class="u-url" href="https://www.twitter.com/{{channel.id}}"><i class="fa fa-{{channel.type | lowercase}}-square" title="{{channel.type}}"></i></a>
-									<a data-ng-switch-when="youtube" class="u-url" href="https://www.youtube.com/{{channel.id}}"><i class="fa fa-{{channel.type | lowercase}}-square" title="{{channel.type}}"></i></a>
-									<a data-ng-switch-when="googleplus" class="u-url" href="https://plus.google.com/{{channel.id}}"><i class="fa fa-google-plus-square" title="{{channel.type}}"></i></a>
+									<a data-ng-switch-when="facebook" class="u-url" href="https://www.facebook.com/{{channel.id}}" target="_blank"><i class="fa fa-{{channel.type | lowercase}}-square" title="{{channel.type}}"></i></a>
+									<a data-ng-switch-when="twitter" class="u-url" href="https://www.twitter.com/{{channel.id}}" target="_blank"><i class="fa fa-{{channel.type | lowercase}}-square" title="{{channel.type}}"></i></a>
+									<a data-ng-switch-when="youtube" class="u-url" href="https://www.youtube.com/{{channel.id}}" target="_blank"><i class="fa fa-{{channel.type | lowercase}}-square" title="{{channel.type}}"></i></a>
+									<a data-ng-switch-when="googleplus" class="u-url" href="https://plus.google.com/{{channel.id}}" target="_blank"><i class="fa fa-google-plus-square" title="{{channel.type}}"></i></a>
 								</li>
 							</ul>
 						</dd>
@@ -132,7 +132,7 @@
 
 		<aside id="joinPromo">
 			<p>Begin connecting with your local representatives and candidates.</p>
-			<a class="button primary" href="join.html">Sign Up</a>
+			<a class="join button primary" href="join.html">Sign Up</a>
 		</aside>
 
 		<section id="votes" data-ng-if="repData.votes.length > 0">
@@ -145,7 +145,7 @@
 							<h3><a href="{{vote.url}}" class="vote-title" data-ng-bind="vote.question" target="_blank"><!--Hire More Heroes Act of 2015--></a></h3>
 							<p class="action"><span class="short-role" data-ng-bind="repData.extended.title"><!--Sen--></span> <span class="last-name" data-ng-bind="repData.extended.last_name"><!--Gillibrand--></span> voted <span class="vote" data-ng-bind="vote.myVote"><!--Nay--></span>, as did <span class="vote-count-party" data-ng-bind="vote.breakdown.party[repData.extended.party][vote.myVote]"><!--40--></span> other <span data-ng-bind="'member' + ((vote.breakdown.party[repData.extended.party][vote.myVote] != 1) ? 's' : '')"></span> of <span class="pronoun" data-ng-bind="((repData.extended.gender == 'M') ? 'his' : 'her')"><!--her--></span> party.</p>
 							<p class="result">
-								<span class="vote-type" data-ng-bind="vote.result"><!--The Cloture Motion</span> <span class="vote-result">Rejected--></span> by a vote of <span class="vote-yea" data-ng-bind="vote.breakdown.total.Yea"><!--56--></span> voting Yea and <span class="vote-nay" data-ng-bind="vote.breakdown.total.Nay"><!--42--></span> voting Nay<br />
+								<span class="vote-type" data-ng-bind="vote.result"><!--The Cloture Motion</span> <span class="vote-result">Rejected--></span> by a vote of <span class="vote-yea" data-ng-bind="vote.breakdown.total[0].count"><!--56--></span> voting Yea and <span class="vote-nay" data-ng-bind="vote.breakdown.total[1].count"><!--42--></span> voting Nay<br />
 								(More than <span class="vote-required" data-ng-bind="vote.required"><!--3/5--></span> was required to pass.)
 							</p>
 						</div>

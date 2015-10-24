@@ -20,7 +20,7 @@ app.controller("catHomeCtrl", function($scope) {
 	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "form.join"]]);
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]]);
 });
 
 // Results Page Controller
@@ -33,7 +33,7 @@ app.controller("catResultsCtrl", function($scope) {
 	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "header a.join, #joinPromo a.button", "#join a.close, form.join button.reset", "form.join"]], "#map", "#results");
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]], "#map", "#results");
 	$scope.page.setNgScope($scope);
 
 	// Set up various page content
@@ -60,7 +60,7 @@ app.controller("catDetailsCtrl", function($scope) {
 	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "header a.join, #joinPromo a.button", "#join a.close, form.join button.reset", "form.join"]], "#map", null, "#main", "#votes");
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]], "#map", null, "#main", "#votes");
 	$scope.page.setNgScope($scope);
 
 	// Set up various page content
@@ -87,7 +87,7 @@ app.controller("catContactCtrl", function($scope) {
 	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("form.contact input.location", "form.contact input.hidden", false, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "form.join"]]);
+	$scope.page = new Page("form.contact input.location", "form.contact input.hidden", false, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]]);
 
 	// Set up the form submission
 	$("form.contact").submit(function(event) {
@@ -142,15 +142,6 @@ app.controller("catContactCtrl", function($scope) {
 		event.preventDefault();
 		return false;
 	});
-
-
-
-
 });
-
-
-
-
-
 
 window.console.debugLevel = 2;

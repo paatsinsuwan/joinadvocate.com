@@ -47,6 +47,8 @@ Yellow:				#FEE599
 /*
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800|Source+Serif+Pro:400,600,700);
 */
+@import url(vendor/tooltipster.css);
+
 /* @end Font Import */
 
 /* @group Global */
@@ -967,6 +969,11 @@ li.official {
 	padding: 22px;
 }
 
+li.official:hover,
+li.official:active {
+	background: #F5F5F5;
+}
+
 li.official > a {
 	display: block;
 	float: left;
@@ -1132,24 +1139,35 @@ body.detail #map {
 */
 
 #main.detail address {
-	padding: 30px;
+/*
+	padding: 25px 30px;
+	padding-bottom: 0;
+*/
 	border-bottom: 1px solid #DEDEDE;
 	overflow: auto;
-	padding-bottom: 0;
 	color: #3C3C3C;
+
+	padding: 25px 30px 11px 30px;
+
 }
 
 address .u-photo {
 	display: block;
 	float: left;
-	margin: 30px 70px 60px 40px;
+	margin: 33px 62px 60px 40px;
 	height: 160px;
 	width: 160px;
 }
 
 address h1 {
 	font-size: 24px;
-	margin: 0;
+	margin: 17px 0 0 0;
+	line-height: 30px;
+}
+
+address p {
+	margin: 13px 0 27px 0;
+	line-height: 22px;
 }
 
 address p.p-org span {
@@ -1163,6 +1181,7 @@ address dl {
 	float: left;
 	display: block;
 	line-height: 32px;
+	margin: 13px 0;
 }
 
 address dt {
@@ -1179,6 +1198,9 @@ address dt {
 	margin: 0 0 20px 0;
 	width: 70px;
 	padding-top: 1px;
+	
+	margin: 0;
+	padding-top: 0;
 
 }
 
@@ -1189,27 +1211,38 @@ address dd {
 
 	display: block;
 	float: left;
-	margin: 0 0 20px 0;
+	margin: 0 0 20px 3px;
 	font-size: 16px;
+
+	margin: 0 0 0 3px;
+
+}
+
+address dl span:last-of-type dt,
+address dl span:last-of-type dd {
+	margin-top: 13px;
+	margin-left: 0;
 }
 
 dd.h-adr span {
 	display: block;
 	text-transform: capitalize;
 /*
-	line-height: 16px;
 */
-	margin-top: -16px;
-}
 
+	margin-top: 8px;
+	line-height: 16px;
+}
+/*
 dd.h-adr span:first-child {
-	margin-top: 0;
+	margin-top: 6px;
 }
-
+*/
 dd.h-adr span.p-locality,
 dd.h-adr span.p-region,
 dd.h-adr span.p-postal-code {
 	display: inline;
+	margin-top: 0;
 }
 
 ul.channels {
@@ -1226,7 +1259,7 @@ ul.channels li {
 	margin-left: 1em;
 */
 	font-size: 32px;
-	margin-left: 20px;
+	margin-left: 12px;
 }
 
 ul.channels li:first-child {
@@ -1241,16 +1274,6 @@ ul.channels li img {
 */
 
 /* @group Asides */
-#main.detail aside h2 {
-/*
-	font-size: 1em;
-*/
-	font-weight: normal;
-	margin: 0;
-	font-size: 14px;
-	color: #6F6F6F;
-}
-
 /* @group Invite */
 #main.detail aside#invite {
 /*
@@ -1261,12 +1284,24 @@ ul.channels li img {
 	float: right;
 	position: relative;
 
-	width: 238px;
+	width: 200px;
 	border: 1px solid #DEDEDE;
 	padding: 19px;
 	margin: 0;
-	top: 0;
+	top: 8px;
 	right: 0;
+}
+
+#main.detail aside#invite h2 {
+/*
+	font-size: 1em;
+*/
+	font-weight: normal;
+	margin: 0;
+	font-size: 14px;
+	color: #6F6F6F;
+	line-height: 22px;
+	margin-bottom: 21px;
 }
 
 #main.detail aside#invite a.button {
@@ -1275,10 +1310,11 @@ ul.channels li img {
 	float: right;
 	width: 5em;
 */
-	background: #FD4848 url(../img/invite-white-icon@2x.png) no-repeat 25% 50%;
+	background: #FD4848 url(../img/invite-white-icon@2x.png) no-repeat 42px 10px;
 	background-size: 21px 24px;
 	width: 80px;
-
+	padding: 14px 25px 14px 55px;
+	font-weight: 600;
 }
 /* @end Invite */
 
@@ -1286,9 +1322,9 @@ ul.channels li img {
 
 #main.detail aside#coming-soon {
 	overflow: auto;
-	background: #FFFFFB url(../img/bookmark-icon@2x.png) no-repeat 245px 40px;
+	background: #FFFFFB url(../img/bookmark-icon@2x.png) no-repeat 255px 33px;
 	background-size: 15px 26px;
-	padding: 40px 0 40px 290px;
+	padding: 33px 0 19px 290px;
 	border-bottom: 1px solid #DEDEDE;
 
 }
@@ -1303,6 +1339,10 @@ ul.channels li img {
 
 #main.detail aside#coming-soon h2 {
 	text-transform: uppercase;
+	font-weight: 700;
+	margin: 0;
+	font-size: 14px;
+	color: #6F6F6F;
 }
 
 #main.detail aside#coming-soon p {
@@ -1312,6 +1352,7 @@ ul.channels li img {
 	margin-top: 0;
 	font-size: 16px;
 	max-width: 400px;
+	line-height: 24px;
 }
 
 /* @end Coming Soon */
@@ -1371,7 +1412,7 @@ aside#actions ul.actions {
 aside#actions ul.actions li {
 	display: inline;
 	float: left;
-	padding: 18px 98px;
+	padding: 17px 98px 16px 98px;
 	font-size: 16px;
 /*
 	margin-left: 1em;
@@ -1381,13 +1422,16 @@ aside#actions ul.actions li {
 
 aside#actions ul.actions li:last-child {
 	border-left: 1px solid #DEDEDE;
-	padding: 20px 40px;
+	padding: 20px 39px 18px 43px;
 	float: right;
 	font-size: 14px;
 }
 
 aside#actions ul.actions i.fa {
 	padding-right: 20px;
+	font-size: 20px;
+
+	vertical-align: bottom;
 }
 /*
 aside#actions ul.actions li a {
@@ -1415,20 +1459,27 @@ aside#actions ul.actions li a {
 	width: 80%;
 */
 	overflow: auto;
-	font-size: 16px;
 	display: block;
-	padding: 46px 84px 76px 100px
+	padding: 46px 82px 75px 100px
 }
 
 
 #main.detail aside#joinPromo p {
 	float: left;
 	display: block;
+	font-size: 16px;
+	margin: 26px 0 0 0;
 }
 
 #main.detail aside#joinPromo a {
 	float: right;
 	display: block;
+	font-weight: 600;
+	padding: 13px 61px;
+
+	padding: 14px 0;
+	width: 180px;
+	text-align: center;
 }
 
 /*
@@ -1465,7 +1516,7 @@ aside#actions ul.actions li a {
 
 	font-size: 22px;
 	color: #000;
-	margin: 30px 50px 30px 98px;
+	margin: 29px 50px 29px 98px;
 }
 
 #main.detail #votes dl.votes {
@@ -1501,7 +1552,7 @@ aside#actions ul.actions li a {
 	width: 75%;
 */
 	width: 500px;
-	padding: 20px 0 40px 98px;
+	padding: 9px 0 42px 98px;
 }
 
 #main.detail #votes .description h3 {
@@ -1512,8 +1563,8 @@ aside#actions ul.actions li a {
 
 	font-size: 20px;
 	font-weight: 400;
-	margin-bottom: 25px;
-
+	margin-bottom: 19px;
+	line-height: 27px;
 }
 
 #main.detail #votes .description h3 a:link,
@@ -1528,6 +1579,7 @@ aside#actions ul.actions li a {
 #main.detail #votes .description p {
 	margin: 0;
 	font-size: 16px;
+	line-height: 24px;
 }
 
 #main.detail #votes .description p.action {
@@ -1553,10 +1605,11 @@ aside#actions ul.actions li a {
 	float: right;
 /*
 	width: 25%;
+	margin-right: 40px;
 */
 
 	width: 280px;
-	margin-right: 40px;
+	margin: 6px 48px 0 40px;
 
 	width: 256px;
 }
@@ -1599,6 +1652,7 @@ aside#actions ul.actions li a {
 	font-size: 22px;
 	font-weight: 300;
 	text-align: center;
+	margin-top: 6px;
 }
 
 #main.detail #votes .results dd.selected {
