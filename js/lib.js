@@ -830,7 +830,7 @@ ModalForm.prototype.getJoinForm = function(theTitle) {
 
 								'<fieldset>' +
 									'<label class="location" for="entry_601326317">Enter your location to connect with your local reps</label>' +
-									'<button id="join-current" class="current fpo" name="join-current" type="button" value="current" title="Use current location"><img src="img/geocode.png" alt="Use current location" /></button>' +
+									'<button id="join-current" class="current tooltip" name="join-current" type="button" value="current" title="Use your current location"><img src="img/geocode.png" alt="Use your current location" /></button>' +
 									'<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Where do you live?">' +
 									'<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">' +
 								'</fieldset>' +

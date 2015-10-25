@@ -58,7 +58,7 @@ body {
 /*
 	margin: 0 auto;
 	max-width: 960px;
-*/	
+*/
 	font-family: "Open Sans", Helvetica, sans-serif;
 	font-size: 14px;
 	color: #6F6F6F;
@@ -258,6 +258,7 @@ header {
 	padding: 44px 0;
 }
 
+/*
 header a:link,
 header a:visited {
 	color: #666;
@@ -267,6 +268,7 @@ header a:hover,
 header a:active {
 	color: #666;
 }
+*/
 
 header nav {
 	padding-top: 2px;
@@ -358,15 +360,31 @@ label:not(.visible) {
 }
 
 fieldset {
+/*
 	margin: 2em auto 4em auto;
 	width: 20em;
 
 	margin: 0 auto;
+
 	width: 525px;
+	background: #0f0;
+*/
+	margin-bottom: 30px;
+
 }
 
+/*
+.modal fieldset.location {
+	border: 1px solid #E2E2E2;
+	border-radius: 2px;
+	margin: 0;
+	padding: 0;
+	width: 450px;
+}
+*/
+
 fieldset:last-child {
-	margin-bottom: 2em;
+	margin-bottom: 0;
 }
 
 label.visible,
@@ -376,6 +394,7 @@ textarea,
 button {
 	clear: both;
 	display: block;
+	resize: none;
 }
 
 input,
@@ -387,9 +406,9 @@ button.location {
 	border: 0;
 	border-bottom: 1px solid #666;
 	color: #666;
-*/
-	padding: 0;
 	width: 20em;
+*/
+	padding: 4px 20px 0 20px;
 
 	letter-spacing: 0.44px;
 	line-height: 22px;
@@ -397,7 +416,25 @@ button.location {
 	color: #A9A9A9;
 	border: 1px solid #E2E2E2;
 	border-radius: 2px;
+
+/*
 	width: 525px;
+	width: 425px;
+*/ 
+
+	height: 44px;
+	width: 426px;
+}
+
+select {
+	padding: 5px 20px 0 20px;
+	width: 468px;
+	height: 50px;
+}
+
+textarea {
+	padding-top: 15px;
+	height: 114px;
 }
 
 button.location.active {
@@ -437,6 +474,21 @@ a.button {
 	color: #fff;
 	padding: 10px 40px;
 	text-align: center;
+	
+	background: #3C3C3C;
+/*
+	font-weight: 600;
+*/
+}
+
+.modal button,
+.modal a.button {
+	padding: 16px 46px;
+	margin-top: 5px;
+}
+
+.modal button[type="reset"] {
+	padding-left: 56px;
 }
 
 button.primary,
@@ -444,6 +496,11 @@ a.button.primary {
 	background: #FD4848;
 	color: #FFF;
 	text-decoration: none;
+}
+
+button.disabled,
+a.button.disabled {
+	opacity: 0.5;
 }
 
 a.button.primary:link,
@@ -464,6 +521,7 @@ a.button.primary:active {
 	text-decoration: none;
 }
 
+/*
 button.current {
 	background: transparent;
 	border-bottom: 1px solid #666;
@@ -473,10 +531,12 @@ button.current {
 	padding-right: 1em;
 	width: 10em;
 }
+*/
 
 .home button.current,
 /*.results button.current {*/
-aside.location button.current {
+aside.location button.current,
+fieldset.location button.current {
 	background: #fff url(../img/location-icon@2x.png) no-repeat bottom left;
 	border: none;
 	height: 48px;
@@ -487,14 +547,19 @@ aside.location button.current {
 	width: 50px;
 	background-size: 50px 100px;
 	background-position: 0 -52px;
+	padding: 0;
+	margin: 0;
+	float: left;
 }
 
 .home button.current.active,
 /*.results button.current.active {*/
-aside.location button.current.active {
+aside.location button.current.active,
+fieldset.location button.current.active {
 	background-position: top left;
 }
 
+/*
 .modal button.current {
 	border-bottom: 1px solid #666;
 }
@@ -507,27 +572,53 @@ button.current.fpo img {
 	height: 40px;
 	width: 40px;
 }
+*/
 
 button.current + input {
 	clear: none;
 	height: 48px;
-	width: 16em;
-
 /*
+	width: 16em;
 	height: 50px;
 */
 	width: 425px;
 }
 
+.modal fieldset.location button.current {
+	border: 1px solid #E2E2E2;
+	border-radius-top-right: 0;
+	border-radius-bottom-right: 0;
+	border-right: 0;
+}
+
+.modal fieldset.location button.current + input {
+	width: 400px;
+
+	border: 1px solid #E2E2E2;
+	border-left: 0;
+	border-radius-top-left: 0;
+	border-radius-bottom-left: 0;
+	width: 397px;
+	padding-left: 0;
+/*
+	border-radius: 2px;
+*/
+
+	height: 44px;
+
+}
+
 .home button.current + input,
 /*.results button.current + input {*/
-aside.location button.current + input {
+aside.location button.current + input /*,
+fieldset.location button.current + input*/ {
 	background: #fff;
 	border: none;
 }
 
 /*.results button.current + input {*/
-aside.location button.current + input {
+aside.location button.current + input /*,
+fieldset.location button.current + input*/ {
 	height: 50px;
 }
 
@@ -539,13 +630,21 @@ aside.location button.current + input {
 
 button[type="submit"] {
 	float: left;
+/*
 	margin-right: 2em;
+*/
+	margin-left: 0
 }
 
 button[type="reset"] {
 	background: transparent;
 	clear: none;
+/*
 	color: #666;
+*/
+	color: #A9A9A9;
+	vertical-align: bottom;
+	padding: 32px 40px 0 40px;
 }
 /* @end Forms */
 /* @group Loading */
@@ -588,36 +687,80 @@ button[type="reset"] {
 	z-index: 10;
 }
 
+#join.modal {
+	z-index: 0;
+	overflow: auto;
+}
+
 .modal .container {
 	background: #fff;
+/*
 	border-radius: 0.5em;
+	padding: 2em;
+*/
     box-shadow: 0 2px 2px #333;
     left: 50%;
 	margin: 0;
 	margin-right: -50%;
-	padding: 2em;
 	position: absolute;
 	top: 50%;
 	transform: translate(-50%, -50%);
+
+	width: 468px;
+	padding: 42px 56px 77px 62px;
+}
+
+#join.modal .container {
+	top: 90px;
+	transform: translate(-50%, 0);
+/*
+	margin-bottom: 200px;
+	display: block;
+*/	
 }
 
 .modal header {
+/*
 	background: transparent;
+	padding: 0 0 2em 3em;
+*/
 	float: none;
 	left: auto;
+/*
 	overflow: auto;
-	padding: 0 0 2em 3em;
+*/
 	position: static;
 	top: auto;
 	width: auto;
 	z-index: auto;
+
+	border: none;
+	box-shadow: none;
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+	line-height: 22px;
 }
 
 .modal h1 {
 	display: block;
 	float: left;
+/*
 	font-size: 1.5em;
+*/
 	margin: 0;
+
+	font-size: 32px;
+	font-weight: 700;
+	line-height: 40px;
+	color: #3C3C3C;
+	margin: 0 0 28px 0;
+	width: 100%;
+}
+
+.modal p {
+	margin: 0 0 41px 0;
+	margin: 0 0 20px 0;
 }
 
 .modal a.close {
@@ -628,8 +771,18 @@ button[type="reset"] {
 .modal form {
 	clear: both;
 	display: block;
+	padding-top: 21px;
+/*
 	margin: 0 3em;
+*/
 }
+
+.modal .confirmation button.close {
+	margin-top: 50px;
+	padding: 10px 50px;
+}
+
+
 /* @end Modal */
 /* @end Global */
 
@@ -792,8 +945,15 @@ aside.location form button {
 }
 
 aside.location form button.current + input {
+	width: 248px;
+	padding: 0;
+}
+
+fieldset.location form button.current + input {
 	width: 250px;
 }
+
+
 /*
 #main.results form label.visible {
     border: 0;
@@ -1163,11 +1323,14 @@ address h1 {
 	font-size: 24px;
 	margin: 17px 0 0 0;
 	line-height: 30px;
+	width: 620px;
 }
 
 address p {
 	margin: 13px 0 27px 0;
 	line-height: 22px;
+
+	width: 620px;
 }
 
 address p.p-org span {
@@ -1290,6 +1453,12 @@ ul.channels li img {
 	margin: 0;
 	top: 8px;
 	right: 0;
+
+
+	padding: 18px 19px 19px 19px;
+	position: absolute;
+	top: 34px;
+	right: 27px;
 }
 
 #main.detail aside#invite h2 {

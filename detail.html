@@ -44,7 +44,7 @@
 		<form id="loc" action="results.html" autocomplete="on">
 			<label class="hidden" for="loc-location">In the meantime, enter your location<br /> to get to know your local representatives.</label>
 			<fieldset>
-				<button id="loc-current" class="current" type="button" value="current" title="Use current location"></button>
+				<button id="loc-current" class="current tooltip" type="button" value="current" title="Use your current location"></button>
 				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Where do you live?" />
 				<input id="loc-hidden" class="hidden" name="loc-hidden" type="hidden" />
 				<button id="loc-submit" class="hidden" type="submit" value="Submit">Submit</button>
@@ -55,11 +55,6 @@
 	<div id="main" role="main" class="detail">
 		<section id="address">
 			<address class="vcard">
-
-				<aside id="invite">
-					<h2>Invite <span class="name" data-ng-bind="repData.name">this representative</span> to join Advocate</h2>
-					<a class="invite button primary" href="invite.html">Invite</a>
-				</aside>
 
 				<div class="u-photo circle" style="background-image: url({{repData.photoUrl}})" title="Photo of {{repData.name}}"></div>
 
@@ -74,6 +69,12 @@
 					<span class="p-category" data-ng-if="repData.party && repData.party != 'Unknown'" data-ng-bind="repData.party"></span>
 					<span data-ng-bind="repData.division"></span>
 				</p>
+
+
+				<aside id="invite">
+					<h2>Invite <span class="name" data-ng-bind="repData.name">this representative</span> to join Advocate</h2>
+					<a class="invite button primary" href="invite.html">Invite</a>
+				</aside>
 
 				<dl>
 					<span data-ng-repeat="url in repData.urls">

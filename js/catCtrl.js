@@ -21,7 +21,9 @@ app.controller("catHomeCtrl", function($scope) {
 
 	// Initialize the JS
 	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]]);
+
 });
+
 
 // Results Page Controller
 app.controller("catResultsCtrl", function($scope) {
@@ -84,10 +86,11 @@ app.controller("catContactCtrl", function($scope) {
 	window.console.debugLevel = 1;
 
 	// Add the Join Advocate form to the page
-	ModalForm.prototype.getJoinForm();
+//	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("form.contact input.location", "form.contact input.hidden", false, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]]);
+//	$scope.page = new Page("form.contact fieldset.location input.location", "form.contact fieldset.location input.hidden", false, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]]);
+	$scope.page = new Page("form.contact fieldset.location input.location", "form.contact fieldset.location input.hidden", false, null, null);
 
 	// Set up the form submission
 	$("form.contact").submit(function(event) {
