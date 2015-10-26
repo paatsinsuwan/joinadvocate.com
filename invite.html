@@ -8,7 +8,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Join Advocate - Advocate</title>
+	<title>Invite Your Representatives - Advocate</title>
 	<meta name="description" content="Redefining democracy.">
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -42,14 +42,13 @@
 	
 <!--	<div id="main" role="main" class="join">-->
 
-	<div id="join-modal" class="modal">
+	<div id="invite-modal" class="modal">
 		<div class="container">
 			<aside class="close"><a class="close fa fa-times" title="close" href="#"></a></aside>
 			<header><!-- id="intro">-->
-
-				<h1>Be a part of retooling democracy.</h1>
-				<p>Sign up for our beta to connect with your local representatives and see how they are voting on the issues that impact you and your community.</p>
-
+				<h1>Invite <span class="name" data-ng-bind="(repData.name || 'your representatives')">your representatives</span> to join you on Advocate</h1>
+				<p>Help build a common way for citizens and representatives to connect about the issues.</p>
+<!--
 				<aside class="social">
 					<p>Help spread the word:</p>
 					<ul class="channels">
@@ -59,21 +58,22 @@
 						<li><a target="_blank" href="https://instagram.com/joinadvocate"><i class="fa fa-instagram" title="Instagram"></i></a></li>
 					</ul>
 				</aside>
+-->
 			</header>
 
 			<form id="modal-form" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" target="_self" onsubmit="" autocomplete="on">
 				<fieldset class="title">
-					<legend>Join Advocate</legend>
+					<legend>Invite Representatives</legend>
 				</fieldset>
 
 				<fieldset>
 					<label class="name hidden" for="entry_486126353">Enter your name</label>
-					<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Name">
+					<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Your name">
 				</fieldset>
 
 				<fieldset>
 					<label class="email hidden" for="entry_1188935479">Enter your Email address</label>
-					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email Address">
+					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email address">
 				</fieldset>
 
 				<fieldset class="location">
@@ -82,7 +82,7 @@
 					<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Zipcode">
 					<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">
 				</fieldset>
-<!--
+
 				<fieldset>
 					<label class="interest" for="entry_1235129365">Enter your area of interest</label>
 					<select class="interest" name="entry.1235129365" id="entry_1235129365" aria-label="Area of Interest" title="">
@@ -93,13 +93,28 @@
 						<option value="manager">Campaign manager or staffer</option>
 					</select>
 				</fieldset>
-
+<!--
 				<fieldset>
 					<label class="comments" for="entry_670622658">Comments</label>
 					<textarea class="comments" name="entry.670622658" id="entry_670622658" dir="auto" aria-label="Comments" placeholder="Your comments"></textarea>
 				</fieldset>
 -->
-				<input class="type" type="hidden" name="entry.1285458186" value="Join Page" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
+
+				<fieldset class="representatives open">
+					<legend>Invite your other representatives:</legend>
+					<label class="visible all"><input id="reps-all" type="checkbox" name="reps" value="all"><span>Select All</span></label>
+					<label class="visible half"><input id="reps-0" type="checkbox" name="reps" value="Andrew Cuomo"><span>Andrew Cuomo</span></label>
+					<label class="visible half"><input id="reps-1" type="checkbox" name="reps" value="Eric Schneiderman"><span>Eric Schneiderman</span></label>
+					<label class="visible half"><input id="reps-2" type="checkbox" name="reps" value="Thomas DiNapoli"><span>Thomas DiNapoli</span></label>
+					<label class="visible half"><input id="reps-3" type="checkbox" name="reps" value="Andrew Cuomo"><span>Andrew Cuomo</span></label>
+					<label class="visible half"><input id="reps-4" type="checkbox" name="reps" value="Kristen Gillibrand" checked><span>Kristen Gillibrand</span></label>
+					<label class="visible half"><input id="reps-5" type="checkbox" name="reps" value="Joseph Biden"><span>Joseph Biden</span></label>
+					<label class="visible half"><input id="reps-6" type="checkbox" name="reps" value="Barack Obama"><span>Barack Obama</span></label>
+
+					<a class="hidden" href="#">Show List</a>
+				</fieldset>
+
+				<input class="type" type="hidden" name="entry.1285458186" value="Invite Page" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
 				<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">
 
 				<fieldset>
@@ -110,6 +125,9 @@
 			</form>
 		</div>
 	</div>
+
+
+
 
 <!--
 		<form id="join" action="thanks.html" autocomplete="on">

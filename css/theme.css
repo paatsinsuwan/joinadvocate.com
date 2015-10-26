@@ -395,6 +395,7 @@ button {
 	clear: both;
 	display: block;
 	resize: none;
+	-webkit-appearance: none;
 }
 
 input,
@@ -420,10 +421,48 @@ button.location {
 /*
 	width: 525px;
 	width: 425px;
-*/ 
+*/
 
 	height: 44px;
 	width: 426px;
+
+	background: #FFF;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+
+	border: 1px solid #E2E2E2;
+	border-radius: 2px;
+	height: auto;
+	width: auto;
+	padding: 0;
+	float: left;
+
+	height: 25px;
+	width: 25px;
+	margin: 0 18px 15px 0;
+	display: block;
+}
+
+label.all,
+label.half {
+	width: 50%;
+	float: left;
+	display: block;
+	clear: none;
+}
+
+label.all {
+	width: 100%;
+}
+
+label.visible span {
+	font-size: 16px;
+}
+
+label.visible.all span {
+	font-weight: 700;
 }
 
 select {
@@ -435,6 +474,14 @@ select {
 textarea {
 	padding-top: 15px;
 	height: 114px;
+}
+
+legend {
+	font-size: 22px;
+	line-height: 30px;
+	font-weight: 400;
+	margin: 0;
+	display: block;
 }
 
 button.location.active {
@@ -676,6 +723,10 @@ button[type="reset"] {
 /* @end Loading */
 
 /* @group Modal */
+body.masked {
+	overflow: hidden;
+}
+
 .modal {
 	background-color: rgba(0,0,0,0.5);
 	bottom: 0;
@@ -685,11 +736,17 @@ button[type="reset"] {
 	right: 0;
 	top: 0;
 	z-index: 10;
+
+
+	overflow: auto;
 }
 
-#join.modal {
+body.page .modal {
 	z-index: 0;
+/*
 	overflow: auto;
+*/
+	background: #F2F2F2;
 }
 
 .modal .container {
@@ -707,16 +764,47 @@ button[type="reset"] {
 	transform: translate(-50%, -50%);
 
 	width: 468px;
+	padding: 43px 56px 77px 62px;
+/*
+	overflow: auto;
+	overflow-y: initial;
+*/
+	
+/*
 	padding: 42px 56px 77px 62px;
+	overflow: show;
+*/
 }
 
-#join.modal .container {
+body.page .modal .container {
+/*
 	top: 90px;
 	transform: translate(-50%, 0);
-/*
 	margin-bottom: 200px;
 	display: block;
 */	
+	background: transparent;
+	box-shadow: none;
+
+/*
+	max-width: 1150px;
+	min-width: 720px;
+	position: relative;
+*/
+	width: 1150px;
+	margin: 153px auto 163px auto;
+	transform: none;
+	padding: 0;
+	top: auto;
+	left: auto;
+/*
+	overflow: visible;
+	background: #efe;
+*/
+	position: static;
+	overflow: auto;
+	min-height: 300px;
+
 }
 
 .modal header {
@@ -740,7 +828,65 @@ button[type="reset"] {
 	margin: 0;
 	font-size: 14px;
 	line-height: 22px;
+	background: transparent;
+/*
+	background: #fee;
+*/
 }
+
+body.page .modal .container > header {
+	width: 500px;
+	float: left;
+	clear: left;
+	display: block;
+	position: relative;
+}
+
+.modal form {
+	clear: both;
+	display: block;
+	padding-top: 11px;
+/*
+	margin: 0 3em;
+	padding-top: 21px;
+*/
+}
+
+body.page .modal .container > form {
+	width: 468px;
+	float: right;
+	clear: none;
+	display: block;
+/*
+	position: absolute;
+	right: 0;
+	margin: 0 auto;
+*/
+
+	padding-top: 9px;
+	margin-right: 98px;	
+/*
+	background: #ffe;
+*/
+}
+
+body.page .modal form.complete {
+	background: #FFF;
+	margin: -3px 97px 0 0;
+	padding: 32px 20px 30px 29px;
+	border-radius: 2px;
+	width: 419px;
+}
+
+body.page .modal form.complete fieldset.title {
+	margin-bottom: 8px;
+}
+
+body.page .modal form.complete button {
+	margin-top: 0;
+}
+
+
 
 .modal h1 {
 	display: block;
@@ -754,27 +900,117 @@ button[type="reset"] {
 	font-weight: 700;
 	line-height: 40px;
 	color: #3C3C3C;
-	margin: 0 0 28px 0;
 	width: 100%;
+	
+	margin: 0 0 27px 0;
+}
+
+body.page .modal h1 {
+	margin: 0 0 37px 0;
 }
 
 .modal p {
-	margin: 0 0 41px 0;
-	margin: 0 0 20px 0;
+	margin: 0;
 }
 
-.modal a.close {
-	display: block;
-	float: right;
-}
-
-.modal form {
-	clear: both;
-	display: block;
-	padding-top: 21px;
+body.page .modal p {
 /*
-	margin: 0 3em;
+	margin: 0 0 41px 0;
 */
+	margin: 0 0 24px 0;
+
+
+	font-size: 16px;
+	line-height: 24px;
+}
+
+/*
+.modal aside a.close {
+*/
+.modal aside.close {
+
+	position: absolute;
+
+	display: block;
+/*
+	float: right;
+	color: #FFF;
+
+	right: 500px;
+	top: 0;
+
+	margin: -50px -50px 0 0;
+	height: 50%;
+	width: 50%;
+*/
+
+	top: -5px;
+	right: -40px;
+
+}
+.modal aside a.close {
+	font-size: 24px;
+/*
+	margin-left: 586px;
+*/
+
+}
+
+.modal aside a.close:link,
+.modal aside a.close:visited,
+.modal aside a.close:hover,
+.modal aside a.close:active {
+	color: #FFF;
+}
+
+/*
+body.page .modal a.close {
+*/
+body.page .modal aside.close {
+	display: none;
+}
+
+.modal legend {
+	display: none;
+}
+
+.modal fieldset.representatives {
+	margin-bottom: 9px;
+}
+
+
+.modal fieldset.representatives legend {
+	display: block;
+	margin-bottom: 20px;
+}
+
+.modal fieldset p:first-of-type {
+	margin-top: 16px;
+}
+
+body.page .modal legend {
+	display: block;
+	color: #3C3C3C;
+}
+
+.modal header aside.social {
+	display: none;
+}
+
+body.page .modal header aside.social {
+	display: block;
+}
+
+.modal form aside.social {
+	display: block;
+}
+
+body.page .modal form aside.social {
+	display: none;
+}
+
+.modal ul.channels li {
+	margin-right: 5px;
 }
 
 .modal .confirmation button.close {
@@ -1830,3 +2066,478 @@ aside#actions ul.actions li a {
 
 /* @end Votes */
 /* @end Detail */
+
+
+
+
+
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+
+* {
+	min-width: 0 !important;
+}
+/*
+header .container,
+#main,
+footer .container,
+body.page .modal .container,
+aside.location {
+	min-width: 0;
+}
+*/
+
+body:not(.home) {
+	height: auto;
+	background: #FFF !important;
+}
+
+header,
+.home header {
+	overflow: auto;
+	position: static;
+}
+
+.home header {
+	padding: 18px 0;
+}
+
+header .container {
+	padding: 0 20px;
+}
+
+#logo img {
+	width: 93.8px;
+	height: 16.8px;
+}
+
+.home header button,
+.home header a.button {
+	padding: 6px 40px;
+}
+
+#map.fpo {
+	margin-top: 0;
+	height: 205px;
+}
+
+body.detail #map.fpo {
+	margin-bottom: 0;
+}
+
+body.results #map.fpo {
+	margin-bottom: 0;
+	height: 238px;
+}
+
+body.detail aside.location {
+	margin-top: -191px;
+}
+
+body.results aside.location {
+	top: -222px;
+}
+
+aside.location form fieldset {
+	width: 280px;
+	margin-left: 20px;
+}
+
+aside.location form button.current + input {
+	width: 230px;
+}
+
+/* @group Home */
+
+#intro {
+	padding: 30px 20px;
+	margin: 0;
+}
+
+#intro h1 {
+	font-size: 24px;
+	line-height: 30px;
+	letter-spacing: 0;
+	margin: 0;
+}
+
+#intro p {
+	font-size: 18px;
+	line-height: 22px;
+}
+
+#main form.home fieldset {
+	margin: 20px;
+	width: auto;
+}
+
+#main form.home button.current + input {
+	width: 150px;
+
+}
+/* @end Home */
+
+
+/* @group Detail */
+
+#main.detail {
+	width: 100%;
+	margin-top: 90px;
+}
+
+address > a,
+#main.detail aside#joinPromo {
+	display: none !important;
+}
+
+#main.detail section {
+	border: none;
+	background: transparent;
+}
+
+#main.detail address {
+	padding: 0;
+	padding-bottom: 30px;
+}
+
+address .u-photo {
+	width: 105px;
+	height: 105px;
+	border: 4px solid #FFF;
+	margin: 30px 0 0 20px;
+}
+
+address h1 {
+	clear: both;
+	width: auto;
+	padding: 0;
+	margin: 162px 20px 0 20px;
+}
+
+address p {
+	width: auto;
+	margin: 16px 20px;
+}
+
+#main.detail aside#invite {
+	float: none;
+	width: auto;
+	position: static;
+	top: 0;
+	right: 0;
+
+	margin: 40px 0;
+	padding: 20px 0;
+	border-left: none;
+	border-right: none;
+	text-align: center;
+}
+
+#main.detail aside#invite a.button {
+	margin: 0 auto;
+
+}
+
+address dl {
+	margin: 0;
+	padding: 0 20px;
+	line-height: inherit;
+}
+
+address dt,
+address dd {
+	width: auto;
+	float: left;
+	clear: both;
+	margin: 0;
+	padding: 0;
+}
+
+address dd {
+	font-size: 14px;
+	margin-bottom: 22px;
+}
+
+address dl span:last-of-type dt,
+address dl span:last-of-type dd {
+	margin: 0;
+}
+
+ul.channels li {
+	font-size: 48px;
+}
+
+address a.secondary:link,
+address a.secondary:visited {
+	color: #FD4848;
+}
+address a.secondary:hover,
+address a.secondary:active {
+	color: #FF637E;
+}
+
+#main.detail aside#coming-soon {
+	background: #FFFFFB;
+	padding: 30px 20px;
+}
+
+aside#actions ul.actions li:first-child {
+	display: block;
+	padding: 0;
+	border: 0;
+/*
+	position: absolute;
+	top: 0px;
+*/
+
+	width: 100%;
+	font-size: 12px;
+	background: #FFFEF4;
+	padding: 6px 0;
+	text-align: center;
+
+}
+
+aside#actions ul.actions li:last-child {
+	display: block;
+	padding: 0;
+	border: 0;
+
+	position: absolute;
+	top: 105px;
+	right: 0;
+
+}
+
+aside#actions ul.actions li:last-child span {
+	display: none;
+}
+
+#main.detail #votes {
+	padding-bottom: 113px;
+
+}
+
+#main.detail #votes h2 {
+	margin: 0;
+	padding: 30px 20px;
+	font-size: 18px;
+	background: rgba(226,226,226,0.2);
+}
+
+#main.detail #votes dl {
+	margin: 0;
+	float: none;
+	display: block;
+}
+
+#main.detail #votes dd {
+	overflow: initial;
+}
+
+#main.detail #votes dt.vote-date {
+	padding: 0;
+	clear: both;
+	float: none;
+	display: block;
+
+	padding: 23px 20px 8px 20px;
+}
+
+#main.detail #votes dd.vote {
+	padding: 0 20px;
+}
+
+#main.detail #votes .description {
+	width: auto;
+	padding: 0;
+	float: none;
+}
+
+#main.detail #votes .description h3 {
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 17px;
+}
+
+#main.detail #votes .description p {
+	font-size: 13px;
+	line-height: 24px;
+}
+
+#main.detail #votes .results {
+	width: 100%;
+	margin: 0;
+	padding-bottom: 75px;
+}
+
+#main.detail #votes .results dt {
+	height: 53px;
+
+}
+/* @end Detail */
+
+/* @group Results */
+aside#signUpPromo {
+	float: none;
+	margin: 0;
+	pading: 30px 20px;
+	width: auto;
+	border-left: none;
+	border-right: none;
+	background: #F9F9F9;
+}
+
+aside#signUpPromo h2 {
+	font-size: 24px;
+	line-height: 30px;
+	text-align: center;
+	width: auto;
+}
+
+aside#signUpPromo button,
+aside#signUpPromo a.button {
+	width: auto;
+	display: block;
+}
+
+#main.results {
+	margin: 0;
+	width: auto;
+	position: relative;
+	width: auto;
+
+	top: -52px;
+	margin-bottom: -53px;
+}
+
+#main.results #results,
+#results section,
+li.official > a {
+	width: auto;
+	float: none;
+	overflow: initial;
+}
+
+#results h1 {
+	width: auto;
+	padding: 30px 20px 25px 20px;
+	font-size: 24px;
+	line-height: 30px;
+	margin: 0;
+}
+
+#results li.official {
+	padding-bottom: 0;
+}
+
+#results li.official .u-photo,
+#results li.official p.p-role {
+	margin-bottom: 22px;
+}
+
+#results > nav,
+#results ul.actions {
+	display: none;
+}
+
+/* @end Results */
+
+
+
+footer {
+	padding: 60px 0;
+	position: static;
+	text-align: center;
+}
+
+footer p {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+footer nav {
+	float: none;
+	width: 100%;
+}
+
+footer nav ul li {
+	padding: 0;
+	display: block;
+	font-size: 18px;
+	line-height: 42px;
+}
+
+
+/* @group Modals */
+
+.modal .container {
+	width: auto;
+	padding: 30px 20px;
+	left: 0;
+	top: 0;
+	margin: 0;
+	transform: none;
+	margin: 10px;
+}
+
+.modal aside.close {
+	display: none;
+}
+
+.modal input,
+.modal select,
+.modal textarea {
+	width: auto;
+	margin-left: auto;
+	margin-right: auto;
+	float: none;
+}
+
+.modal fieldset.location button.current + input {
+	width: auto;
+	margin-left: 0;
+}
+
+.modal button[type="submit"],
+.modal button[type="reset"] {
+/*
+	width: 310px;
+*/
+	font-size: 14px;
+	font-weight: 600;
+	margin-left: auto;
+	margin-right: auto;
+	float: none;
+}
+
+/* @end Modals */
+
+/*
+div#main,
+#map,
+aside.location,
+#joinPromo,
+footer {
+#address,
+#coming-soon,
+address,
+.u-photo,
+address h1,
+.p-org,
+aside#invite,
+address dl,
+#actions,
+#votes {
+#map,
+aside.location,
+#main.results,
+
+#results {
+	display: none !important;
+}
+*/
+
+
+
+}

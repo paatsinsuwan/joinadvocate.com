@@ -21,7 +21,7 @@
 	<script src="js/vendor/angular.min.js"></script>
 <!--	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>-->
 </head>
-<body class="join">
+<body class="page">
 	<!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
@@ -32,7 +32,9 @@
 			<nav>
 				<ul>
 <!--					<li>Want to keep in touch?</li>-->
+<!--
 					<li><a href="join.html" class="join button primary">Sign Up</a></li>
+-->
 				</ul>
 			</nav>
 		</div>
@@ -40,7 +42,49 @@
 	
 <!--	<div id="main" role="main" class="join">-->
 
-	<div id="join" class="modal">
+	<div id="thank-you-modal" class="modal">
+		<div class="container">
+			<aside class="close"><a class="close fa fa-times" title="close" href="#"></a></aside>
+			<header><!-- id="intro">-->
+				<h1>Be a part of retooling democracy.</h1>
+				<p>Sign up for our beta to connect with your local representatives and see how they are voting on the issues that impact you and your community.</p>
+
+				<aside class="social">
+					<p>Help spread the word:</p>
+					<ul class="channels">
+						<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
+						<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
+						<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
+						<li><a target="_blank" href="https://instagram.com/joinadvocate"><i class="fa fa-instagram" title="Instagram"></i></a></li>
+					</ul>
+				</aside>
+			</header>
+
+			<form id="modal-form" class="complete" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" target="_self" onsubmit="" autocomplete="on">
+				<fieldset class="title">
+					<legend>Thank you.</legend>
+
+					<p>Messaging TK Ut congue varius eros aliquam convallis.</p>
+					<p>Please check your email and click <a href="#">Activate Account</a> in the message we just sent to <strong>jeff@gmail.com</strong>.</p>
+
+					<aside class="social">
+						<p>Help spread the word:</p>
+						<ul class="channels">
+							<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
+							<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
+							<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
+							<li><a target="_blank" href="https://instagram.com/joinadvocate"><i class="fa fa-instagram" title="Instagram"></i></a></li>
+						</ul>
+					</aside>
+				</fieldset>
+
+				<fieldset>
+					<button class="close" type="submit" name="submit" value="Close" id="ss-submit">Back</button>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+
 <!--
 		<div class="container">
 			<header>
@@ -96,24 +140,6 @@
 -->
 <!--	</div>-->
 
-		<div class="container confirmation">
-			<header>
-				<h1>Thank you.</h1>
-				<p>Messaging TK Ut congue varius eros aliquam convallis.</p>
-				<p>Please check your email and click <a href="#">Activate Account</a> in the message we just sent to <strong>jeff@gmail.com</strong>.</p>
-				<p>Help spread the word:</p>
-				<ul class="channels">
-					<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
-					<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
-					<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
-					<li><a target="_blank" href="https://instagram.com/joinadvocate"><i class="fa fa-instagram" title="Instagram"></i></a></li>
-				</ul>
-			</header>
-
-			<button class="close" type="submit" name="submit" value="Close" id="ss-submit">Close</button>
-
-		</div>
-	</div>
 
 	<footer>
 		<div class="container">

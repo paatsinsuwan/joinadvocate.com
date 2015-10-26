@@ -21,7 +21,7 @@
 	<script src="js/vendor/angular.min.js"></script>
 <!--	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>-->
 </head>
-<body class="join">
+<body class="page">
 	<!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
@@ -42,15 +42,29 @@
 	
 <!--	<div id="main" role="main" class="join">-->
 
-	<div id="join" class="modal">
-
+	<div id="contact-modal" class="modal">
 		<div class="container">
-			<header>
-				<h1>Be a part of retooling democracy.</h1>
-				<p>Sign up for our beta to connect with your local representatives and see how they are voting on the issues that impact you and your community.</p>
+			<aside class="close"><a class="close fa fa-times" title="close" href="#"></a></aside>
+			<header><!-- id="intro">-->
+				<h1>We'd love to hear from you.</h1>
+				<p>Contact messaging TK.</p>
+<!--
+				<aside class="social">
+					<p>Help spread the word:</p>
+					<ul class="channels">
+						<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
+						<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
+						<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
+						<li><a target="_blank" href="https://instagram.com/joinadvocate"><i class="fa fa-instagram" title="Instagram"></i></a></li>
+					</ul>
+				</aside>
+-->
 			</header>
 
-			<form class="contact" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" id="join-form" target="_self" onsubmit="" autocomplete="on">
+			<form id="modal-form" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" target="_self" onsubmit="" autocomplete="on">
+				<fieldset class="title">
+					<legend>Contact Us</legend>
+				</fieldset>
 
 				<fieldset>
 					<label class="name hidden" for="entry_486126353">Enter your name</label>
@@ -85,11 +99,11 @@
 					<textarea class="comments" name="entry.670622658" id="entry_670622658" dir="auto" aria-label="Comments" placeholder="Your comments"></textarea>
 				</fieldset>
 
-				<input class="type" type="hidden" name="entry.1285458186" value="Join Page" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
+				<input class="type" type="hidden" name="entry.1285458186" value="Contact Page" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
 				<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">
 
 				<fieldset>
-					<button class="submit primary disabled" type="submit" name="submit" value="Submit" id="ss-submit">Submit</button>
+					<button class="submit primary" type="submit" name="submit" value="Submit" id="ss-submit">Submit</button>
 					<button class="reset" type="reset" name="cancel" value="Cancel" id="ss-cancel">Cancel</button>
 				</fieldset>
 

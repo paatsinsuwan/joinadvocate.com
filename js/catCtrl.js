@@ -12,30 +12,40 @@ Copyright @ 2015 by Advocate
 
 // Home Page Controller
 app.controller("catHomeCtrl", function($scope) {
+	console.debug("initializing catHomeCtrl");
 
 	// Set the default debugging level
-	window.console.debugLevel = 1;
+	window.console.debugLevel = 2;
 
 	// Add the Join Advocate form to the page
-	ModalForm.prototype.getJoinForm();
+//	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]]);
+
+// TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
+
+	var theForm = "join";
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]]);
 
 });
 
 
 // Results Page Controller
 app.controller("catResultsCtrl", function($scope) {
+	console.debug("initializing catResultsCtrl");
 
 	// Set the default debugging level
 	window.console.debugLevel = 2;
 
 	// Add the Join Advocate form to the page
-	ModalForm.prototype.getJoinForm();
+//	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]], "#map", "#results");
+
+// TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
+
+	var theForm = "join";
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]], "#map", "#results");
 	$scope.page.setNgScope($scope);
 
 	// Set up various page content
@@ -54,15 +64,19 @@ app.controller("catResultsCtrl", function($scope) {
 
 // Details Page Controller
 app.controller("catDetailsCtrl", function($scope) {
+	console.debug("initializing catDetailsCtrl");
 
 	// Set the default debugging level
 	window.console.debugLevel = 2;
 
 	// Add the Join Advocate form to the page
-	ModalForm.prototype.getJoinForm();
+//	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#join", "a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]], "#map", null, "#main", "#votes");
+// TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
+
+	var theForm = "join";
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]], "#map", null, "#main", "#votes");
 	$scope.page.setNgScope($scope);
 
 	// Set up various page content
@@ -81,6 +95,7 @@ app.controller("catDetailsCtrl", function($scope) {
 
 // Contact Us Controller
 app.controller("catContactCtrl", function($scope) {
+	console.debug("initializing catContactCtrl");
 
 	// Set the default debugging level
 	window.console.debugLevel = 1;

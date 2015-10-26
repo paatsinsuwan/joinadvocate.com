@@ -740,6 +740,7 @@ Modal.prototype.setContents = function(theContents) {
 Modal.prototype.show = function() {
 	console.debug("Modal.show()");
 
+	$("body").addClass("masked");
 	$($(this).data("target")).show();
 	return false;
 };
@@ -748,6 +749,7 @@ Modal.prototype.hide = function() {
 	console.debug(this, 2);
 
 	$($(this).data("target")).hide();
+	$("body").removeClass("masked");
 	return false;
 };
 
@@ -756,13 +758,11 @@ Modal.prototype.hide = function() {
 function ModalForm(theElementObj, theTitle, theForm) {
 	console.debug("new ModalForm(" + theElementObj + ", " + theTitle + ", " + theForm + ") {");
 
-	// Add the Join Advocate form to the page
-	this.getJoinForm();
-
 	this.form = null;
 	this.location = null;
-
-	if ((typeof theElementObj != "undefined") && (theElementObj.length == 5)) {
+	this.isInitialized = false;
+	this.theElementObj = {};
+	this.theTitle = (typeof theTitle != "undefined") ? theTitle : "";
 
 /*
 	theElementObj = [
@@ -776,19 +776,16 @@ function ModalForm(theElementObj, theTitle, theForm) {
 	];
 */
 
-		// Call the parent's constructor to make a Modal
-		Modal.call(this, theElementObj.slice(0,4), theTitle);
-		this.form = $(theElementObj.pop());
-		this.form.submit(this, this.submit);
-		$("button[type=reset]", this.form).click(this.cancel);
+	// Ensure we're initializing with a valid input object
+	if ((typeof theElementObj != "undefined") && (theElementObj.length == 5)) {
 
-		console.debug("ModalForm title = " + this.title, 2);
+		// We have a proper init object
+		this.theElementObj = theElementObj;
 
-		// If the form has a location (Join Advocate, Contact Us), set up a proper Location object to handle these.
-		if ($("input.location", this.form).attr("id")) {
-//			this.location = new Location("#" + $("input.location", this.form).attr("id"), "#" + $("input.location", this.form).siblings("input[type=hidden]").attr("id"), null, false);
-			this.location = new Location("#" + $(this.form).attr("id") + " input.location", "#" + $(this.form).attr("id") + " input.location ~ input[type=hidden]", null, false);
-		}
+// TODO:  Generalize to support Join, Contact, Invite forms
+
+		// Add the Join Advocate form to the page and initialize
+		this.getJoinForm(this, this.initForm);
 
 	} else {
 		console.debug("bad theElementObj");
@@ -803,11 +800,65 @@ function ModalForm(theElementObj, theTitle, theForm) {
 ModalForm.prototype = Object.create(Modal.prototype);
 ModalForm.prototype.constructor = ModalForm;
 // ModalForm Methods
-ModalForm.prototype.getJoinForm = function(theTitle) {
-	console.debug("ModalForm.getJoinForm(" + theTitle + ")");
+ModalForm.prototype.initForm = function(that) {
+	console.debug("ModalForm.prototype.initForm()");
+	console.debug(that);
 
-	var title = (typeof theTitle != "undefined") ? theTitle : ((typeof this.title != "undefined") ? this.title : "Join Advocate");
+	// Call the parent's constructor to make a Modal
+	Modal.call(that, that.theElementObj.slice(0,4), that.theTitle);
+	that.form = $(that.theElementObj.pop());
+	that.form.submit(that, that.submit);
+	$("button[type=reset]", that.form).click(that.cancel);
 
+	console.debug("ModalForm title = " + that.title, 2);
+
+	// If the form has a location (Join Advocate, Contact Us), set up a proper Location object to handle these.
+	if ($("input.location", that.form).attr("id")) {
+//		this.location = new Location("#" + $("input.location", this.form).attr("id"), "#" + $("input.location", this.form).siblings("input[type=hidden]").attr("id"), null, false);
+		that.location = new Location("#" + $(that.form).attr("id") + " input.location", "#" + $(that.form).attr("id") + " input.location ~ input[type=hidden]", null, false);
+	}
+
+};
+ModalForm.prototype.getJoinForm = function(that, callback) {
+	console.debug("ModalForm.getJoinForm(");
+	console.debug(that);
+	console.debug(callback);
+
+//	var title = (typeof theTitle != "undefined") ? theTitle : ((typeof this.title != "undefined") ? this.title : "Join Advocate");
+
+// TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
+
+	var theForm = "join";
+	var theURL = theForm + ".html #" + theForm + "-modal";
+
+	if ($("#" + theForm + "-container").length == 0) {
+		console.debug("loading " + theURL, 2);
+
+		$("body").append('<div id="' + theForm + '-container"></div>');
+//		$("body").append('<div id="' + theForm + '-container"></div>');
+		$("#" + theForm + "-container").load(theURL, function(response, status, jqXHR) {
+			if ( status == "error" ) {
+				console.debug("Error loading " + theForm + " modal", 2);
+
+// TODO:  Handle the error
+
+			} else {
+				console.debug(status, 2);
+
+				// Set up a couple of things, since we're loading inside a modal, rather than in the standalone page
+				$("#" + theForm + "-modal").hide().parent().removeClass("hidden");
+				$("#" + theForm + "-modal input.type").val($("#" + theForm + "-modal input.type").val().substr(0, $("#" + theForm + "-modal input.type").val().indexOf(" ")) + " Modal");
+
+				// Run the callback function
+				callback(that);
+				
+			}
+		});
+	} else
+		console.debug("already loaded " + theForm, 2);
+
+
+/*
 	// Add the Join Advocate form to the page
 	$("body").append('<div id="join" class="modal hidden">' +
 						'<div class="container">' +
@@ -845,12 +896,14 @@ ModalForm.prototype.getJoinForm = function(theTitle) {
 										'<option value="manager">Campaign manager or staffer</option>' +
 									'</select>' +
 								'</fieldset>' +
+*/
 /*
 								'<fieldset>' +
 									'<label class="comments" for="entry_670622658">Comments</label>' +
 									'<textarea class="comments" name="entry.670622658" id="entry_670622658" dir="auto" aria-label="Comments" placeholder="Your comments"></textarea>' +
 								'</fieldset>' +
 */
+/*
 								'<input class="type" type="hidden" name="entry.1285458186" value="Join Modal" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">' +
 								'<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">' +
 
@@ -860,8 +913,8 @@ ModalForm.prototype.getJoinForm = function(theTitle) {
 							'</form>' +
 						'</div>' +
 					'</div>');
-
-	return $("#join");
+*/
+	return $("#" + theForm + "-modal");
 };
 ModalForm.prototype.submit = function(event) {
 	console.debug("ModalForm.submit(");
