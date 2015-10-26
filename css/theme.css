@@ -583,7 +583,8 @@ button.current {
 .home button.current,
 /*.results button.current {*/
 aside.location button.current,
-fieldset.location button.current {
+fieldset.location button.current,
+.modal fieldset.location button.current {
 	background: #fff url(../img/location-icon@2x.png) no-repeat bottom left;
 	border: none;
 	height: 48px;
@@ -602,7 +603,8 @@ fieldset.location button.current {
 .home button.current.active,
 /*.results button.current.active {*/
 aside.location button.current.active,
-fieldset.location button.current.active {
+fieldset.location button.current.active,
+.modal fieldset.location button.current.active {
 	background-position: top left;
 }
 

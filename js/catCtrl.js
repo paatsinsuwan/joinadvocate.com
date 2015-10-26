@@ -24,8 +24,11 @@ app.controller("catHomeCtrl", function($scope) {
 
 // TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
 
-	var theForm = "join";
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]]);
+	var theForm1 = "join";
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
+//		["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]
+		["#modal-" + theForm1, "header a.join, #joinPromo a.join", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
+	]);
 
 });
 
@@ -44,8 +47,11 @@ app.controller("catResultsCtrl", function($scope) {
 
 // TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
 
-	var theForm = "join";
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]], "#map", "#results");
+	var theForm1 = "join";
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
+		["#modal-" + theForm1, "header a.join, #signUpPromo a.join", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
+	], "#map", "#results");
+
 	$scope.page.setNgScope($scope);
 
 	// Set up various page content
@@ -75,8 +81,19 @@ app.controller("catDetailsCtrl", function($scope) {
 	// Initialize the JS
 // TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
 
-	var theForm = "join";
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]], "#map", null, "#main", "#votes");
+	var theForm1 = "join";
+	var theForm2 = "invite";
+//	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]], "#map", null, "#main", "#votes");
+
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
+//		["#" + theForm1 + "-modal", "header a.join", "#" + theForm1 + "-modal a.close, #" + theForm1 + "-modal form button.reset", "Join Advocate", "#" + theForm1 + "-modal form"]
+		["#modal-" + theForm1, "header a.join, #joinPromo a.join", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"],
+//		["#" + theForm2 + "-modal", "#invite a.invite", "#" + theForm2 + "-modal a.close, #" + theForm2 + "-modal form button.reset", "Invite Representatives", "#" + theForm2 + "-modal form"],
+		["#modal-" + theForm2, "#invite a.invite", "#modal-" + theForm2 + " a.close, #modal-" + theForm2 + " form button.reset", "Invite Reps", "#modal-" + theForm2 + " form", theForm2 + ".html"]
+	], "#map", null, "#main", "#votes");
+
+
+
 	$scope.page.setNgScope($scope);
 
 	// Set up various page content

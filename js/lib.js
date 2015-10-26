@@ -767,17 +767,21 @@ function ModalForm(theElementObj, theTitle, theForm) {
 /*
 	theElementObj = [
 		[
-			this.element, // The jQuery selector for the modal container
+			this.element, // The jQuery selector for the modal
 			this.open, // The jQuery selector for the trigger that opens the modal
 			this.close, // The jQuery selector for the trigger that closes the modal (and cancels submit)
 			this.title, // The title of the modal
-			this.form // The jQuery selector of the form
+			this.form, // The jQuery selector of the form
+			this.url // The HTML form page to load via AJAX
+		],
+		[
+			..
 		]
 	];
 */
 
 	// Ensure we're initializing with a valid input object
-	if ((typeof theElementObj != "undefined") && (theElementObj.length == 5)) {
+	if ((typeof theElementObj != "undefined") && (theElementObj.length == 6)) {
 
 		// We have a proper init object
 		this.theElementObj = theElementObj;
@@ -806,6 +810,11 @@ ModalForm.prototype.initForm = function(that) {
 
 	// Call the parent's constructor to make a Modal
 	Modal.call(that, that.theElementObj.slice(0,4), that.theTitle);
+
+	// Get the form URL
+	that.url = $(that.theElementObj.pop()) + " " + that.theElementObj[0];
+
+	// Get the form query string
 	that.form = $(that.theElementObj.pop());
 	that.form.submit(that, that.submit);
 	$("button[type=reset]", that.form).click(that.cancel);
@@ -828,26 +837,27 @@ ModalForm.prototype.getJoinForm = function(that, callback) {
 
 // TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
 
-	var theForm = "join";
-	var theURL = theForm + ".html #" + theForm + "-modal";
+	// Get the jQuery element from the object if we haven't yet initialized the modal
+	var theElement = (!that.isInitialized) ? that.theElementObj[0] : that.element;
+	var theURL = (!that.isInitialized) ? that.theElementObj[5] + " " + theElement : that.url;
+	var theContainerID = theElement + "-container";
 
-	if ($("#" + theForm + "-container").length == 0) {
+	if ($(theContainerID).length == 0) {
 		console.debug("loading " + theURL, 2);
 
-		$("body").append('<div id="' + theForm + '-container"></div>');
-//		$("body").append('<div id="' + theForm + '-container"></div>');
-		$("#" + theForm + "-container").load(theURL, function(response, status, jqXHR) {
+		$("body").append('<div id="' + theContainerID.replace("#","") + '"></div>');
+		$(theContainerID).load(theURL, function(response, status, jqXHR) {
 			if ( status == "error" ) {
-				console.debug("Error loading " + theForm + " modal", 2);
+				console.debug("Error loading " + theElement + " modal", 2);
 
 // TODO:  Handle the error
 
 			} else {
-				console.debug(status, 2);
+				console.debug("load status = " + status, 2);
 
 				// Set up a couple of things, since we're loading inside a modal, rather than in the standalone page
-				$("#" + theForm + "-modal").hide().parent().removeClass("hidden");
-				$("#" + theForm + "-modal input.type").val($("#" + theForm + "-modal input.type").val().substr(0, $("#" + theForm + "-modal input.type").val().indexOf(" ")) + " Modal");
+				$(theElement).hide().parent().removeClass("hidden");
+				$("input.type", theElement).val($("input.type", theElement).val().substr(0, $("input.type", theElement).val().indexOf(" ")) + " Modal");
 
 				// Run the callback function
 				callback(that);
@@ -855,7 +865,7 @@ ModalForm.prototype.getJoinForm = function(that, callback) {
 			}
 		});
 	} else
-		console.debug("already loaded " + theForm, 2);
+		console.debug("already loaded " + theElement, 2);
 
 
 /*
@@ -914,7 +924,7 @@ ModalForm.prototype.getJoinForm = function(that, callback) {
 						'</div>' +
 					'</div>');
 */
-	return $("#" + theForm + "-modal");
+	return $(theElement);
 };
 ModalForm.prototype.submit = function(event) {
 	console.debug("ModalForm.submit(");
