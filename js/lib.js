@@ -469,7 +469,7 @@ Location.prototype.updateFields = function() {
 			if ((typeof this.location.isGeocoded != "undefined") && !this.location.isGeocoded) {
 				console.debug("using ungeocoded text", 2);
 //				placeholder = "Where do you live?";
-				placeholder = "Who represents you?";
+				placeholder = "Where do you live?";
 				fieldVal = this.location.text;
 				fieldClass += " active";
 				foundLocation = true;
@@ -491,7 +491,7 @@ Location.prototype.updateFields = function() {
 		console.debug("No valid location yet, usting location.text", 2);
 		fieldVal = ((typeof this.location.text != "undefined") && this.location.text) ? this.location.text : "";
 //		placeholder = "Where do you live?";
-		placeholder = "Who represents you?";
+		placeholder = "Where do you live?";
 		hiddenVal = null;
 	}
 
