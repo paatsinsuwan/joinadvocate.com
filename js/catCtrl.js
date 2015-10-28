@@ -27,7 +27,7 @@ app.controller("catHomeCtrl", function($scope) {
 	var theForm1 = "join";
 	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
 //		["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]
-		["#modal-" + theForm1, "header a.join, #joinPromo a.join", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
+		["#modal-" + theForm1, "header a.join, #joinPromo a.join, #signUpPromo a.join", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
 	]);
 
 });
@@ -48,8 +48,11 @@ app.controller("catResultsCtrl", function($scope) {
 // TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
 
 	var theForm1 = "join";
+	var theForm2 = "invite";
 	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
-		["#modal-" + theForm1, "header a.join, #signUpPromo a.join", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
+		["#modal-" + theForm1, "header a.join, #signUpPromo a.join", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"],
+//		["#modal-" + theForm1, "a.invite", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
+		["#modal-" + theForm2, "a.invite", "#modal-" + theForm2 + " a.close, #modal-" + theForm2 + " form button.reset", "Invite Representatives", "#modal-" + theForm2 + " form", theForm2 + ".html"]
 	], "#map", "#results");
 
 	$scope.page.setNgScope($scope);
@@ -65,6 +68,7 @@ app.controller("catResultsCtrl", function($scope) {
 
 	// Build the Rep List
 	$scope.page.repList.load();
+
 });
 
 
@@ -83,15 +87,16 @@ app.controller("catDetailsCtrl", function($scope) {
 
 	var theForm1 = "join";
 	var theForm2 = "invite";
+	var theForm3 = "claim";
 //	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]], "#map", null, "#main", "#votes");
 
 	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
 //		["#" + theForm1 + "-modal", "header a.join", "#" + theForm1 + "-modal a.close, #" + theForm1 + "-modal form button.reset", "Join Advocate", "#" + theForm1 + "-modal form"]
-		["#modal-" + theForm1, "header a.join, #joinPromo a.join", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"],
+		["#modal-" + theForm1, "header a.join, #joinPromo a.join, #signUpPromo a.join", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"],
 //		["#" + theForm2 + "-modal", "#invite a.invite", "#" + theForm2 + "-modal a.close, #" + theForm2 + "-modal form button.reset", "Invite Representatives", "#" + theForm2 + "-modal form"],
-		["#modal-" + theForm2, "#invite a.invite", "#modal-" + theForm2 + " a.close, #modal-" + theForm2 + " form button.reset", "Invite Reps", "#modal-" + theForm2 + " form", theForm2 + ".html"]
+		["#modal-" + theForm2, "#invite a.invite", "#modal-" + theForm2 + " a.close, #modal-" + theForm2 + " form button.reset", "Invite Reps", "#modal-" + theForm2 + " form", theForm2 + ".html"],
+		["#modal-" + theForm3, "#actions a.claim", "#modal-" + theForm3 + " a.close, #modal-" + theForm3 + " form button.reset", "Claim Your Profile", "#modal-" + theForm3 + " form", theForm3 + ".html"]
 	], "#map", null, "#main", "#votes");
-
 
 
 	$scope.page.setNgScope($scope);
@@ -107,6 +112,7 @@ app.controller("catDetailsCtrl", function($scope) {
 
 	// Build the Rep List
 //	$scope.page.repList.load();
+
 });
 
 
@@ -115,17 +121,18 @@ app.controller("catContactCtrl", function($scope) {
 	console.debug("initializing catContactCtrl");
 
 	// Set the default debugging level
-	window.console.debugLevel = 1;
+	window.console.debugLevel = 2;
 
 	// Add the Join Advocate form to the page
 //	ModalForm.prototype.getJoinForm();
 
 	// Initialize the JS
 //	$scope.page = new Page("form.contact fieldset.location input.location", "form.contact fieldset.location input.hidden", false, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]]);
-	$scope.page = new Page("form.contact fieldset.location input.location", "form.contact fieldset.location input.hidden", false, null, null);
+//	$scope.page = new Page("form.contact fieldset.location input.location", "form.contact fieldset.location input.hidden", false, null, null);
+	$scope.page = new Page(".modal form fieldset.location input.location", ".modal form fieldset.location input.hidden", false, null, null);
 
 	// Set up the form submission
-	$("form.contact").submit(function(event) {
+	$("form").submit(function(event) {
 		console.debug("submitting...");
 		console.debug(event);
 
@@ -146,6 +153,9 @@ app.controller("catContactCtrl", function($scope) {
 */
 
 		$("input.referer", that).val(window.location.href);
+		$("input.userAgent", that).val(navigator.userAgent);
+		if (typeof WURFL != "undefined")
+			$("input.device", that).val(JSON.stringify(WURFL));	// Requires wurfl.js
 
 
 		// Submit the form to Google Spreadsheets via AJAX
@@ -167,16 +177,27 @@ app.controller("catContactCtrl", function($scope) {
 
 // TODO:  Show thank you message
 
+				window.location.replace("thank-you.html");
+/*
 				$(that).hide();
 				$(that).parent().append("<section><p>Thank you message</p></section>");
-
 				$scope.page.stopLoading();
+*/
 			}
 		});
 
 		event.preventDefault();
 		return false;
 	});
+
+	$scope.page.setNgScope($scope);
+
+	// Set up various page content
+	$scope.cityState = function(pre) {
+		if ($scope.page.location.getLocationIsGeocoded())
+			return ((typeof pre != "undefined") ? pre : "") + $scope.page.location.getLocationCity() + ", " + $scope.page.location.getLocationState();
+	};
+
 });
 
 window.console.debugLevel = 2;

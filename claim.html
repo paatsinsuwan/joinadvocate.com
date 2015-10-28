@@ -37,7 +37,7 @@
 	<meta name="msapplication-TileColor" content="#fd4848">
 	<meta name="msapplication-TileImage" content="img/favicon/ms-icon-144x144.png">
 	<meta name="theme-color" content="#fd4848">
-	
+
 	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
 <!-- For testing, turning off live loads -->
 	<script src="js/vendor/angular.min.js"></script>
@@ -64,13 +64,13 @@
 	
 <!--	<div id="main" role="main" class="join">-->
 
-	<div id="modal-join" class="modal">
+	<div id="modal-claim" class="modal">
 		<div class="container">
 			<aside class="close"><a class="close fa fa-times" title="close" href="#"></a></aside>
 			<header><!-- id="intro">-->
 
-				<h1>Let's redefine democracy.</h1>
-				<p>Advocate is a political engagement platform currently in private beta.  Join Advocate to be one of the initial users on the public beta and get periodic updates as we push towards the 2016 launch.</p>
+				<h1>Be a part of retooling democracy.</h1>
+				<p>Sign up for our beta to claim your candidate profile and begin connecting with citizens in your district.</p>
 
 				<aside class="social">
 					<p>Help spread the word:</p>
@@ -99,35 +99,39 @@
 				</fieldset>
 
 				<fieldset class="location">
-					<label class="location hidden" for="entry_601326317">Enter your location to connect with your local reps</label>
+					<label class="location hidden" for="entry_601326317">Enter your location to connect with your constituents</label>
 					<button id="join-current" class="current tooltip" name="join-current" type="button" value="current" title="Use your current location"></button>
 					<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Zipcode">
 					<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">
 				</fieldset>
-<!--
+
 				<fieldset>
-					<label class="interest" for="entry_1235129365">Enter your area of interest</label>
-					<select class="interest" name="entry.1235129365" id="entry_1235129365" aria-label="Area of Interest" title="">
-						<option value="">Political area of interest</option>
-						<option value="voter">Individual voter</option>
+					<label class="interest" for="entry_1235129365">Enter your campaign role</label>
+					<select class="interest" name="entry.1235129365" id="entry_1235129365" aria-label="Role" title="">
+						<option value="">Your campaign role</option>
 						<option value="politician">Politician holding office</option>
 						<option value="candidate">Candidate running for office</option>
 						<option value="manager">Campaign manager or staffer</option>
+						<option value="supporter">Individual supporter</option>
+						<option value="voter">Individual voter</option>
 					</select>
 				</fieldset>
-
+<!--
 				<fieldset>
 					<label class="comments" for="entry_670622658">Comments</label>
 					<textarea class="comments" name="entry.670622658" id="entry_670622658" dir="auto" aria-label="Comments" placeholder="Your comments"></textarea>
 				</fieldset>
 -->
-				<input class="type" type="hidden" name="entry.1285458186" value="Join Page" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
+				<input class="type" type="hidden" name="entry.1285458186" value="Claim Page" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
 				<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">
 				<input class="userAgent" type="hidden" name="entry.1242377908" value="" id="entry_1242377908" dir="auto" aria-label="User Agent" title="">
 				<input class="device" type="hidden" name="entry.709566490" value="" id="entry_709566490" dir="auto" aria-label="Device" title="">
+<!--
+				<input class="role" type="hidden" name="entry.1235129365" value="campaign" id="entry_1235129365" aria-label="Area of Interest" title="">
+-->
 
 				<fieldset>
-					<button class="submit primary" type="submit" name="submit" value="Submit" id="ss-submit">It's time.</button>
+					<button class="submit primary" type="submit" name="submit" value="Submit" id="ss-submit">Join Advocate</button>
 					<button class="reset" type="reset" name="cancel" value="Cancel" id="ss-cancel">Cancel</button>
 				</fieldset>
 

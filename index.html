@@ -20,6 +20,24 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/theme.css">
 
+	<link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="img/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="img/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="img/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="img/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="img/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#fd4848">
+	<meta name="msapplication-TileImage" content="img/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#fd4848">
+
 	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
 <!-- For testing, turning off live loads -->
 	<script src="js/vendor/angular.min.js"></script>
@@ -36,7 +54,7 @@
 			<nav>
 				<ul>
 <!--					<li>Want to keep in touch?</li>-->
-					<li><a href="join.html" class="join button primary">Notify Me</a></li>
+					<li><a href="join.html" class="join button primary">Join</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -45,24 +63,30 @@
 	<div id="main" role="main">
 
 		<section id="intro">
-			<h1>Let's redefine democracy</h1>
-			<p>Advocate is a political platform that will create transparency and<br /> accountability between politicians and their supporters.</p>
-			<h2>Launching our beta in 2016</h2>
+			<h1>It's time.<br />Let's redefine democracy.</h1>
+			<p>Advocate is a political engagement platform currently in private beta.<br />  Join Advocate to be one of the initial users on the public beta and get periodic updates as we push towards the 2016 launch.</p>
+			<p>Advocate is building out the tools to create transparency and accountability in the political system by building the tools for a modern democracy.</p>
 		</section>
 
 		<form id="loc" class="home" action="results.html" autocomplete="on" method="post">
-			<label class="visible" for="loc-location">In the meantime, enter your location<br /> to get to know your local representatives.</label>
+			<label class="hidden" for="loc-location">In the meantime, enter your location<br /> to get to know your local representatives.</label>
 			<fieldset>
 
 <!-- TODO:  Need to turn on tooltips for the homepage --> 
 
 				<button id="loc-current" class="current tooltip" type="button" value="current" title="Use your current location"></button>
-				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Where do you live?" />
+				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Who represents you?" />
 				<input id="loc-hidden" class="hidden" name="loc-hidden" type="hidden" />
 <!--				<button id="loc-submit" class="hidden" type="submit" value="Submit">Submit</button>-->
 				<button id="loc-submit" class="primary submit" type="submit" value="Submit"><i class="fa fa-search"></i></button>
 			</fieldset>
 		</form>
+
+		<aside class="mobile" id="signUpPromo">
+			<h2>Be a part of retooling democracy.</h2>
+			<p>Sign up for our beta to connect with your local representatives and see how they are voting on the issues that impact you and your community.</p>
+			<a href="join.html" class="join button primary">Sign Up</a>
+		</aside>
 
 	</div>
 

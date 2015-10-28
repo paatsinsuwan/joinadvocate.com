@@ -298,14 +298,14 @@ header a.button {
 
 /* @end Header */
 
-/* @group Main */
+/* @group Home */
 .home #main {
 /*
 	margin-top: 112px;
 */
 	margin-bottom: 64px;
 }
-/* @end Main */
+/* @end Home */
 
 /* @group Footer */
 footer {
@@ -445,16 +445,22 @@ input[type="radio"] {
 	display: block;
 }
 
-label.all,
+fieldset.representatives label {
+/*label.all, 
 label.half {
+*/
 	width: 50%;
 	float: left;
 	display: block;
 	clear: none;
+
+
+	width: 100%;
+
 }
 
-label.all {
-	width: 100%;
+fieldset.representatives label.half {
+	width: 50%;
 }
 
 label.visible span {
@@ -1060,6 +1066,9 @@ body.page .modal form aside.social {
 #intro p {
 	text-align: center;
 	line-height: 28px;
+	
+	width: 75%;
+	margin: 28px auto;
 }
 
 #main form {
@@ -1364,7 +1373,10 @@ li.official {
 
 	border-top: 1px solid #E2E2E2;
 	margin: 0;
+/*
 	padding: 22px;
+*/
+	padding: 0;
 }
 
 li.official:hover,
@@ -1376,7 +1388,11 @@ li.official > a {
 	display: block;
 	float: left;
 	text-decoration: none;
+/*
 	width: 66%;
+*/
+	width: 75%;
+	padding: 22px;
 }
 
 div.circle {
@@ -1386,9 +1402,28 @@ div.circle {
 	border: 1px solid #D8D8D8;
 */
 	border-radius: 50%;
+/*
 	background-color: #D8D8D8;
-
+*/
 }
+
+div.r0 {
+	background-color: #96E0EC;
+}
+div.r1 {
+	background-color: #6EC9C6;
+}
+div.r2 {
+	background-color: #7FDCF4;
+}
+div.r3 {
+	background-color: #BDDAE0;
+}
+div.r4 {
+	background-color: #B6E2E9;
+}
+
+
 
 li.official .u-photo {
 	float: left;
@@ -1399,6 +1434,14 @@ li.official .u-photo {
 	width: 60px;
 
 	margin-right: 32px;
+
+
+	color: #FFF;
+	font-size: 16px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 60px;
+
 }
 
 li.official h4.p-name {
@@ -1428,6 +1471,9 @@ li.official p.p-role {
 	text-align: right;
 	
 	margin: 10px 0 0 0;
+
+	padding: 22px 22px 0 0;
+
 }
 
 #results ul.actions li {
@@ -1555,6 +1601,16 @@ address .u-photo {
 	margin: 33px 62px 60px 40px;
 	height: 160px;
 	width: 160px;
+
+
+
+
+	color: #FFF;
+	font-size: 56px;
+	font-weight: 700;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 160px;
 }
 
 address h1 {
@@ -2042,6 +2098,9 @@ aside#actions ul.actions li a {
 	display: table;
 	height: 50px;
 	width: 100%;
+
+	height: 42px;
+	font-size: 12px;
 }
 
 #main.detail #votes .results dt > span {
@@ -2074,6 +2133,10 @@ aside#actions ul.actions li a {
 
 
 
+.mobile {
+	display: none !important;
+}
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
 
 * {
@@ -2089,6 +2152,10 @@ aside.location {
 }
 */
 
+.mobile {
+	display: block !important;
+}
+
 body:not(.home) {
 	height: auto;
 	background: #FFF !important;
@@ -2100,10 +2167,6 @@ header,
 	position: static;
 }
 
-.home header {
-	padding: 18px 0;
-}
-
 header .container {
 	padding: 0 20px;
 }
@@ -2113,14 +2176,9 @@ header .container {
 	height: 16.8px;
 }
 
-.home header button,
-.home header a.button {
-	padding: 6px 40px;
-}
-
 #map.fpo {
 	margin-top: 0;
-	height: 205px;
+	height: 236px;
 }
 
 body.detail #map.fpo {
@@ -2133,7 +2191,10 @@ body.results #map.fpo {
 }
 
 body.detail aside.location {
+/*
 	margin-top: -191px;
+*/
+	margin-top: -222px;
 }
 
 body.results aside.location {
@@ -2151,31 +2212,90 @@ aside.location form button.current + input {
 
 /* @group Home */
 
+body.home {
+	background-size: auto auto;
+	background-position: top center;
+}
+
+.home header {
+	background: #fff;
+	border-bottom: 1px solid #E2E2E2;
+	box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.15);
+
+/*
+	position: fixed;
+*/
+	top: 0;
+	z-index: 9;
+
+	padding: 18px 0;
+
+
+	overflow: auto;
+	position: static;
+
+}
+
+.home header button,
+.home header a.button {
+	padding: 6px 40px;
+}
+
+
 #intro {
-	padding: 30px 20px;
+	padding: 68px 20px 30px 20px;
 	margin: 0;
 }
 
 #intro h1 {
-	font-size: 24px;
-	line-height: 30px;
-	letter-spacing: 0;
+	font-size: 32px;
+	line-height: 36px;
+	letter-spacing: 0; /*-1.19px;*/
 	margin: 0;
 }
 
+#intro h2 {
+	font-size: 16px;
+	line-height: 28px;
+	margin: 28px 0 0 0;
+}
+
 #intro p {
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 22px;
+	margin: 22px 0;
+}
+
+.home #main {
+	margin: 0;
+}
+
+#main form.home {
+	padding-bottom: 20px;
+}
+
+#main form.home label {
+	font-size: 13px;
+	line-height: 20px;
 }
 
 #main form.home fieldset {
 	margin: 20px;
 	width: auto;
+	padding: 0;
+	border-radius: 0;
+	background: transparent;
 }
 
 #main form.home button.current + input {
-	width: 150px;
+	width: 180px;
+	font-size: 14px;
+	line-height: 19px;
+	width: 64%;
+}
 
+#main form.home fieldset button.submit i {
+	font-size: 20px;
 }
 /* @end Home */
 
@@ -2185,6 +2305,8 @@ aside.location form button.current + input {
 #main.detail {
 	width: 100%;
 	margin-top: 90px;
+
+	margin-top: 121px;	
 }
 
 address > a,
@@ -2207,6 +2329,9 @@ address .u-photo {
 	height: 105px;
 	border: 4px solid #FFF;
 	margin: 30px 0 0 20px;
+	
+	font-size: 32px;
+	line-height: 105px;
 }
 
 address h1 {
@@ -2237,7 +2362,6 @@ address p {
 
 #main.detail aside#invite a.button {
 	margin: 0 auto;
-
 }
 
 address dl {
@@ -2283,21 +2407,27 @@ address a.secondary:active {
 	padding: 30px 20px;
 }
 
+#main.detail aside#coming-soon p {
+	font-size: 13px;
+}
+
 aside#actions ul.actions li:first-child {
 	display: block;
-	padding: 0;
 	border: 0;
 /*
+	padding: 0;
 	position: absolute;
 	top: 0px;
-*/
-
+	background: #FFFEF4;
 	width: 100%;
 	font-size: 12px;
-	background: #FFFEF4;
 	padding: 6px 0;
 	text-align: center;
+*/
 
+	padding: 20px;
+	font-size: 16px;
+	line-height: 22px;
 }
 
 aside#actions ul.actions li:last-child {
@@ -2322,7 +2452,7 @@ aside#actions ul.actions li:last-child span {
 
 #main.detail #votes h2 {
 	margin: 0;
-	padding: 30px 20px;
+	padding: 20px;
 	font-size: 18px;
 	background: rgba(226,226,226,0.2);
 }
@@ -2383,7 +2513,7 @@ aside#actions ul.actions li:last-child span {
 aside#signUpPromo {
 	float: none;
 	margin: 0;
-	pading: 30px 20px;
+	pading: 40px 20px;
 	width: auto;
 	border-left: none;
 	border-right: none;
@@ -2424,9 +2554,15 @@ li.official > a {
 #results h1 {
 	width: auto;
 	padding: 30px 20px 25px 20px;
+/*
 	font-size: 24px;
 	line-height: 30px;
+*/
 	margin: 0;
+
+	font-size: 18px;
+	line-height: 28px;
+
 }
 
 #results li.official {
@@ -2445,7 +2581,7 @@ li.official > a {
 
 /* @end Results */
 
-
+/* @group Footer */
 
 footer {
 	padding: 60px 0;
@@ -2470,21 +2606,76 @@ footer nav ul li {
 	line-height: 42px;
 }
 
+/* @end Footer */
 
-/* @group Modals */
+/* @group Form Pages */
 
+body.page .modal {
+	position: static;
+}
+
+body.page .modal .container,
 .modal .container {
 	width: auto;
-	padding: 30px 20px;
+	padding: 40px 20px;
 	left: 0;
 	top: 0;
 	margin: 0;
 	transform: none;
 	margin: 10px;
+
+	margin: 0;
+	
 }
 
 .modal aside.close {
 	display: none;
+}
+
+.home .modal header {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	padding: 0;
+}
+
+body.page .modal .container > header {
+	width: auto;
+	position: static;
+	
+}
+
+body.page .modal h1,
+.modal h1 {
+	font-size: 24px;
+	line-height: 32px;
+	margin-bottom: 20px;
+}
+
+body.page .modal p,
+.modal p {
+	font-size: 14px;
+	line-height: 22px;
+	margin-bottom: 10px;
+}
+
+.modal form {
+	padding-top: 20px;
+}
+
+body.page .modal .container > form {
+	width: auto;
+	float: none;
+	clear: both;
+	margin: 0;
+}
+
+.modal fieldset.title {
+	display: none;
+}
+
+.modal fieldset {
+	margin-bottom: 20px;
 }
 
 .modal input,
@@ -2494,11 +2685,21 @@ footer nav ul li {
 	margin-left: auto;
 	margin-right: auto;
 	float: none;
+
+	font-size: 14px;
+	line-height: 19px;
+	width: 85%
+}
+
+.modal select {
+	width: 100%;
 }
 
 .modal fieldset.location button.current + input {
 	width: auto;
 	margin-left: 0;
+
+	width: 74%;	
 }
 
 .modal button[type="submit"],
@@ -2511,6 +2712,9 @@ footer nav ul li {
 	margin-left: auto;
 	margin-right: auto;
 	float: none;
+
+	padding: 16px 40px;
+	width: 100%;
 }
 
 /* @end Modals */

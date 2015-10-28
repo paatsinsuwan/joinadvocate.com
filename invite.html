@@ -1,21 +1,43 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html data-ng-app="catApp" data-ng-controller="catContactCtrl"class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html data-ng-app="catApp" data-ng-controller="catContactCtrl"class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html data-ng-app="catApp" data-ng-controller="catContactCtrl"class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html data-ng-app="catApp" data-ng-controller="catContactCtrl"class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html data-ng-app="catApp" data-ng-controller="catContactCtrl" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html data-ng-app="catApp" data-ng-controller="catContactCtrl" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html data-ng-app="catApp" data-ng-controller="catContactCtrl" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html data-ng-app="catApp" data-ng-controller="catContactCtrl" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>Invite Your Representatives - Advocate</title>
 	<meta name="description" content="Redefining democracy.">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta http-equiv="cleartype" content="on">
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/normalize.min.css">
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/theme.css">
 
+	<link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="img/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="img/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="img/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="img/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="img/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#fd4848">
+	<meta name="msapplication-TileImage" content="img/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#fd4848">
+	
 	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
 <!-- For testing, turning off live loads -->
 	<script src="js/vendor/angular.min.js"></script>
@@ -82,7 +104,7 @@
 					<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Zipcode">
 					<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">
 				</fieldset>
-
+<!--
 				<fieldset>
 					<label class="interest" for="entry_1235129365">Enter your area of interest</label>
 					<select class="interest" name="entry.1235129365" id="entry_1235129365" aria-label="Area of Interest" title="">
@@ -93,6 +115,7 @@
 						<option value="manager">Campaign manager or staffer</option>
 					</select>
 				</fieldset>
+-->
 <!--
 				<fieldset>
 					<label class="comments" for="entry_670622658">Comments</label>
@@ -101,24 +124,59 @@
 -->
 
 				<fieldset class="representatives open">
-					<legend>Invite your other representatives:</legend>
-					<label class="visible all"><input id="reps-all" type="checkbox" name="reps" value="all"><span>Select All</span></label>
-					<label class="visible half"><input id="reps-0" type="checkbox" name="reps" value="Andrew Cuomo"><span>Andrew Cuomo</span></label>
-					<label class="visible half"><input id="reps-1" type="checkbox" name="reps" value="Eric Schneiderman"><span>Eric Schneiderman</span></label>
-					<label class="visible half"><input id="reps-2" type="checkbox" name="reps" value="Thomas DiNapoli"><span>Thomas DiNapoli</span></label>
-					<label class="visible half"><input id="reps-3" type="checkbox" name="reps" value="Andrew Cuomo"><span>Andrew Cuomo</span></label>
-					<label class="visible half"><input id="reps-4" type="checkbox" name="reps" value="Kristen Gillibrand" checked><span>Kristen Gillibrand</span></label>
-					<label class="visible half"><input id="reps-5" type="checkbox" name="reps" value="Joseph Biden"><span>Joseph Biden</span></label>
-					<label class="visible half"><input id="reps-6" type="checkbox" name="reps" value="Barack Obama"><span>Barack Obama</span></label>
+					<legend>We'll send an invitation to:</legend>
 
-					<a class="hidden" href="#">Show List</a>
+					<label class="visible" data-ng-if="repData"><input name="entry.861428420" id="reps-0" type="radio" value="{'{{repData.office.divisionId}}','{{repData.name}}'}"><span data-ng-bind="repData.name + ' only'"></span></label>
+					<label class="visible all" data-ng-if="repData || !results"><input name="entry.861428420" id="reps-all" type="radio" value="all" checked><span>All of your representatives<span data-ng-bind="cityState(' in ')"></span></span></label>
+					<label class="visible all" data-ng-if="!repData && results"><input name="entry.861428420" id="reps-all" type="checkbox" value="all" class="all"><span>All of your representatives<span data-ng-bind="cityState(' in ')"></span></span></label>
+					<span data-ng-repeat="(ocd_id, division) in results">
+						<label data-ng-repeat="(i, official) in division.offices" class="visible half">
+							<input name="entry.861428420" id="reps-{{i}}" type="checkbox" value="{'{{ocd_id}}','{{official.name}}'}">
+							<span data-ng-bind="official.name"></span>
+						</label>
+					</span>
+					<input class="invites" type="hidden" name="entry.861428420" value="" id="entry_861428420" dir="auto" aria-label="Invites" title="">
 				</fieldset>
+<!--
+				<fieldset class="representatives open" data-ng-if="results">
+					<legend>Which representatives would you like to invite?</legend>
+					<label class="visible all"><input name="entry.861428420" id="reps-all" class="all" type="checkbox" value="all"><span>All of your representatives</span></label>
 
+					<span data-ng-repeat="(ocd_id, division) in results">
+						<label data-ng-repeat="(i, official) in division.offices" class="visible half">
+							<input name="entry.861428420" id="reps-{{i}}" type="checkbox" value="{'{{ocd_id}}','{{official.name}}'}">
+							<span data-ng-bind="official.name"></span>
+						</label>
+					</span>
+-->
+<!--
+					<label class="visible half"><input name="entry.861428420" id="reps-0" type="checkbox" value="{'ocd_id','Andrew Cuomo'}">			<span>Andrew Cuomo</span></label>
+					<label class="visible half"><input name="entry.861428420" id="reps-1" type="checkbox" value="{'ocd_id','Eric Schneiderman'}">		<span>Eric Schneiderman</span></label>
+					<label class="visible half"><input name="entry.861428420" id="reps-2" type="checkbox" value="{'ocd_id','Thomas DiNapoli'}">			<span>Thomas DiNapoli</span></label>
+					<label class="visible half"><input name="entry.861428420" id="reps-3" type="checkbox" value="{'ocd_id','Andrew Cuomo'}">			<span>Andrew Cuomo</span></label>
+					<label class="visible half"><input name="entry.861428420" id="reps-4" type="checkbox" value="{'ocd_id','Kristen Gillibrand'}" checked>	<span>Kristen Gillibrand</span></label>
+					<label class="visible half"><input name="entry.861428420" id="reps-5" type="checkbox" value="{'ocd_id','Joseph Biden'}">			<span>Joseph Biden</span></label>
+					<label class="visible half"><input name="entry.861428420" id="reps-6" type="checkbox" value="{'ocd_id','Barack Obama'}">			<span>Barack Obama</span></label>
+-->
+<!--
+					<a class="hidden" href="#">Show List</a>
+					<input class="invites" type="hidden" name="entry.861428420" value="" id="entry_861428420" dir="auto" aria-label="Invites" title="">
+				</fieldset>
+-->
+<!--
+				<fieldset class="representatives open" data-ng-if="!results && !repData">
+					<legend>Inviting all of your representatives<span data-ng-bind="cityState(' in ')"></span></legend>
+					<input class="invites" type="hidden" name="entry.861428420" value="all" id="entry_861428420" dir="auto" aria-label="Invites" title="">
+				</fieldset>
+-->
 				<input class="type" type="hidden" name="entry.1285458186" value="Invite Page" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
 				<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">
+				<input class="userAgent" type="hidden" name="entry.1242377908" value="" id="entry_1242377908" dir="auto" aria-label="User Agent" title="">
+				<input class="device" type="hidden" name="entry.709566490" value="" id="entry_709566490" dir="auto" aria-label="Device" title="">
+				<input class="role" type="hidden" name="entry.1235129365" value="voter" id="entry_1235129365" dir="auto" aria-label="Area of Interest" title="">
 
 				<fieldset>
-					<button class="submit primary" type="submit" name="submit" value="Submit" id="ss-submit">Join Advocate</button>
+					<button class="submit primary" type="submit" name="submit" value="Invite" id="ss-submit">Invite</button>
 					<button class="reset" type="reset" name="cancel" value="Cancel" id="ss-cancel">Cancel</button>
 				</fieldset>
 

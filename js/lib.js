@@ -109,10 +109,10 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 		this.modals = new Array();
 		if (typeof theModalObjs != "undefined")
 			for (i in theModalObjs)
-				this.modals.push(new Modal(theModalObjs[i]));
+				this.modals.push(new Modal(theModalObjs[i], this));
 		if (typeof theModalFormObjs != "undefined")
 			for (i in theModalFormObjs)
-				this.modals.push(new ModalForm(theModalFormObjs[i]));
+				this.modals.push(new ModalForm(theModalFormObjs[i], this));
 		this.tracker = new Tracker(window.location.href);
 		this.map = ((typeof theMapID != "undefined") && theMapID) ? new Map(theMapID, this.location) : null;
 		this.repList = ((typeof theRepListID != "undefined") && theRepListID) ? new RepList(theRepListID, this.location, this) : null;
@@ -125,6 +125,20 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 // TODO:  Handle form submissions and grab the variables
 // TODO:  If we don't have a location on a page that needs one, use a default location to show example data
 
+
+	// Set up event handlers for common on-page actions
+	$("form").on("change", "input.all[type='checkbox']", function() {
+		$(this).parents("fieldset").find("input[type='checkbox']").prop("checked", $(this).prop("checked"));
+	});
+	$("form").on("change", "input[type='checkbox']:not(.all)", function() {
+		$(this).parents("fieldset").find("input.all[type='checkbox']").prop("checked", ($(this).parents("fieldset").find("input[type='checkbox']:checked:not(.all)").length == $(this).parents("fieldset").find("input[type='checkbox']:not(.all)").length));
+	});
+
+	// Turn on tooltips in the newly loaded content
+	$('.tooltip').tooltipster({
+		offsetX: 5,
+		position: "bottom-left"
+	});
 
 }
 // Page Methods
@@ -454,7 +468,8 @@ Location.prototype.updateFields = function() {
 			// See if it's been geocoded yet
 			if ((typeof this.location.isGeocoded != "undefined") && !this.location.isGeocoded) {
 				console.debug("using ungeocoded text", 2);
-				placeholder = "Where do you live?";
+//				placeholder = "Where do you live?";
+				placeholder = "Who represents you?";
 				fieldVal = this.location.text;
 				fieldClass += " active";
 				foundLocation = true;
@@ -475,7 +490,8 @@ Location.prototype.updateFields = function() {
 	if (!foundLocation) {
 		console.debug("No valid location yet, usting location.text", 2);
 		fieldVal = ((typeof this.location.text != "undefined") && this.location.text) ? this.location.text : "";
-		placeholder = "Where do you live?";
+//		placeholder = "Where do you live?";
+		placeholder = "Who represents you?";
 		hiddenVal = null;
 	}
 
@@ -660,9 +676,10 @@ Location.prototype.handleSubmit = function(event) {
 
 
 // Modal Object
-function Modal(theElementObj, theTitle, theContents) {
+function Modal(theElementObj, thePage, theTitle, theContents) {
 	console.debug("new Modal(");
 	console.debug(theElementObj);
+	console.debug(thePage);
 	console.debug(theTitle);
 	console.debug(theContents);
 
@@ -685,6 +702,7 @@ function Modal(theElementObj, theTitle, theContents) {
 	this.close = null;
 	this.title = (typeof theTitle != "undefined") ? theTitle : null;
 	this.contents = (typeof theContents != "undefined") ? theContents : null;
+	this.page = (thePage instanceof Page) ? thePage : new Page();
 
 	// Initialize modals and click handlers
 	if ((typeof theElementObj != "undefined") && (theElementObj.length >= 3)) {
@@ -704,8 +722,22 @@ function Modal(theElementObj, theTitle, theContents) {
 		this.close.data("target", theElementObj[0]);
 
 		// Set up event handlers
-		this.open.click(this.show);
-		this.close.click(this.hide);
+		$("body").on("click", theElementObj[1], this, function(event) {
+			console.debug("show");
+			console.debug(event);
+//			alert("show");
+			event.data.show(event);
+			return false;
+		});
+		$("body").on("click", theElementObj[2], this, function(event) {
+			console.debug("hide");
+			console.debug(event);
+//			alert("hide");
+			event.data.hide(event);
+			return false;
+		});
+//		this.open.click(this.show);
+//		this.close.click(this.hide);
 	}
 }
 // Modal Methods
@@ -737,32 +769,50 @@ Modal.prototype.setContents = function(theContents) {
 
 	this.contents = (typeof theContents != "undefined") ? theContents : null;
 };
-Modal.prototype.show = function() {
-	console.debug("Modal.show()");
+Modal.prototype.show = function(event) {
+	console.debug("Modal.show(");
+	console.debug(event);
+	console.debug(this,2);
+
+//	if (typeof $(context.data).
 
 	$("body").addClass("masked");
-	$($(this).data("target")).show();
+//	$($(event.currentTarget).data("target")).show();
+	$(event.data.element).show();
+
+	// If we have a callback function registered, run it
+	if (typeof event.data.showCallback == "function")
+		event.data.showCallback(event);
+
+//	event.preventDefault();
 	return false;
 };
-Modal.prototype.hide = function() {
-	console.debug("Modal.hide()");
-	console.debug(this, 2);
+Modal.prototype.hide = function(event) {
+	console.debug("Modal.hide(");
+	console.debug(event);
+	console.debug(this,2);
 
-	$($(this).data("target")).hide();
+//	$($(event.currentTarget).data("target")).hide();
+	$(event.data.element).hide();
 	$("body").removeClass("masked");
+
+//	alert("hide");
+
+//	event.preventDefault();
 	return false;
 };
 
 
 // ModalForm Object
-function ModalForm(theElementObj, theTitle, theForm) {
-	console.debug("new ModalForm(" + theElementObj + ", " + theTitle + ", " + theForm + ") {");
+function ModalForm(theElementObj, thePage, theTitle, theForm) {
+	console.debug("new ModalForm(" + theElementObj + ", " + thePage + ", " + theTitle + ", " + theForm + ") {");
 
 	this.form = null;
 	this.location = null;
 	this.isInitialized = false;
 	this.theElementObj = {};
 	this.theTitle = (typeof theTitle != "undefined") ? theTitle : "";
+	this.page = (thePage instanceof Page) ? thePage : new Page();
 
 /*
 	theElementObj = [
@@ -789,7 +839,7 @@ function ModalForm(theElementObj, theTitle, theForm) {
 // TODO:  Generalize to support Join, Contact, Invite forms
 
 		// Add the Join Advocate form to the page and initialize
-		this.getJoinForm(this, this.initForm);
+		this.loadForm(this, this.initForm);
 
 	} else {
 		console.debug("bad theElementObj");
@@ -809,7 +859,7 @@ ModalForm.prototype.initForm = function(that) {
 	console.debug(that);
 
 	// Call the parent's constructor to make a Modal
-	Modal.call(that, that.theElementObj.slice(0,4), that.theTitle);
+	Modal.call(that, that.theElementObj.slice(0,4), that.page, that.theTitle);
 
 	// Get the form URL
 	that.url = $(that.theElementObj.pop()) + " " + that.theElementObj[0];
@@ -828,8 +878,8 @@ ModalForm.prototype.initForm = function(that) {
 	}
 
 };
-ModalForm.prototype.getJoinForm = function(that, callback) {
-	console.debug("ModalForm.getJoinForm(");
+ModalForm.prototype.loadForm = function(that, callback) {
+	console.debug("ModalForm.loadForm(");
 	console.debug(that);
 	console.debug(callback);
 
@@ -861,7 +911,18 @@ ModalForm.prototype.getJoinForm = function(that, callback) {
 
 				// Run the callback function
 				callback(that);
-				
+
+				// Compile the Angular directives within the modal
+				angular.element(document).injector().invoke(function($compile) {
+					$compile($(theContainerID))(that.page.ngScope);
+				});
+
+				// Set hidden fields
+				$("input.referer", theElement).val(window.location.href);
+				$("input.userAgent", theElement).val(navigator.userAgent);
+				if (typeof WURFL != "undefined")
+					$("input.device", theElement).val(JSON.stringify(WURFL));	// Requires wurfl.js
+
 			}
 		});
 	} else
@@ -926,6 +987,47 @@ ModalForm.prototype.getJoinForm = function(that, callback) {
 */
 	return $(theElement);
 };
+ModalForm.prototype.showCallback = function(event) {
+	console.debug("ModalForm.showCallback(");
+	console.debug(event);
+
+	// Get the context
+	var that = event.data;
+	console.debug(that, 2);
+
+// TODO:  Pass the proper callback in when we initialize the page, so it's not hard-coded here.
+
+	// This is totally a hack, but check to see which modal is showing, so we do the right thing.
+	if ($(event.target).hasClass("invite")) {
+		console.debug("using invite handler");
+
+		// Check for query string parameters on the click handler
+		var query = decodeURIComponent(event.currentTarget.search.replace("?",""));
+
+		if (query) {
+			console.debug("found query parameters in click handler:",2);
+			console.debug(query,2);
+
+//			$("fieldset.representatives > span input[type='checkbox']", that.form).addClass("hidden");
+
+			var checkboxes = $("fieldset.representatives > span input[type='checkbox']", that.form);
+			checkboxes.each(function(i, element) {
+				console.debug("checking #" + i);
+				console.debug(element);
+
+				if ($(element).val() == query) {
+					$(element).prop("checked", true);
+
+					return false;
+				}
+
+			});
+		} else
+			console.debug("did not find query parameters in click handler",2);
+	}
+
+	return false;
+};	
 ModalForm.prototype.submit = function(event) {
 	console.debug("ModalForm.submit(");
 	console.debug(event);
@@ -937,8 +1039,13 @@ ModalForm.prototype.submit = function(event) {
 	// Turn on the loading spinner while the submit happens
 	that.location.page.startLoading("Submitting...");
 
+/*
 	// Set hidden fields
 	$("input.referer", that.form).val(window.location.href);
+	$("input.userAgent", that.form).val(navigator.userAgent);
+	if (typeof WURFL != "undefined")
+		$("input.device", that.form).val(JSON.stringify(WURFL));	// Requires wurfl.js
+*/
 
 /*
 	This is the Google Spreadsheet:
@@ -985,8 +1092,9 @@ ModalForm.prototype.cancel = function(event) {
 // TODO:  Figure out how to keep from showing error states when empyting required inputs
 
 	// Clear inputs
-	$("input:not([type=hidden]), select, textarea", this.form).val("");
-	return false;
+	$("input:not([type=hidden],[type=checkbox],[type=radio]), select, textarea", this.form).val("");
+	$("input[type=checkbox], input[type=radio]", this.form).prop("checked", false);
+//	return false;
 };
 ModalForm.prototype.handleSubmitSuccess = function() {
 	console.debug("ModalForm.handleSubmitSuccess()");
@@ -1419,6 +1527,10 @@ RepList.prototype.handleLoadSuccess = function(data) {
 						data.officials[officialValue].office = data.offices[officeValue].name;
 						data.officials[officialValue].photoUrl = (typeof data.officials[officialValue].photoUrl != "undefined") ? data.officials[officialValue].photoUrl : "";
 						repData[sortedDivisions[divKey]].offices.push(data.officials[officialValue]);
+						data.officials[officialValue].inviteLinkQuery = JSON.stringify({'ocd_id':sortedDivisions[divKey],'official':data.officials[officialValue].name}); // This is a manufactured string value that's passed to the invite modal form to indicate which representative is being invited
+						data.officials[officialValue].initials = data.officials[officialValue].name.split(" ")[0].charAt(0) + data.officials[officialValue].name.split(" ").pop().charAt(0); // Only two initials if the representative has more than two names listed
+						data.officials[officialValue].random = (data.officials[officialValue].initials.charCodeAt(0) + data.officials[officialValue].initials.charCodeAt(data.officials[officialValue].initials.length-1)) % 5;  // A number [0-4] based on the initials
+
 					});
 			});
 		}
@@ -1449,6 +1561,7 @@ RepList.prototype.show = function() {
 		var ngScope = this.page.getNgScope();
 		if (ngScope) {
 			console.debug("Found Angular scope!", 2);
+
 			ngScope.results = this.data;
 
 			// Also apply the updates to Angular
@@ -1645,6 +1758,11 @@ RepDetails.prototype.handleLoadBasicSuccess = function(data) {
 
 			// Grab the rep's division
 			that.data.division = data.divisions[that.OCD_ID].name;
+
+			// Set up some values for display purposes
+			that.data.initials = that.data.name.split(" ")[0].charAt(0) + that.data.name.split(" ").pop().charAt(0); // Only two initials if the representative has more than two names listed
+			that.data.random = (that.data.initials.charCodeAt(0) + that.data.initials.charCodeAt(that.data.initials.length-1)) % 5;  // A number [0-4] based on the initials
+
 
 			// Build out a set of address queries for Google Maps hyperlinks
 			$.each(that.data.address, function(i, address) {

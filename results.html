@@ -20,6 +20,24 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/theme.css">
 
+	<link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="img/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="img/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="img/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="img/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="img/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#fd4848">
+	<meta name="msapplication-TileImage" content="img/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#fd4848">
+	
 	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
 <!-- For testing, turning off live loads -->
 	<script src="js/vendor/angular.min.js"></script>
@@ -36,7 +54,7 @@
 			<nav>
 				<ul>
 <!--					<li>Want to keep in touch?</li>-->
-					<li><a href="join.html" class="join button primary">Sign Up</a></li>
+					<li><a href="join.html" class="join button primary">Join</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -67,12 +85,16 @@
 
 		<div id="results">
 			<h1>Your representatives for <span class="cityState" data-ng-bind="cityState()">your city</span></h1>
+
+<!-- TODO:  Turn on the Nav -->
+<!--
 			<nav>
 				<ul>
 					<li><a href="#" class="share primary">Share list</a></li>
 					<li><a href="#" class="email primary">Email</a></li>
 				</ul>
 			</nav>
+-->
 
 			<section data-ng-repeat="(ocd_id, division) in results" class="division" id="{{ocd_id}}">
 				<h3 data-ng-bind="division.name">Division</h3>
@@ -80,7 +102,10 @@
 					<li data-ng-repeat="(i, official) in division.offices" class="official">
 
 						<a href="detail.html?ocd_id={{ocd_id}}&office={{official.office}}&official={{official.name}}&role={{official.role}}">
-							<div class="u-photo circle" style="background-image: url({{official.photoUrl}})" title="Photo of {{official.name}}"></div>
+
+<!-- TODO:  Make sure initials appear when a rep's photo image is listed but does not load -->
+
+							<div class="u-photo circle {{'r' + official.random}}" style="background-image: url({{official.photoUrl}})" title="Photo of {{official.name}}"><span data-ng-if="!official.photoUrl" data-ng-bind="official.initials"></span></div>
 
 							<h4 class="p-name" data-ng-bind="official.name">Your representative</h4>
 							<p class="p-role">
@@ -88,18 +113,21 @@
 								{{official.party}}
 							</p>
 						</a>
-						<ul class="actions">
-							<li><a class="view tooltip" href="detail.html?ocd_id={{ocd_id}}&office={{official.office}}&official={{official.name}}&role={{official.role}}" title="View profile" /></a></li>
-							<li><a class="invite tooltip" href="#" title="Invite your rep to join you on Advocate" /></a></li>
-						</ul>
+
+							<ul class="actions">
+<!--								<li><a class="view tooltip" href="detail.html?ocd_id={{ocd_id}}&office={{official.office}}&official={{official.name}}&role={{official.role}}" title="View profile" /></a></li>-->
+								<li><a class="invite tooltip" href="invite.html?{'{{ocd_id}}','{{official.name}}'}" title="Invite" /></a></li>
+							</ul>
+
+
 					</li>
 				</ul>
 			</section>
 		</div>
 
 		<aside id="signUpPromo">
-			<h2>Be a part of retooling democracy.</h2>
-			<p>Sign up for our beta to connect with your local representatives and see how they are voting on the issues that impact you and your community.</p>
+			<h2>Democracy for the modern age delivered through technology tools of today.</h2>
+			<p>Join Advocate to be one of the initial users on the public beta and get periodic updates as we push towards the 2016 launch.</p>
 			<a href="join.html" class="join button primary">Sign Up</a>
 		</aside>
 
