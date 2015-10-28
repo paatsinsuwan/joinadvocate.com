@@ -443,7 +443,19 @@ input[type="radio"] {
 	width: 25px;
 	margin: 0 18px 15px 0;
 	display: block;
+
+
+	background: transparent;
 }
+
+input[type="checkbox"] {
+	-webkit-appearance: checkbox;
+}
+
+input[type="radio"] {
+	-webkit-appearance: radio;
+}
+
 
 fieldset.representatives label {
 /*label.all, 
@@ -475,6 +487,8 @@ select {
 	padding: 5px 20px 0 20px;
 	width: 468px;
 	height: 50px;
+
+	-webkit-appearance: menulist;
 }
 
 textarea {
@@ -782,6 +796,10 @@ body.page .modal {
 	padding: 42px 56px 77px 62px;
 	overflow: show;
 */
+
+	top: 30px;
+	transform: translate(-50%, 0);
+
 }
 
 body.page .modal .container {
@@ -2263,7 +2281,7 @@ body.home {
 #intro p {
 	font-size: 16px;
 	line-height: 22px;
-	margin: 22px 0;
+	margin: 22px auto;
 }
 
 .home #main {
@@ -2691,6 +2709,11 @@ body.page .modal .container > form {
 	width: 85%
 }
 
+input[type="checkbox"],
+input[type="radio"] {
+	width: auto;
+}
+
 .modal select {
 	width: 100%;
 }
@@ -2699,8 +2722,16 @@ body.page .modal .container > form {
 	width: auto;
 	margin-left: 0;
 
-	width: 74%;	
+	width: 72%;
 }
+
+.modal fieldset.representatives input[type="checkbox"],
+.modal fieldset.representatives input[type="radio"] {
+	margin-left: 0;
+	margin-right: 18px;
+	float: left;
+}
+
 
 .modal button[type="submit"],
 .modal button[type="reset"] {
