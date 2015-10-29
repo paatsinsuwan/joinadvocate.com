@@ -30,6 +30,8 @@ app.controller("catHomeCtrl", function($scope) {
 		["#modal-" + theForm1, "header a.join, #joinPromo a.join, #signUpPromo a.join", "#modal-" + theForm1 + " .close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
 	]);
 
+	$scope.page.setNgScope($scope);
+
 });
 
 
@@ -156,7 +158,6 @@ app.controller("catContactCtrl", function($scope) {
 		$("input.userAgent", that).val(navigator.userAgent);
 		if (typeof WURFL != "undefined")
 			$("input.device", that).val(JSON.stringify(WURFL));	// Requires wurfl.js
-
 
 		// Submit the form to Google Spreadsheets via AJAX
 		$.ajax({
