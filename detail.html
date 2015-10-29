@@ -10,7 +10,7 @@
 	<title data-ng-bind="repData.name + ' - Advocate'">Your Representative - Advocate</title>
 	<meta name="description" content="Redefining democracy.">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 	<meta http-equiv="cleartype" content="on">
@@ -152,7 +152,15 @@
 			<aside id="actions">
 				<ul class="actions">
 					<li>Politicians, <a class="claim" href="claim.html">get verified</a> to claim a page like this.</li>
+<!--
 					<li><a class="share secondary" href="share.html"><i class="fa fa-share-alt"></i><span>Share</span></a></li>
+-->
+					<li>
+						<div class="addthis_sharing_toolbox"> </div><span>Share</span>
+<!--
+						<a class="share secondary" href="share.html"><i class="fa fa-share-alt"></i><span>Share</span></a>
+-->
+					</li>
 				</ul>
 			</aside>
 
@@ -236,6 +244,8 @@
 		ga("require", "linkid", "linkid.js");
 		ga("send", "pageview");
 	</script>
+
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56312dcbbdcd9202" async="async"></script>
 
 </body>
 </html>

@@ -1074,11 +1074,26 @@ ModalForm.prototype.submit = function(event) {
 		complete: function completeCallback(data) {
 			console.debug("complete!");
 			console.debug(data, 2);
+			console.debug(that, 2);
+			console.debug(this, 2);
 
 // TODO:  Show thank you message
 
+
+/*
+			$(that).siblings(".thanks").find("button.close").click(function() {
+				window.history.go(-1);
+			});
+*/
+			$(that.element).addClass("complete");
+
+
+
+/*
 			that.close.click();
+*/
 			that.location.page.stopLoading();
+
 		}
 	});
 

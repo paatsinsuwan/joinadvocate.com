@@ -497,7 +497,7 @@ textarea {
 }
 
 legend,
-body.page .thanks .title h2 {
+.thanks .title h2 {
 	font-size: 22px;
 	line-height: 30px;
 	font-weight: 400;
@@ -861,10 +861,6 @@ body.page .modal .container {
 */
 }
 
-body:not(.page) .modal.complete .container > header {
-	display: none;
-}
-
 body.page .modal .container > header {
 	width: 500px;
 	float: left;
@@ -901,7 +897,11 @@ body.page .modal .container > form {
 */
 }
 
-body:not(.page) .modal.complete .container > form {
+body.page .modal.complete .container > form {
+	display: none;
+}
+
+body.page .modal .thanks {
 	display: none;
 }
 
@@ -920,21 +920,6 @@ body.page .modal.complete .thanks {
 	float: right;
 }
 
-body:not(.page) .modal.complete .thanks {
-	width: auto;
-	float: none;
-	clear: both;
-	margin: 0;
-	background: transparent;
-	padding: 0;
-	display: block;
-}
-
-.modal .thanks {
-	display: none;
-}
-
-
 /*
 body.page .modal form.complete fieldset.title {
 */
@@ -949,8 +934,7 @@ body.page .modal .thanks button {
 	margin-top: 0;
 }
 
-.modal h1,
-body:not(.page) .thanks .title h2 {
+.modal h1 {
 	display: block;
 	float: left;
 /*
@@ -975,9 +959,7 @@ body.page .modal h1 {
 	margin: 0;
 }
 
-
-body.page .modal p,
-.modal .thanks p {
+body.page .modal p {
 /*
 	margin: 0 0 41px 0;
 */
@@ -987,12 +969,6 @@ body.page .modal p,
 	font-size: 16px;
 	line-height: 24px;
 }
-
-.modal .thanks aside.social p {
-	margin-bottom: 0;
-}
-
-
 
 /*
 .modal aside a.close {
@@ -1040,10 +1016,8 @@ body.page .modal aside.close {
 	display: none;
 }
 
-.modal legend {
-/*
+.modal legend,
 .modal .thanks .title h2 {
-*/
 	display: none;
 }
 
@@ -1077,11 +1051,6 @@ body.page .modal header > aside.social {
 
 body.page .modal .thanks aside.social {
 	display: none;
-}
-
-body:not(.page) .modal.complete .thanks aside.social {
-	display: block;
-	margin: 10px 0 30px 0;
 }
 
 /*
@@ -2871,33 +2840,22 @@ body.page .modal .container,
 	padding: 0;
 }
 
-body.page .modal.complete .container > header {
-	display: none;
-}
-
-
 body.page .modal .container > header {
 	width: auto;
 	position: static;	
+}
+
+body .modal.complete .container > header {
+	display: none;
 }
 
 body.page .modal header > aside.social {
 	display: none;
 }
 
-body.page .modal.complete .thanks aside.social {
+body .modal.complete .thanks aside.social {
 	display: block;
 	margin: 10px 0 30px 0;
-}
-
-body.page .modal.complete .thanks {
-	width: auto;
-	float: none;
-	clear: both;
-	margin: 0;
-	background: transparent;
-	padding: 0;
-	display: block;
 }
 
 body.page .modal h1,
@@ -2916,29 +2874,30 @@ body.page .modal p,
 	margin-bottom: 10px;
 }
 
+.modal .thanks aside.social p {
+	margin-bottom: 0;
+}
+
 .modal form {
 	padding-top: 20px;
 }
 
-body.page .modal .container > form {
-/*
-body.page .modal.complete .container > .thanks {
-.modal.complete .container > .thanks {
-*/
+body.page .modal .container > form,
+body.page .modal .container > .thanks {
 	width: auto;
 	float: none;
 	clear: both;
 	margin: 0;
 }
-/*
-.modal.complete .container > .thanks {
-	background: transparent;
-	padding: 0;
-}
-*/
 
-body.page .modal.complete .container > form {
-	display: none;
+body .modal .container > .thanks {
+/*
+	padding: 30px 20px;
+*/
+	background: transparent;
+
+
+	padding: 0;
 }
 
 .modal fieldset.title {
