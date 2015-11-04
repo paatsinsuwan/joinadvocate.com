@@ -118,6 +118,7 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 		this.repList = ((typeof theRepListID != "undefined") && theRepListID) ? new RepList(theRepListID, this.location, this) : null;
 		this.repDetails = ((typeof theRepDetailsID != "undefined") && theRepDetailsID) ? new RepDetails(theRepDetailsID, theVoteID, null, null, null, null, this) : null;
 		this.ngScope = null;
+		this.userEmail = this.getUserEmailCookie();
 	} else
 		console.debug("initializing empty Page object");
 
@@ -133,6 +134,9 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 	$("form").on("change", "input[type='checkbox']:not(.all)", function() {
 		$(this).parents("fieldset").find("input.all[type='checkbox']").prop("checked", ($(this).parents("fieldset").find("input[type='checkbox']:checked:not(.all)").length == $(this).parents("fieldset").find("input[type='checkbox']:not(.all)").length));
 	});
+	$("body").on("click", "a.disabled", function() {
+		return false;
+	});
 
 	// Turn on tooltips in the newly loaded content
 	$('.tooltip').tooltipster({
@@ -144,7 +148,7 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 // Page Methods
 Page.prototype.startLoading = function(msg) {
 	console.debug("Page.startLoading(" + msg + ")");
-	$("body").addClass("loading").append("<div id=\"loading\"><div class=\"overlay\">" + msg + "</div></div>");
+	$("body").addClass("loading").append("<div id=\"loading\"><div class=\"overlay\"><p>" + msg + "</p></div></div>");
 };
 Page.prototype.stopLoading = function() {
 	console.debug("Page.stopLoading()");
@@ -162,7 +166,100 @@ Page.prototype.setNgScope = function(theNgScope) {
 	if (typeof theNgScope != "undefined")
 		this.ngScope = theNgScope;
 };
+Page.prototype.getUserEmail = function() {
+	console.debug("Page.getUserEmail() {");
+	console.debug(this.userEmail);
+	return (typeof this.userEmail != "undefined") ? this.userEmail : false;
+};
+Page.prototype.setUserEmail = function(theUserEmail) {
+	console.debug("Page.setUserEmail('" + theUserEmail + "')");
+	if (typeof theUserEmail != "undefined") {
+		this.userEmail = theUserEmail;
+		return true;
+	} else
+		return false;
+};	
+Page.prototype.getUserEmailCookie = function() {
+	console.debug("Page.getUserEmailCookie() {");
+	// http://www.w3schools.com/js/js_cookies.asp
 
+// TODO:  Handle disabled cookies, try HTML5 local storage
+
+	var theUserEmail = "";
+
+	console.debug("document.cookie = ", 2);
+	console.debug(document.cookie, 2);
+
+	var ca = document.cookie.split(';');
+	for (var i=0; i<ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ')
+			c = c.substring(1);
+
+		// Look for the "userEmail" cookie, and parse out the value as string
+		if (c.indexOf("userEmail=") == 0) {
+			var cookieVal = c.substring(10, c.length);
+			console.debug("found cookie: ", 2);
+			console.debug(cookieVal, 2);
+
+			theUserEmail = decodeURIComponent(cookieVal);
+			console.debug("theUserEmail = ", 2);
+			console.debug(theUserEmail, 2);
+		}
+	}
+/*
+	// Make sure we have a valid location, in case the cookie is busted
+	if (!this.isValid(theLocation))
+		theLocation = this.getNew();
+
+	console.debug("theLocation = ");
+	console.debug(theLocation);
+*/
+	this.setUserEmail(theUserEmail);
+
+//	console.debug("isValid() = ", 2);
+//	console.debug(this.isValid(), 2);
+//	return this.isValid();
+
+	return (typeof this.userEmail != "undefined") ? this.userEmail : false;
+};	
+Page.prototype.setUserEmailCookie = function(theUserEmail) {
+	console.debug("Page.setUserEmailCookie(" + theUserEmail + ") {");
+	// http://www.w3schools.com/js/js_cookies.asp
+
+	if (typeof theUserEmail != "undefined")
+		this.setUserEmail(theUserEmail);
+	else
+		theUserEmail = this.getUserEmail();
+
+	var cookieVal = encodeURIComponent(theUserEmail)
+
+// TODO:  Handle disabled cookies, try fallback to HTML5 local storage
+
+	// Expire the location one year from today
+	var exdays = 365;
+	var d = new Date();
+	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	var expires = "expires=" + d.toUTCString();
+
+	document.cookie = "userEmail=" + cookieVal + "; " + expires;
+
+	console.debug("document.cookie = ");
+	console.debug(document.cookie);
+};
+Page.prototype.isUserRegistered = function() {
+	console.debug("Page.isUserRegistered() {");
+	
+	var theUserEmail = this.userEmail;	
+	console.debug("theUserEmail = '" + theUserEmail + "'", 2);
+
+	if ((typeof theUserEmail == "undefined") || (theUserEmail.length <= 0))
+		theUserEmail = this.getUserEmailCookie();
+
+	var isRegistered = ((typeof theUserEmail != "undefined") && (theUserEmail.length > 0)) ? true : false;
+	console.debug("isRegistered = " + isRegistered);
+	return isRegistered;
+};	
 
 // Location Object
 function Location(theFieldID, theHiddenID, theLocation, doUpdateCookie, thePage) {
@@ -622,13 +719,21 @@ Location.prototype.handleUseCurrentLocation = function(event) {
 
 	var that = (typeof event.data != "undefined") ? event.data : this;
 
-	that.page.startLoading("loading your location");
+	that.page.startLoading("Loading your location");
 
 	that.setFromBrowser(function(that) {
 		console.debug("callback function(");
 		console.debug(that);
 
+		// Update the field values
 		that.updateFields();
+
+		// Log the current location event for GA
+		if (typeof ga == "function") {
+			console.debug("GA Log:  (send, event, Current Location, " + $("input.type[type='hidden']", that.form).val() + ", " + window.location.href + ")", 2);
+			ga("send", "event", "Current Location", $("input.type[type='hidden']", that.form).val(), window.location.href);
+		} else
+			console.debug("GA Log:  Error logging Current Location click -- GA function missing.", 2);
 
 		// Only submit the form if we're also updating the cookie
 
@@ -661,11 +766,25 @@ Location.prototype.handleSubmit = function(event) {
 
 		theLocation.text = that.field.val().trim();
 		that.location = theLocation;
+
+		// Log the location entry event for GA
+		if (typeof ga == "function") {
+			console.debug("GA Log:  (send, event, Location Entry, " + $("input.type[type='hidden']", that.form).val() + ", " + window.location.href + ")", 2);
+			ga("send", "event", "Location Entry", $("input.type[type='hidden']", that.form).val(), window.location.href);
+		} else
+			console.debug("GA Log:  Error logging Location Entry click -- GA function missing.", 2);
 	}
 
 	// Update the cookie as we unload the page
 	if (that.doUpdateCookie)
 		that.updateCookie();
+
+	// Log the location submission event for GA
+	if (typeof ga == "function") {
+		console.debug("GA Log:  (send, event, Location Submit, " + $("input.type[type='hidden']", that.form).val() + ", " + window.location.href + ")", 2);
+		ga("send", "event", "Location Submit", $("input.type[type='hidden']", that.form).val(), window.location.href);
+	} else
+		console.debug("GA Log:  Error logging Location Entry click -- GA function missing.", 2);
 
 	//  For debugging, uncomment these to keep the page from submitting.
 /*
@@ -1010,18 +1129,28 @@ ModalForm.prototype.showCallback = function(event) {
 
 //			$("fieldset.representatives > span input[type='checkbox']", that.form).addClass("hidden");
 
-			var checkboxes = $("fieldset.representatives > span input[type='checkbox']", that.form);
-			checkboxes.each(function(i, element) {
-				console.debug("checking #" + i);
-				console.debug(element);
+			// Shortcut if the user selects "all"
+			if (query == "all") {
+				var checkboxes = $("fieldset.representatives > label.all input[type='checkbox']", that.form);
+				if (!checkboxes.prop("checked"))
+					checkboxes[0].click();
 
-				if ($(element).val() == query) {
-					$(element).prop("checked", true);
+			} else {
+				var checkboxes = $("fieldset.representatives > span input[type='checkbox']", that.form);
 
-					return false;
-				}
+				// Iterate through the checkboxes, checking any that are selected
+				checkboxes.each(function(i, element) {
+					console.debug("checking #" + i);
+					console.debug(element);
 
-			});
+					if ($(element).val() == query) {
+						$(element).prop("checked", true);
+
+						return false;
+					}
+
+				});
+			}
 		} else
 			console.debug("did not find query parameters in click handler",2);
 	}
@@ -1077,23 +1206,27 @@ ModalForm.prototype.submit = function(event) {
 			console.debug(that, 2);
 			console.debug(this, 2);
 
-// TODO:  Show thank you message
-
+			// Store the Email in a cookie, so we know they've already submitted
+			that.location.page.setUserEmailCookie($("input[type='email']", that.form).val());
 
 /*
 			$(that).siblings(".thanks").find("button.close").click(function() {
 				window.history.go(-1);
 			});
 */
+			// Show the Thank You message
 			$(that.element).addClass("complete");
-
-
 
 /*
 			that.close.click();
 */
-			that.location.page.stopLoading();
 
+			// Update the Angular scope, to capture any updates that occurred due to the submission
+			var ngScope = that.page.getNgScope();
+			if (ngScope)
+				ngScope.$apply();
+
+			that.location.page.stopLoading();
 		}
 	});
 

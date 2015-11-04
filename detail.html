@@ -54,11 +54,11 @@
 
 	<header>
 		<div class="container">
-			<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo@2x.png" alt="advocate" width="134" height="24" /></a></section>
+			<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo@2x.png" alt="Advocate" width="174" height="24" /></a></section>
 			<nav>
 				<ul>
-<!--					<li>Want to keep in touch?</li>-->
-					<li><a href="join.html" class="join button primary">Join</a></li>
+					<li><a href="about.html">About Us</a></li>
+					<li data-ng-if="!page.isUserRegistered()"><a href="join.html" class="join button primary">Sign Up</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -73,6 +73,7 @@
 				<button id="loc-current" class="current tooltip" type="button" value="current" title="Use your current location"></button>
 				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Where do you live?" />
 				<input id="loc-hidden" class="hidden" name="loc-hidden" type="hidden" />
+				<input class="type" type="hidden" name="entry_type" value="Detail Location" id="entry_type" dir="auto" aria-label="Form Type" title="" />
 				<button id="loc-submit" class="hidden" type="submit" value="Submit">Submit</button>
 			</fieldset>
 		</form>
@@ -101,6 +102,7 @@
 					<span data-ng-bind="repData.division"></span>
 				</p>
 
+<!-- TODO:  Update the CTA per pending design -->
 
 				<aside id="invite">
 					<h2>Invite <span class="name" data-ng-bind="repData.name">this representative</span> to join Advocate</h2>
@@ -169,11 +171,13 @@
 			</aside>
 
 		</section>
-
+		<br /><br />
+<!--
 		<aside id="joinPromo">
 			<p>Begin connecting with your local representatives and candidates.</p>
 			<a class="join button primary" href="join.html">Join</a>
 		</aside>
+-->
 
 		<section id="votes" data-ng-if="repData.votes.length > 0">
 			<h2><span class="name" data-ng-bind="repData.name">Your representative</span>'s latest votes</h2>
@@ -190,6 +194,9 @@
 							</p>
 						</div>
 						<dl class="results">
+
+<!-- TODO:  When voting on the speaker, and a very limited number of other votes, need to handle the other vote options. -->
+
 							<span data-ng-repeat="(i, which) in vote.breakdown.total">
 								<dt><span data-ng-bind="which.type"></span></dt>
 								<dd class="vote-{{which.type.replace(' ', '-') | lowercase}}{{ ((vote.myVote == which.type) ? ' selected' : '') }}" data-ng-bind="which.count"></dd>
@@ -199,46 +206,40 @@
 				</span>
 			</dl>
 		</section>
-
-		<aside class="mobile" id="signUpPromo">
-			<h2>Be a part of retooling democracy.</h2>
-			<p>Sign up for our beta to connect with your local representatives and see how they are voting on the issues that impact you and your community.</p>
-			<a href="join.html" class="join button primary">Join</a>
-		</aside>
 	</div>
-
+<!--
+	<aside class="mobile" id="signUpPromo">
+		<h2>Be a part of retooling democracy.</h2>
+		<p>Sign up for our beta to connect with your local representatives and see how they are voting on the issues that impact you and your community.</p>
+		<a href="join.html" class="join button primary">Join</a>
+	</aside>
+-->
 	<footer>
 		<div class="container">
 			<p>Copyright &copy; 2015 by Advocate</p>
 			<nav>
 				<ul>
-					<li><a href="https://angel.co/joinadvocate" class="a">AngelList</a></li>
-					<li><a href="https://www.facebook.com/joinadvocate" class="fb">Facebook</a></li>
-					<li><a href="https://twitter.com/joinadvocate" clas="t">Twitter</a></li>
-					<li><a href="https://www.linkedin.com/company/advocate-llc" class="li">LinkedIn</a></li>
-					<li><a href="https://instagram.com/joinadvocate" class="i">Instagram</a></li>
+					<li><a target="_blank" href="https://angel.co/joinadvocate" class="a">AngelList</a></li>
+					<li><a target="_blank" href="https://www.facebook.com/joinadvocate" class="fb">Facebook</a></li>
+					<li><a target="_blank" href="https://twitter.com/joinadvocate" clas="t">Twitter</a></li>
+					<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc" class="li">LinkedIn</a></li>
+<!--					<li><a target="_blank" href="https://instagram.com/joinadvocate" class="i">Instagram</a></li>-->
 					<li><a href="contact.html" class="contact">Contact Us</a></li>
 				</ul>
 			</nav>
 		</div>
 	</footer>
 
-<!-- For testing, turning off live loads -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
-
-<!-- For testing, turning off live loads -->
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA"></script>
 
 	<script src="js/plugins.js"></script>
 	<script src="js/lib.js"></script>
 	<script src="js/main.js"></script>
-
 	<script src="js/catApp.js"></script>
 	<script src="js/catCtrl.js"></script>
 
-	<!-- Google Analytics -->
-<!-- For testing, turning off live loads -->
 	<script>
 		(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -248,7 +249,6 @@
 		ga("require", "linkid", "linkid.js");
 		ga("send", "pageview");
 	</script>
-
 	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56312dcbbdcd9202" async="async"></script>
 
 </body>
