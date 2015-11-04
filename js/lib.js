@@ -96,10 +96,28 @@ window.console.debug = function(msg, level) {
 	}
 }
 
+// Get a JSON object of URL query parameters
+// https://css-tricks.com/snippets/jquery/get-query-params-object/
+function parseURL(theURL) {
+	console.debug("parseURL(" + theURL + ")");
+	var results = (theURL || document.location.search).replace(/(^\?)/,'').split("&").map(function(n) {return n = n.split("="), this[n[0]] = (decodeURIComponent(n[1]) == "undefined") ? "" : decodeURIComponent(n[1]), this}.bind({}))[0];
+
+	// Just return empty string instead of undefined
+	if (!Object.keys(results)[0])
+		results = {};
+
+	console.debug(results);
+	return results;
+}
+
 
 //	Page Object
 function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie, theModalObjs, theModalFormObjs, theMapID, theRepListID, theRepDetailsID, theVoteID) {
 	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theLocationDoUpdateCookie + ", [" + theModalObjs + "], [" + theModalFormObjs + "], " + theMapID + ", " + theRepListID + ", " + theRepDetailsID + ", " + theVoteID + ") {");
+
+	this.ngScope = null;
+	this.userEmail = this.getUserEmailCookie();
+	this.params = parseURL();
 
 	// If initializing as Page(), we're just getting a handle to run Page methods
 	if (arguments.length > 0) {
@@ -117,8 +135,6 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 		this.map = ((typeof theMapID != "undefined") && theMapID) ? new Map(theMapID, this.location) : null;
 		this.repList = ((typeof theRepListID != "undefined") && theRepListID) ? new RepList(theRepListID, this.location, this) : null;
 		this.repDetails = ((typeof theRepDetailsID != "undefined") && theRepDetailsID) ? new RepDetails(theRepDetailsID, theVoteID, null, null, null, null, this) : null;
-		this.ngScope = null;
-		this.userEmail = this.getUserEmailCookie();
 	} else
 		console.debug("initializing empty Page object");
 
@@ -144,6 +160,14 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 		position: "bottom-left"
 	});
 
+	// Check for debugging params
+	if (typeof this.params.debugEmail != "undefined")
+		this.userEmail = (!this.params.debugEmail || (this.params.debugEmail == "false")) ? false : this.params.debugEmail;
+
+	if (typeof this.params.debugLevel != "undefined")
+		window.console.debugLevel = (!this.params.debugLevel || (this.params.debugEmail == "false")) ? false : this.params.debugLevel;
+
+	console.debug("debug level = " + window.console.debugLevel);
 }
 // Page Methods
 Page.prototype.startLoading = function(msg) {
@@ -253,7 +277,7 @@ Page.prototype.isUserRegistered = function() {
 	var theUserEmail = this.userEmail;	
 	console.debug("theUserEmail = '" + theUserEmail + "'", 2);
 
-	if ((typeof theUserEmail == "undefined") || (theUserEmail.length <= 0))
+	if ((theUserEmail !== false) && ((typeof theUserEmail == "undefined") || (theUserEmail.length <= 0)))
 		theUserEmail = this.getUserEmailCookie();
 
 	var isRegistered = ((typeof theUserEmail != "undefined") && (theUserEmail.length > 0)) ? true : false;
@@ -1762,15 +1786,6 @@ RepList.prototype.handleShare = function(theRep) {
 	alert("Share!");
 };
 
-// Get a JSON object of URL query parameters
-// https://css-tricks.com/snippets/jquery/get-query-params-object/
-function parseURL(theURL) {
-	console.debug("parseURL(" + theURL + ")");
-	var results = (theURL || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = decodeURIComponent(n[1]),this}.bind({}))[0];
-	
-	console.debug(results);
-	return results;
-}
 
 // RepDetails Object
 function RepDetails(theRepElementID, theVotesElementID, theOCD_ID, theRole, theOffice, theOfficial, thePage) {

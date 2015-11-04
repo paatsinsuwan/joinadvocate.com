@@ -7,10 +7,13 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<title data-ng-bind="repData.name + ' - Advocate'">Your Representative - Advocate</title>
-	<meta itemprop="name" content="{{repData.name + ' - Advocate}}">
-	<meta property="og:title" content="{{repData.name + ' - Advocate}}">
-	<meta name="twitter:title" content="{{repData.name + ' - Advocate}}">
+	<title data-ng-bind="(repData.name || 'Your Representative') + ' - Advocate'">Your Representative - Advocate</title>
+
+<!-- TODO:  Handle Angular updating meta tags before and after late data load -->
+
+	<meta itemprop="name" content="{{(repData.name || 'Your Representative') + ' - Advocate'}}">
+	<meta property="og:title" content="{{(repData.name || 'Your Representative') + ' - Advocate'}}">
+	<meta name="twitter:title" content="{{(repData.name || 'Your Representative') + ' - Advocate'}}">
 
 	<meta name="description" content="Redefining democracy.">
 	<meta itemprop="description" content="Redefining democracy.">
@@ -106,7 +109,7 @@
 
 <!-- TODO:  Need to get the role -->
 
-				<h1><!--<span class="p-role">Representative</span> --><span class="p-name" data-ng-bind="repData.name">Your representative</span></h1>
+				<h1><!--<span class="p-role">Representative</span> --><span class="p-name" data-ng-bind="(repData.name || 'Your representative')">Your representative</span></h1>
 
 				<p class="p-org">
 					<span data-ng-bind="repData.office.name"></span>
@@ -117,7 +120,7 @@
 <!-- TODO:  Update the CTA per pending design -->
 
 				<aside id="invite">
-					<h2>Invite <span class="name" data-ng-bind="repData.name">this representative</span> to join Advocate</h2>
+					<h2>Invite <span class="name" data-ng-bind="(repData.name || 'this representative')">this representative</span> to join Advocate</h2>
 					<a class="invite button primary" href="invite.html">Invite</a>
 				</aside>
 
@@ -164,7 +167,7 @@
 
 			<aside id="coming-soon">
 				<h2>Coming soon</h2>
-				<p>You will be able to follow updates and connect with <span class="name" data-ng-bind="repData.name">your representatives</span> directly on Advocate.</p>
+				<p>You will be able to follow updates and connect with <span class="name" data-ng-bind="(repData.name || 'your representatives')">your representatives</span> directly on Advocate.</p>
 			</aside>
 
 			<aside id="actions">
