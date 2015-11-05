@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html data-ng-app="catApp" data-ng-controller="catContactCtrl"class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html data-ng-app="catApp" data-ng-controller="catContactCtrl"class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html data-ng-app="catApp" data-ng-controller="catContactCtrl"class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html data-ng-app="catApp" data-ng-controller="catContactCtrl"class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Contact Us - Advocate</title>
+	<meta itemprop="name" content="Contact Us - Advocate">
+	<meta property="og:title" content="Contact Us - Advocate">
+	<meta name="twitter:title" content="Contact Us - Advocate">
+
+
+	<meta name="description" content="Redefining democracy.">
+	<meta itemprop="description" content="Redefining democracy.">
+	<meta property="og:description" content="Redefining democracy.">
+	<meta name="twitter:description" content="Redefining democracy.">
+
+	<meta property="og:site_name" content="Advocate">
+	<meta property="og:type" content="website">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@JoinAdvocate">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta http-equiv="cleartype" content="on">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/normalize.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/theme.css">
+
+	<link rel="apple-touch-icon" sizes="57x57" href="http://www.joinadvocate.com/img/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="http://www.joinadvocate.com/img/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="http://www.joinadvocate.com/img/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="http://www.joinadvocate.com/img/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="http://www.joinadvocate.com/img/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="http://www.joinadvocate.com/img/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="http://www.joinadvocate.com/img/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="http://www.joinadvocate.com/img/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="http://www.joinadvocate.com/img/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="http://www.joinadvocate.com/img/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="http://www.joinadvocate.com/img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="http://www.joinadvocate.com/img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="http://www.joinadvocate.com/img/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#fd4848">
+	<meta name="msapplication-TileImage" content="http://www.joinadvocate.com/img/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#fd4848">
+
+<!-- TODO:  Need to update image paths for live site -->
+
+	<meta itemprop="image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="thumbnail" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="og:image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="twitter:image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+
+	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+</head>
+<body class="page">
+	<!--[if lt IE 7]>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+		<div class="container">
+			<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo@2x.png" alt="Advocate" width="153" height="25" /></a></section>
+<!--
+			<nav>
+				<ul data-ng-cloak>
+					<li class="{{(page.isUserRegistered()) ? 'thanks' : ''}}"><a href="about.html">About Us</a></li>
+					<li data-ng-if="!page.isUserRegistered()"><a href="join.html" class="join button primary">Sign Up</a></li>
+				</ul>
+			</nav>
+-->
+		</div>
+	</header>
+	
+<!--	<div id="main" role="main" class="join">-->
+
+	<div id="modal-contact" class="modal">
+		<div class="container">
+			<aside class="close"><a class="close fa fa-times" title="close" href="#"></a></aside>
+			<header><!-- id="intro">-->
+				<h1>We're an open book.</h1>
+				<p>Advocate is a political engagement platform currently in private beta.  Please send us your comments or questions, and we'll get back to you soon.</p>
+
+				<aside class="social">
+					<p>Help spread the word:</p>
+					<ul class="channels">
+						<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
+						<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
+						<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
+<!--						<li><a target="_blank" href="https://instagram.com/joinadvocate"><i class="fa fa-instagram" title="Instagram"></i></a></li>-->
+					</ul>
+				</aside>
+
+			</header>
+
+			<form id="modal-form" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" target="_self" onsubmit="" autocomplete="on">
+				<fieldset class="title">
+					<legend>Contact Us</legend>
+				</fieldset>
+
+				<fieldset>
+					<label class="name hidden" for="entry_486126353">Enter your name</label>
+					<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Name">
+				</fieldset>
+
+				<fieldset>
+					<label class="email hidden" for="entry_1188935479">Enter your Email address</label>
+					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email">
+				</fieldset>
+
+				<fieldset class="location">
+					<label class="location hidden" for="entry_601326317">Enter your location to connect with your local reps</label>
+					<button id="join-current" class="current tooltip" name="join-current" type="button" value="current" title="Use your current location"></button>
+					<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Location">
+					<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">
+				</fieldset>
+
+				<fieldset>
+					<label class="interest" for="entry_1235129365">Enter your area of interest</label>
+					<select class="interest" name="entry.1235129365" id="entry_1235129365" aria-label="Area of Interest" title="">
+						<option value="">Political area of interest</option>
+						<option value="voter">Individual voter</option>
+						<option value="supporter">Individual supporter</option>
+						<option value="politician">Politician holding office</option>
+						<option value="candidate">Candidate running for office</option>
+						<option value="manager">Campaign manager or staffer</option>
+					</select>
+				</fieldset>
+
+				<fieldset>
+					<label class="comments" for="entry_670622658">Comments</label>
+					<textarea class="comments" name="entry.670622658" id="entry_670622658" dir="auto" aria-label="Comments" placeholder="Your comments"></textarea>
+				</fieldset>
+
+				<input class="type" type="hidden" name="entry.1285458186" value="Contact Page" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
+				<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">
+				<input class="userAgent" type="hidden" name="entry.1242377908" value="" id="entry_1242377908" dir="auto" aria-label="User Agent" title="">
+				<input class="device" type="hidden" name="entry.709566490" value="" id="entry_709566490" dir="auto" aria-label="Device" title="">
+
+				<fieldset>
+					<button class="submit primary" type="submit" name="submit" value="Submit" id="ss-submit">Submit</button>
+					<button class="reset" type="reset" name="cancel" value="Cancel" id="ss-cancel">Cancel</button>
+				</fieldset>
+
+			</form>
+
+			<div class="thanks">
+				<div class="title">
+					<h2>
+						Thank you.<br />
+						We will be in contact shortly.
+					</h2>
+
+					<p>Your comments will help us to create a modern political platform that will restore trust and transparency to government.</p>
+
+					<aside class="social">
+						<p>In the meantime, help us spread the word:</p>
+						<ul class="channels">
+							<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
+							<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
+							<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
+<!--							<li><a target="_blank" href="https://instagram.com/joinadvocate"><i class="fa fa-instagram" title="Instagram"></i></a></li>-->
+						</ul>
+					</aside>
+
+					<button class="close" type="submit" name="submit" value="Close" id="ss-submit">Go back</button>
+				</div>
+			</div>
+
+		</div>
+
+<!--	</div>-->
+
+<!--
+		<div class="container confirmation">
+			<header>
+				<h1>Thank you.</h1>
+				<p>Messaging TK Ut congue varius eros aliquam convallis.</p>
+				<p>Please check your email and click <a href="#">Activate Account</a> in the message we just sent to <strong>jeff@gmail.com</strong>.</p>
+				<p>Help spread the word:</p>
+				<ul class="channels">
+					<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
+					<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
+					<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
+					<li><a target="_blank" href="https://instagram.com/joinadvocate"><i class="fa fa-instagram" title="Instagram"></i></a></li>
+				</ul>
+			</header>
+
+			<button class="close" type="submit" name="submit" value="Close" id="ss-submit">Close</button>
+
+		</div>
+-->
+
+	</div>
+
+	<footer>
+		<div class="container">
+			<p>Copyright &copy; 2015 by Advocate</p>
+			<nav>
+				<ul>
+					<li><a href="about.html" class="mobile">About Us</a></li>
+					<li><a target="_blank" href="https://angel.co/joinadvocate" class="a">AngelList</a></li>
+					<li><a target="_blank" href="https://www.facebook.com/joinadvocate" class="fb">Facebook</a></li>
+					<li><a target="_blank" href="https://twitter.com/joinadvocate" clas="t">Twitter</a></li>
+					<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc" class="li">LinkedIn</a></li>
+<!--					<li><a target="_blank" href="https://instagram.com/joinadvocate" class="i">Instagram</a></li>-->
+					<li><a href="contact.html" class="contact">Contact Us</a></li>
+				</ul>
+			</nav>
+		</div>
+	</footer>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVqLHZ4NKXp8goalS25-YUqexpP2-JPn4"></script>
+
+	<script src="js/plugins.js"></script>
+	<script src="js/lib.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/catApp.js"></script>
+	<script src="js/catCtrl.js"></script>
+
+	<script>
+		(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,"script","//www.google-analytics.com/analytics.js","ga");
+//		ga("create", "UA-67525790-1", "auto");
+		ga("create", "UA-67525790-2", "auto");
+		ga("require", "linkid", "linkid.js");
+		ga("send", "pageview");
+	</script>
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56312dcbbdcd9202" async="async"></script>
+
+</body>
+</html>

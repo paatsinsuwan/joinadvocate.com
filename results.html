@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html data-ng-app="catApp" data-ng-controller="catResultsCtrl" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html data-ng-app="catApp" data-ng-controller="catResultsCtrl" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html data-ng-app="catApp" data-ng-controller="catResultsCtrl" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html data-ng-app="catApp" data-ng-controller="catResultsCtrl" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Your Representatives - Advocate</title>
+	<meta itemprop="name" content="Your Representatives - Advocate">
+	<meta property="og:title" content="Your Representatives - Advocate">
+	<meta name="twitter:title" content="Your Representatives - Advocate">
+
+	<meta name="description" content="Redefining democracy.">
+	<meta itemprop="description" content="Redefining democracy.">
+	<meta property="og:description" content="Redefining democracy.">
+	<meta name="twitter:description" content="Redefining democracy.">
+
+	<meta property="og:site_name" content="Advocate">
+	<meta property="og:type" content="website">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@JoinAdvocate">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta http-equiv="cleartype" content="on">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/normalize.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/theme.css">
+
+	<link rel="apple-touch-icon" sizes="57x57" href="http://www.joinadvocate.com/img/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="http://www.joinadvocate.com/img/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="http://www.joinadvocate.com/img/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="http://www.joinadvocate.com/img/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="http://www.joinadvocate.com/img/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="http://www.joinadvocate.com/img/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="http://www.joinadvocate.com/img/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="http://www.joinadvocate.com/img/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="http://www.joinadvocate.com/img/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="http://www.joinadvocate.com/img/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="http://www.joinadvocate.com/img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="http://www.joinadvocate.com/img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="http://www.joinadvocate.com/img/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#fd4848">
+	<meta name="msapplication-TileImage" content="http://www.joinadvocate.com/img/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#fd4848">
+
+<!-- TODO:  Need to update image paths for live site -->
+
+	<meta itemprop="image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="thumbnail" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="og:image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="twitter:image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+
+	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+</head>
+<body class="results">
+	<!--[if lt IE 7]>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+		<div class="container">
+			<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo@2x.png" alt="Advocate" width="153" height="25" /></a></section>
+			<nav>
+				<ul data-ng-cloak>
+					<li class="{{(page.isUserRegistered()) ? 'thanks' : ''}}"><a href="about.html">About Us</a></li>
+					<li data-ng-if="!page.isUserRegistered()"><a href="join.html" class="join button primary">Sign Up</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<div id="map" class="fpo"></div>
+
+	<aside class="location">
+		<form id="loc" action="results.html" autocomplete="on">
+			<label class="hidden" for="loc-location">In the meantime, enter your location<br /> to get to know your local representatives.</label>
+<!--			<label class="error" for="loc-location">We were not able to get your location, please enter your address</label>-->
+			<fieldset class="location">
+<!--			<fieldset class="location error">-->
+				<button id="loc-current" class="current tooltip" type="button" value="current" title="Use your current location"></button>
+				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Where do you live?" />
+				<input id="loc-hidden" class="hidden" name="loc-hidden" type="hidden" />
+				<input class="type" type="hidden" name="entry_type" value="Results Location" id="entry_type" dir="auto" aria-label="Form Type" title="" />
+				<button id="loc-submit" class="hidden" type="submit" value="Submit">Submit</button>
+			</fieldset>
+		</form>
+	</aside>
+
+	<div id="main" role="main" class="results">
+
+<!--
+		<aside id="joinPromo">
+			<p>Begin connecting with your local representatives in <span data-ng-bind="cityState()" class="cityState">your area</span>.</p>
+			<a class="button" href="join.html">Join Advocate</a>
+		</aside>
+-->
+
+		<div id="results" data-ng-if="loaded" data-ng-cloak>
+			<h1 data-ng-if="results">These are your representatives for <span class="cityState" data-ng-bind="cityState()">your location</span>; invite them all to alert them that supporters are waiting</h1>
+
+			<h1 class="error" data-ng-if="!results">We couldn't find any representatives for <span class="cityState" data-ng-bind="(cityState() || 'that location')">this location</span></h1>
+			<section class="error" data-ng-if="!results">
+				<p>Advocate provides local information for most cities in the United States, and will expand to select global markets soon.  However, we had trouble with the location you entered.</p>
+				<p>Please enter a different location in the search field, above.  You can also click the arrow icon and we'll try to use your current location.  More specific addresses will usually have more local representative information available.</p>
+				<p>Or, if you think something might be wrong, please <a href="contact.html" target="_blank">tell us about it</a>.</p>
+			</section>
+
+<!-- TODO:  Turn on the Nav -->
+<!--
+			<nav>
+				<ul>
+					<li><a href="#" class="share primary">Share list</a></li>
+					<li><a href="#" class="email primary">Email</a></li>
+				</ul>
+			</nav>
+-->
+
+			<section data-ng-repeat="(ocd_id, division) in results" class="division" id="{{ocd_id}}">
+				<h3 data-ng-bind="division.name">Division</h3>
+				<ul>
+					<li data-ng-repeat="(i, official) in division.offices" class="official">
+
+<!--						<a href="detail.html?ocd_id={{ocd_id | escape}}&office={{official.office | escape}}&official={{official.name | escape}}&role={{official.role | escape}}">-->
+						<a href="detail.html?ocd_id={{ocd_id}}&office={{official.office}}&official={{official.name}}&role={{official.role}}">
+
+<!-- TODO:  Make sure initials appear when a rep's photo image is listed but does not load -->
+
+							<div class="u-photo circle {{'r' + official.random}}" style="background-image: url({{official.photoUrl}})" title="Photo of {{official.name}}"><span data-ng-if="!official.photoUrl" data-ng-bind="official.initials"></span></div>
+
+							<h4 class="p-name" data-ng-bind="official.name">Your representative</h4>
+							<p class="p-role">
+								{{official.office}}<br />
+								{{official.party}}
+							</p>
+						</a>
+
+							<ul class="actions">
+<!--								<li><a class="view tooltip" href="detail.html?ocd_id={{ocd_id}}&office={{official.office}}&official={{official.name}}&role={{official.role}}" title="View profile" /></a></li>-->
+								<li><a class="invite tooltip" href="invite.html?{'{{ocd_id}}','{{official.name}}'}" title="Invite" /></a></li>
+							</ul>
+
+
+					</li>
+				</ul>
+			</section>
+		</div>
+
+		<aside data-ng-if="!page.isUserRegistered()" id="signUpPromo" class="join" data-ng-cloak>
+			<h2>All of the politicians that represent you in one place.</h2>
+			<p>Join Advocate and see how you can build a replationship with your reps and help initiate change in your community.</p>
+			<a href="join.html" class="join button primary">Sign Up</a>
+		</aside>
+
+		<aside data-ng-if="page.isUserRegistered()" id="signUpPromo" class="invite" data-ng-cloak>
+
+<!-- TODO:  Turn on the Invite functionality -->
+<!-- TODO:  Convert this into the "shopping cart" of invited reps. -->
+
+			<h2>All of the politicians that represent you in one place.</h2>
+			<p>Invite your representatives to join you on Advocate.  Invite them individually or all in one go.  We are all about efficiency.</p>
+			<a href="invite.html?all" class="invite button primary">Invite All</a>
+		</aside>
+
+	</div>
+
+<!-- TODO:  Update the footer form -->
+
+<!--
+	<aside id="joinFooter">
+		<div class="container">
+
+			<h5>Sign up for updates</h5>
+			<p>Be a part of retooling democracy.</p>
+
+			<form class="join" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" id="ss-form" target="_self" onsubmit="" autocomplete="on">
+				<fieldset>
+					<label class="email hidden" for="entry_1188935479">Enter your Email address</label>
+					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email Address">
+				</fieldset>
+
+				<fieldset>
+					<label class="location hidden" for="entry_601326317">Enter your location to connect with your local reps</label>
+					<button id="join-current" class="current fpo" name="join-current" type="button" value="current" title="Use current location"><img src="img/geocode.png" alt="Use current location" /></button>
+					<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Where do you live?">
+					<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">
+				</fieldset>
+
+				<input class="type" type="hidden" name="entry.1285458186" value="Join Footer" id="entry_1285458186" dir="auto" aria-label="Form Type" title="">
+				<input class="referer" type="hidden" name="entry.1033723372" value="" id="entry_1033723372" dir="auto" aria-label="Referer" title="">
+
+				<button class="submit" type="submit" name="submit" value="Sign Up" id="ss-submit">Sign Up</button>
+			</form>
+		</div>
+	</aside>
+-->
+
+	<footer>
+		<div class="container">
+			<p>Copyright &copy; 2015 by Advocate</p>
+			<nav>
+				<ul>
+					<li><a href="about.html" class="mobile">About Us</a></li>
+					<li><a target="_blank" href="https://angel.co/joinadvocate" class="a">AngelList</a></li>
+					<li><a target="_blank" href="https://www.facebook.com/joinadvocate" class="fb">Facebook</a></li>
+					<li><a target="_blank" href="https://twitter.com/joinadvocate" clas="t">Twitter</a></li>
+					<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc" class="li">LinkedIn</a></li>
+<!--					<li><a target="_blank" href="https://instagram.com/joinadvocate" class="i">Instagram</a></li>-->
+					<li><a href="contact.html" class="contact">Contact Us</a></li>
+				</ul>
+			</nav>
+		</div>
+	</footer>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVqLHZ4NKXp8goalS25-YUqexpP2-JPn4"></script>
+
+	<script src="js/plugins.js"></script>
+	<script src="js/lib.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/catApp.js"></script>
+	<script src="js/catCtrl.js"></script>
+
+	<script>
+		(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,"script","//www.google-analytics.com/analytics.js","ga");
+//		ga("create", "UA-67525790-1", "auto");
+		ga("create", "UA-67525790-2", "auto");
+		ga("require", "linkid", "linkid.js");
+		ga("send", "pageview");
+	</script>
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56312dcbbdcd9202" async="async"></script>
+
+</body>
+</html>

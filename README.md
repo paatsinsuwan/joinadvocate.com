@@ -1,2 +1,2 @@
 # joinadvocate.joemorrow.org
-Joe's test site
+Test site for Advocate CAT
