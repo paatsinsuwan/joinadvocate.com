@@ -119,7 +119,7 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 	this.userEmail = this.getUserEmailCookie();
 	this.params = parseURL();
 
-	// If initializing as Page(), we're just getting a handle to run Page methods
+	// If initializing as Page(), we're just getting a handle to run Page methods, so don't run the full init
 	if (arguments.length > 0) {
 		if ((typeof theLocationFieldID != "undefined") && (typeof theLocationHiddenID != "undefined")) {
 			this.location = new Location(theLocationFieldID, theLocationHiddenID, null, theLocationDoUpdateCookie, this);
@@ -135,37 +135,33 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 		this.map = ((typeof theMapID != "undefined") && theMapID) ? new Map(theMapID, this.location) : null;
 		this.repList = ((typeof theRepListID != "undefined") && theRepListID) ? new RepList(theRepListID, this.location, this) : null;
 		this.repDetails = ((typeof theRepDetailsID != "undefined") && theRepDetailsID) ? new RepDetails(theRepDetailsID, theVoteID, null, null, null, null, this) : null;
+
+		// Set up event handlers for common on-page actions
+		$("body").on("change", "input.all[type='checkbox']", function() {
+			$(this).parents("fieldset").find("input[type='checkbox']").prop("checked", $(this).prop("checked"));
+		});
+		$("body").on("change", "input[type='checkbox']:not(.all)", function() {
+			$(this).parents("fieldset").find("input.all[type='checkbox']").prop("checked", ($(this).parents("fieldset").find("input[type='checkbox']:checked:not(.all)").length == $(this).parents("fieldset").find("input[type='checkbox']:not(.all)").length));
+		});
+		$("body").on("click", "a.disabled", function() {
+			return false;
+		});
+
+		// Turn on tooltips in the newly loaded content
+		$('.tooltip').tooltipster({
+			offsetX: 5,
+			position: "bottom-left"
+		});
+
+		// Check for debugging params
+		if (typeof this.params.debugEmail != "undefined")
+			this.userEmail = (!this.params.debugEmail || (this.params.debugEmail == "false")) ? false : this.params.debugEmail;
+
+		if (typeof this.params.debugLevel != "undefined")
+			window.console.debugLevel = (!this.params.debugLevel || (this.params.debugEmail == "false")) ? false : this.params.debugLevel;
+
 	} else
 		console.debug("initializing empty Page object");
-
-
-// TODO:  Handle form submissions and grab the variables
-// TODO:  If we don't have a location on a page that needs one, use a default location to show example data
-
-
-	// Set up event handlers for common on-page actions
-	$("form").on("change", "input.all[type='checkbox']", function() {
-		$(this).parents("fieldset").find("input[type='checkbox']").prop("checked", $(this).prop("checked"));
-	});
-	$("form").on("change", "input[type='checkbox']:not(.all)", function() {
-		$(this).parents("fieldset").find("input.all[type='checkbox']").prop("checked", ($(this).parents("fieldset").find("input[type='checkbox']:checked:not(.all)").length == $(this).parents("fieldset").find("input[type='checkbox']:not(.all)").length));
-	});
-	$("body").on("click", "a.disabled", function() {
-		return false;
-	});
-
-	// Turn on tooltips in the newly loaded content
-	$('.tooltip').tooltipster({
-		offsetX: 5,
-		position: "bottom-left"
-	});
-
-	// Check for debugging params
-	if (typeof this.params.debugEmail != "undefined")
-		this.userEmail = (!this.params.debugEmail || (this.params.debugEmail == "false")) ? false : this.params.debugEmail;
-
-	if (typeof this.params.debugLevel != "undefined")
-		window.console.debugLevel = (!this.params.debugLevel || (this.params.debugEmail == "false")) ? false : this.params.debugLevel;
 
 	console.debug("debug level = " + window.console.debugLevel);
 }
@@ -182,7 +178,7 @@ Page.prototype.stopLoading = function() {
 Page.prototype.getNgScope = function() {
 	console.debug("Page.getNgScope()");
 	console.debug(this.ngScope);
-	return (typeof this.ngScope != "undefined") ? this.ngScope : false;
+	return ((typeof this.ngScope != "undefined") && this.ngScope) ? this.ngScope : false;
 };
 Page.prototype.setNgScope = function(theNgScope) {
 	console.debug("Page.setNgScope(");
@@ -285,6 +281,7 @@ Page.prototype.isUserRegistered = function() {
 	return isRegistered;
 };	
 
+
 // Location Object
 function Location(theFieldID, theHiddenID, theLocation, doUpdateCookie, thePage) {
 	console.debug("new Location(" + theFieldID + ", " + theHiddenID + ", " + theLocation + ", " + doUpdateCookie + ", " + thePage + ") {");
@@ -293,46 +290,70 @@ function Location(theFieldID, theHiddenID, theLocation, doUpdateCookie, thePage)
 	this.hidden = (typeof theHiddenID != "undefined") ? $(theHiddenID) : null;
 	this.form = (this.field != null) ? this.field.parents("form") : null;
 	this.location = ((typeof theLocation != "undefined") && theLocation) ? theLocation : this.getNew();
+
+	console.debug("*** this.location = ");
+	console.debug(this.location);
+
 	// Note that we're using doUpdateCookie to also indicate that the form shouldn't be submitted, which is the case for join and contact forms.
 	this.doUpdateCookie = (typeof doUpdateCookie != "undefined") ? doUpdateCookie : true;
 	this.valid = this.setFromCookie();
 	this.target = "results.html";
 	this.page = (thePage instanceof Page) ? thePage : new Page();
 
-	// Initialize the page with location info
-	if (this.isValid()) {
-		this.geocode();
-		this.updateFields();
-	}
+	if (!this.isValid())
+		this.location = this.getNew(true);
+
+	this.geocode();
+	this.updateFields();
+
 	// Set up form elements
 	$("button.current", this.form).click(this, this.handleUseCurrentLocation);
 	this.form.submit(this, this.handleSubmit);
 }
 // Location Methods
-Location.prototype.getNew = function() {
-	console.debug("Location.getNew()");
 /*
-	this.location = {
-		geo: {
-			lat: 37.8047784,
-			lon: -122.43499550000001
-		},
-		accuracy: 27,
-		text: "1580 Beach Street, San Francisco, CA",
-		city: "San Francisco",
-		state: "CA",
-		zip: 94123,
-		isGeocoded: [true|false],
-		isCurrent: [true|false]
-	}
+Location.prototype.getDefault = function() {
+	console.debug("Location.getDefault()");
+
+	// Default location is The White House
+
+	console.debug(theLocation);
+	return theLocation;
+};
 */
-	return {
-		geo: {lat: null, lon: null},
-		accuracy: null,
-		text: null,
-		isGeocoded: false,
-		isCurrent: false
-	};
+Location.prototype.getNew = function(useDefault) {
+	console.debug("Location.getNew(" + useDefault + ")");
+
+	var theLocation = null;
+
+	if ((typeof useDefault != "undefined") && useDefault)
+		theLocation = {
+			geo: {
+				lat: 38.8976763,
+				lon: -77.03652979999998
+			},
+			accuracy: 100,
+			text: "The White House, 1600 Pennsylvania Ave NW, Washington, DC 20500, USA",
+			city: "Washington",
+			state: "DC",
+			zip: 20500,
+			country: "United States",
+			isGeocoded: true,
+			isCurrent: false,
+			isDefault: true
+		};
+	else
+		theLocation = {
+			geo: {lat: null, lon: null},
+			accuracy: null,
+			text: null,
+			isGeocoded: false,
+			isCurrent: false,
+			isDefault: false
+		};
+
+	console.debug(theLocation);
+	return theLocation;
 };
 Location.prototype.isValid = function(theLocation) {
 	console.debug("Location.isValid()");
@@ -372,6 +393,17 @@ Location.prototype.isValid = function(theLocation) {
 	this.valid = valid;
 
 	return this.valid;
+};
+Location.prototype.isDefault = function(theLocation) {
+	console.debug("Location.isDefault(");
+	console.debug(theLocation);
+
+	// Evaluate a passed location attribute instead of this.location
+	var loc = (typeof theLocation != "undefined") ? theLocation : this.location;
+	var isDefault = ((typeof loc.isDefault == "undefined") || !loc.isDefault) ? false : true;
+
+	console.debug(isDefault);
+	return isDefault;
 };
 Location.prototype.getLocation = function() {
 	console.debug("Location.getLocation()");
@@ -418,6 +450,29 @@ Location.prototype.getLocationZip = function() {
 	console.debug(this.location.zip);
 	return (typeof this.location.zip != "undefined") ? this.location.zip : false;
 };
+Location.prototype.getLocationCountry = function() {
+	console.debug("Location.getLocationCountry()");
+	console.debug(this.location.country);
+	return (typeof this.location.country != "undefined") ? this.location.country : false;
+};
+Location.prototype.isCountryValid = function(theCountry) {
+	console.debug("Location.isCountryValid(" + theCountry + ")");
+	console.debug(this.location.country);
+
+	// This is the list of valid countries
+	var validCountries = ["United States"];
+
+	var results = true;
+
+ 	if ((typeof theCountry == "undefined") || !theCountry)
+		theCountry = this.location.country;
+
+ 	if ((typeof theCountry != "undefined") && theCountry)
+		results = (validCountries.indexOf(theCountry) >= 0) ? true : false;
+
+	console.debug(results);
+	return results;
+};
 Location.prototype.getField = function() {
 	console.debug("Location.getField()");
 	console.debug(this.field);
@@ -440,6 +495,7 @@ Location.prototype.geocode = function(theGeoResults, isRecursive) {
 
 	// If we didn't get a valid geocode results object, query Google to get one, then recursively rerun this function
 	if ((typeof theGeoResults == "undefined") || (typeof theGeoResults[0].address_components == "undefined")) {
+
 		console.debug("no valid geocode results received", 2);
 
 		// If the location has already been geocoded, don't do it again.
@@ -495,15 +551,15 @@ Location.prototype.geocode = function(theGeoResults, isRecursive) {
 						console.debug("Geocode error!", 2);
 						console.debug(status, 2);
 
-// TODO:  Handle error
-
+						// Handle error
+						that.handleError(that);
 					}
 				});
 			} else {
 				console.debug("No valid location to geocode!", 2);
 
-	// TODO:  Handle error
-
+				// Handle error
+				that.handleError(that);
 			}
 		} else {
 			console.debug("This location has already been geocoded.", 2);
@@ -519,11 +575,13 @@ Location.prototype.geocode = function(theGeoResults, isRecursive) {
 		for (i in geoResults.address_components) {
 
 			if (geoResults.address_components[i].types.indexOf("postal_code") >= 0) {
-				newLocation.zip = geoResults.address_components[i].short_name;	// Zip code
+				newLocation.zip = geoResults.address_components[i].short_name;		// Zip code
 			} else if (geoResults.address_components[i].types.indexOf("administrative_area_level_1") >= 0) {
 				newLocation.state = geoResults.address_components[i].short_name;	// State
 			} else if (geoResults.address_components[i].types.indexOf("locality") >= 0) {
 				newLocation.city = geoResults.address_components[i].long_name;		// City
+			} else if (geoResults.address_components[i].types.indexOf("country") >= 0) {
+				newLocation.country = geoResults.address_components[i].long_name;	// Country
 			}
 		}
 
@@ -543,15 +601,15 @@ Location.prototype.geocode = function(theGeoResults, isRecursive) {
 		console.debug("not recursive", 2);
 
 		if (this.isValid(newLocation) && isUpdated) {
-			console.debug("The new location is updated and valid: ");
-			console.debug(newLocation);
+			console.debug("The new location is updated and valid: ", 2);
+			console.debug(newLocation, 2);
 
 			this.location = newLocation;
 			this.updateFields();
 			this.updateCookie();
 			return true;
 		} else {
-			console.debug("no need to update.");
+			console.debug("no need to update.", 2);
 			return false;
 		}
 	} else {
@@ -568,20 +626,32 @@ Location.prototype.updateFields = function() {
 	var fieldClass = "current";
 	var hiddenVal = this.hidden.val();
 	var placeholder = this.field.attr("placeholder");
+	var defaultPlaceholder = "Where do you live?";
+	var currentPlaceholder = "Using your current location";
 	var foundLocation = false;
 
 	if (this.isValid()) {
+		// If we're using a default address, we can skip everything else
+		if (this.isDefault()) {
+			console.debug("using the default address", 2);
+			placeholder = defaultPlaceholder;
+			fieldVal = "";
+			foundLocation = true;
+
 		// See if we're using the current location, or a geocoded text entry
-		if (this.getLocationIsCurrent()) {
+		} else if (this.getLocationIsCurrent()) {
 
 			// If we have a valid geocode, use it
 			if ($.isNumeric(this.location.geo.lat) && $.isNumeric(this.location.geo.lon) && $.isNumeric(this.location.accuracy)) {
 				console.debug("using geocode", 2);
-				placeholder = "Using your current location";
+				placeholder = currentPlaceholder;
 				fieldVal = "";
-				fieldClass += " active";
+				fieldClass += " entered";
 				foundLocation = true;
 			}
+
+			// Then, stuff the current location object into the hidden input, so we can pass it along.
+			hiddenVal = JSON.stringify(this.location);
 
 		// Use the text value if it hasn't yet been geocoded
 		} else if ((typeof this.location.text != "undefined") && this.location.text) {
@@ -589,10 +659,9 @@ Location.prototype.updateFields = function() {
 			// See if it's been geocoded yet
 			if ((typeof this.location.isGeocoded != "undefined") && !this.location.isGeocoded) {
 				console.debug("using ungeocoded text", 2);
-//				placeholder = "Where do you live?";
-				placeholder = "Where do you live?";
+				placeholder = defaultPlaceholder;
 				fieldVal = this.location.text;
-				fieldClass += " active";
+				fieldClass += " entered";
 				foundLocation = true;
 			} else {
 				// Otherwise, use the formatted address returned from the geocode search
@@ -601,10 +670,10 @@ Location.prototype.updateFields = function() {
 				fieldVal = "";
 				foundLocation = true;
 			}
-		} 
 
-		// Then, stuff the current location object into the hidden input, so we can pass it along.
-		hiddenVal = JSON.stringify(this.location);
+			// Then, stuff the current location object into the hidden input, so we can pass it along.
+			hiddenVal = JSON.stringify(this.location);
+		}
 	}
 	
 	// If we didn't find a valid location, set up defaults
@@ -612,7 +681,7 @@ Location.prototype.updateFields = function() {
 		console.debug("No valid location yet, usting location.text", 2);
 		fieldVal = ((typeof this.location.text != "undefined") && this.location.text) ? this.location.text : "";
 //		placeholder = "Where do you live?";
-		placeholder = "Where do you live?";
+		placeholder = defaultPlaceholder;
 		hiddenVal = null;
 	}
 
@@ -624,8 +693,10 @@ Location.prototype.updateFields = function() {
 
 	// Also apply the updates to Angular
 	var ngScope = this.page.getNgScope();
-	if (ngScope)
+	if (ngScope) {
+//		alert("Location.updateFields:  ngScope.$apply()");
 		ngScope.$apply();
+	}
 
 // TODO:  Migrate everything into more native Angular syntax so we don't have to do this.
 
@@ -649,7 +720,7 @@ Location.prototype.setFromCookie = function() {
 
 		// Look for the "location" cookie, and parse out the value as JSON
 		if (c.indexOf("location=") == 0) {
-			var cookieVal = c.substring(9, c.length);
+			var cookieVal = decodeURIComponent(c.substring(9, c.length));
 			console.debug("found cookie: ", 2);
 			console.debug(cookieVal, 2);
 
@@ -682,7 +753,7 @@ Location.prototype.updateCookie = function(theLocation) {
 	console.debug("loc = ", 2);
 	console.debug(loc, 2);
 
-	var cookieVal = JSON.stringify(loc);
+	var cookieVal = encodeURIComponent(JSON.stringify(loc));
 
 // TODO:  Handle disabled cookies, try fallback to HTML5 local storage
 
@@ -707,7 +778,7 @@ Location.prototype.setFromBrowser = function(callback, args) {
 
 	// Grab the HTML5 location
 	var theLocation = that.getNew();
-	navigator.geolocation.getCurrentPosition(function(position) {
+	var result = navigator.geolocation.getCurrentPosition(function(position) {
 		console.debug("getCurrentPosition success");
 		console.debug(position);
 
@@ -734,6 +805,11 @@ Location.prototype.setFromBrowser = function(callback, args) {
 
 		console.debug("error!");
 		console.debug(err);
+
+//		alert(err);
+
+		that.handleError(that);
+
 		return false;
 	});
 };
@@ -745,7 +821,7 @@ Location.prototype.handleUseCurrentLocation = function(event) {
 
 	that.page.startLoading("Loading your location");
 
-	that.setFromBrowser(function(that) {
+	var result = that.setFromBrowser(function(that) {
 		console.debug("callback function(");
 		console.debug(that);
 
@@ -815,6 +891,22 @@ Location.prototype.handleSubmit = function(event) {
 	that.page.stopLoading();
 	event.preventDefault();
 */
+};
+Location.prototype.handleError = function(context) {
+	console.debug("Location.handleError(");
+	console.debug(context);
+
+	// Handle a passed context
+	var that = (typeof context != "undefined") ? context : this;
+
+	var theField = $(that.getField());
+	if (theField) {
+		var theFieldset = $(theField).parents("fieldset").addClass("error");
+		theFieldset.before("<label class=\"error visible\" for=\"" + theField.attr("id") + "\">We were not able to get your current location, please enter your address</label>");
+	}
+
+	// Turn off the loading spinner
+	that.page.stopLoading();
 };
 
 
@@ -1247,8 +1339,10 @@ ModalForm.prototype.submit = function(event) {
 
 			// Update the Angular scope, to capture any updates that occurred due to the submission
 			var ngScope = that.page.getNgScope();
-			if (ngScope)
+			if (ngScope) {
+//				alert("ModalForm.submit:  ngScope.$apply();");
 				ngScope.$apply();
+			}
 
 			that.location.page.stopLoading();
 		}
@@ -1582,7 +1676,7 @@ function RepList(theElementID, theLocation, thePage) {
 		}
 	];
 */
-	this.googleAPIKey = "AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA";
+	this.googleAPIKey = "AIzaSyAVqLHZ4NKXp8goalS25-YUqexpP2-JPn4";
 }
 // RepList Methods
 RepList.prototype.getElement = function() {
@@ -1615,47 +1709,53 @@ RepList.prototype.load = function() {
 	console.debug("RepList.load()");
 	// https://developers.google.com/civic-information/docs/using_api
 
-	// First, get the best address from the location
-	// 1. Geocode
-	// 2. Text
-	// 3. Zip
-	var address = null;
-	var geo = this.location.getLocationGeo();
-	if ($.isNumeric(geo.lat) && $.isNumeric(geo.lon))
-		address = geo.lat + "," + geo.lon;
-	else {
-		var text = this.location.getLocationText();
-		if (text)
-			address = text;
-		else {
-			var zip = this.location.getLocationZip();
-			if (zip)
-				address = zip;
-			}
+	// For now, we're only going to search for results in valid countries
+	if (this.location.isCountryValid()) {
+
+//		alert("valid country (" + this.location.getLocationCountry() + ")");
+
+		// First, get the best address from the location
+		// 1. If this is a current location, use geocode, otherwise:
+		// 2. Text
+		// 3. Zip
+		var address = null;
+
+		if (this.location.getLocationIsCurrent()) {
+			var geo = this.location.getLocationGeo();
+			if ($.isNumeric(geo.lat) && $.isNumeric(geo.lon))
+				address = geo.lat + "," + geo.lon;
 		}
+		if (!address)
+			address = (this.location.getLocationText() || null);
+		if (!address)
+			address = (this.location.getLocationZip() || null);
 
-	// If we have a valid address, prep and query the Civic Info API
-	if (address) {
-		console.debug("got a valid address = " + address, 2);
+		// If we have a valid address, prep and query the Civic Info API
+		if (address) {
+			console.debug("got a valid address = " + address, 2);
 
-		var theURL = "https://www.googleapis.com/civicinfo/v2/representatives?" + 
-			"key=" + this.getGoogleAPIKey() + "&" +
-			"address=" + address;
+			var theURL = "https://www.googleapis.com/civicinfo/v2/representatives?" + 
+				"key=" + this.getGoogleAPIKey() + "&" +
+				"address=" + address;
 
-		// Run the query
-		$.ajax({
-			context: this,
-			dataType: "json",
-			url: theURL,
-			success: this.handleLoadSuccess,
-			error: this.handleLoadError
-		});
+			// Run the query
+			$.ajax({
+				context: this,
+				dataType: "json",
+				url: theURL,
+				success: this.handleLoadSuccess,
+				error: this.handleLoadError
+			});
 
+		} else {
+			console.debug("no valid address");
+
+	// TODO:  Handle error
+
+		}
 	} else {
-		console.debug("no valid address");
-
-// TODO:  Handle error
-
+		console.debug("not in a valid country");
+		this.handleLoadError(false, this);
 	}
 };
 
@@ -1666,59 +1766,79 @@ RepList.prototype.handleLoadSuccess = function(data) {
 	// Store our current scope for the callback, below
 	var that = this;
 
-	// Sort the data
-	var sortedDivisions = Object.keys(data.divisions).sort();
-	console.debug("sorted divisions = ", 2);
-	console.debug(sortedDivisions, 2);
+	if ((typeof data.divisions != "undefined") && data.divisions) {
 
-	// Grab the reps
-	var repData = {};
-	for (var divKey in sortedDivisions) {
-		var divValue = data.divisions[sortedDivisions[divKey]];
+		// Sort the data
+		var sortedDivisions = Object.keys(data.divisions).sort();
+		console.debug("sorted divisions = ", 2);
+		console.debug(sortedDivisions, 2);
 
-		console.debug("divKey = " + divKey + ", divValue = ", 2);
-		console.debug(divValue, 2);
+		// Grab the reps
+		var repData = {};
+		for (var divKey in sortedDivisions) {
+			var divValue = data.divisions[sortedDivisions[divKey]];
 
-		if (typeof divValue.officeIndices != "undefined") {
-			repData[sortedDivisions[divKey]] = {
-				name: divValue.name,
-				offices: new Array()
-			};
+			console.debug("divKey = " + divKey + ", divValue = ", 2);
+			console.debug(divValue, 2);
 
-			$.each(divValue.officeIndices, function(officeKey, officeValue) {
-				if (typeof data.offices[officeValue].officialIndices == "undefined") {
+			if (typeof divValue.officeIndices != "undefined") {
+				repData[sortedDivisions[divKey]] = {
+					name: divValue.name,
+					offices: new Array()
+				};
 
-					// The office is vacant
-					console.debug("office is vacant", 2);
-				} else
-					$.each(data.offices[officeValue].officialIndices, function(officialKey, officialValue) {
-						console.debug("officialValue = " + officialValue, 2);
+				$.each(divValue.officeIndices, function(officeKey, officeValue) {
+					if (typeof data.offices[officeValue].officialIndices == "undefined") {
 
-						// Grab and tweak a few specific values for display and subsequent queries
-						data.officials[officialValue].role = ((typeof data.offices[officeValue].roles != "undefined") && (data.offices[officeValue].roles.length > 0)) ? data.offices[officeValue].roles[0] : "";
-						data.officials[officialValue].office = data.offices[officeValue].name;
-						data.officials[officialValue].photoUrl = (typeof data.officials[officialValue].photoUrl != "undefined") ? data.officials[officialValue].photoUrl : "";
-						repData[sortedDivisions[divKey]].offices.push(data.officials[officialValue]);
-						data.officials[officialValue].inviteLinkQuery = JSON.stringify({'ocd_id':sortedDivisions[divKey],'official':data.officials[officialValue].name}); // This is a manufactured string value that's passed to the invite modal form to indicate which representative is being invited
-						data.officials[officialValue].initials = data.officials[officialValue].name.split(" ")[0].charAt(0) + data.officials[officialValue].name.split(" ").pop().charAt(0); // Only two initials if the representative has more than two names listed
-						data.officials[officialValue].random = (data.officials[officialValue].initials.charCodeAt(0) + data.officials[officialValue].initials.charCodeAt(data.officials[officialValue].initials.length-1)) % 5;  // A number [0-4] based on the initials
+						// The office is vacant
+						console.debug("office is vacant", 2);
+					} else
+						$.each(data.offices[officeValue].officialIndices, function(officialKey, officialValue) {
+							console.debug("officialValue = " + officialValue, 2);
 
-					});
-			});
+							// Grab and tweak a few specific values for display and subsequent queries
+							data.officials[officialValue].role = ((typeof data.offices[officeValue].roles != "undefined") && (data.offices[officeValue].roles.length > 0)) ? data.offices[officeValue].roles[0] : "";
+							data.officials[officialValue].office = data.offices[officeValue].name;
+							data.officials[officialValue].photoUrl = (typeof data.officials[officialValue].photoUrl != "undefined") ? data.officials[officialValue].photoUrl : "";
+							repData[sortedDivisions[divKey]].offices.push(data.officials[officialValue]);
+							data.officials[officialValue].inviteLinkQuery = JSON.stringify({'ocd_id':sortedDivisions[divKey],'official':data.officials[officialValue].name}); // This is a manufactured string value that's passed to the invite modal form to indicate which representative is being invited
+							data.officials[officialValue].initials = data.officials[officialValue].name.split(" ")[0].charAt(0) + data.officials[officialValue].name.split(" ").pop().charAt(0); // Only two initials if the representative has more than two names listed
+							data.officials[officialValue].random = (data.officials[officialValue].initials.charCodeAt(0) + data.officials[officialValue].initials.charCodeAt(data.officials[officialValue].initials.length-1)) % 5;  // A number [0-4] based on the initials
+
+						});
+				});
+			}
 		}
-	}
 
-	that.data = repData;
-	console.debug("that.data = ", 2);
-	console.debug(that.data, 2);
-	that.show();
+		that.data = repData;
+		console.debug("that.data = ", 2);
+		console.debug(that.data, 2);
+		that.show();
+	} else {
+		console.debug("no valid data returned");
+		this.handleLoadError(false, this);
+	}
 };
-RepList.prototype.handleLoadError = function(err) {
+RepList.prototype.handleLoadError = function(err, context) {
 	console.debug("RepList.handleLoadError(");
 	console.debug(err);
+	console.debug(context);
 
-// TODO:  Handle error
+	// Handle passed context
+	var that = (!err && (typeof context != "undefined")) ? context : this;
 
+	// Indicate to the Angular scope that the load completed erroneously
+	var ngScope = that.page.getNgScope();
+	if ((typeof ngScope != "undefined") && ngScope) {
+		console.debug("Found Angular scope!", 2);
+
+		ngScope.loaded = true;
+
+		// Also apply the updates to Angular
+//		alert("RepList.handleLoadError:  ngScope.$apply();");
+//		ngScope.$apply();
+	} else
+		console.debug("No Angular scope found!", 2);
 };
 RepList.prototype.show = function() {
 	console.debug("RepList.show()");
@@ -1731,17 +1851,17 @@ RepList.prototype.show = function() {
 
 		// Transfer rep data into the Angular scope, so we can update the view
 		var ngScope = this.page.getNgScope();
-		if (ngScope) {
+		if ((typeof ngScope != "undefined") && ngScope) {
 			console.debug("Found Angular scope!", 2);
 
 			ngScope.results = this.data;
+			ngScope.loaded = true;
 
 			// Also apply the updates to Angular
+//			alert("RepList.show:  ngScope.$apply();");
 			ngScope.$apply();
 		} else
 			console.debug("No Angular scope found!", 2);
-
-// TODO:  Turn on connect, favorite, and share handlers
 
 		// Turn on tooltips in the newly loaded content
 		$('.tooltip').tooltipster({
@@ -1806,7 +1926,7 @@ function RepDetails(theRepElementID, theVotesElementID, theOCD_ID, theRole, theO
 	this.hasExtended = false;
 	this.votes = {};
 	this.hasVotes = false;
-	this.googleAPIKey = "AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA";
+	this.googleAPIKey = "AIzaSyAVqLHZ4NKXp8goalS25-YUqexpP2-JPn4";
 	this.sunlightAPIKey = "f36efc0ec23f4719b097ff89b48cf1ea";
 
 	// Init the rep data
@@ -1955,17 +2075,29 @@ RepDetails.prototype.handleLoadBasicSuccess = function(data) {
 	console.debug("this.data = ", 2);
 	console.debug(that.data, 2);
 };
-RepDetails.prototype.handleLoadBasicError = function(err) {
+RepDetails.prototype.handleLoadBasicError = function(err, context) {
 	console.debug("RepDetails.handleLoadBasicError(");
 	console.debug(err);
+	console.debug(context);
 
-// TODO:  Handle error
+	// Handle passed context
+	var that = (!err && (typeof context != "undefined")) ? context : this;
 
+	// Indicate to the Angular scope that the load completed erroneously
+	var ngScope = that.page.getNgScope();
+	if ((typeof ngScope != "undefined") && ngScope) {
+		console.debug("Found Angular scope!", 2);
+
+		ngScope.loaded = true;
+
+		// Also apply the updates to Angular
+//		alert("RepList.handleLoadError:  ngScope.$apply();");
+//		ngScope.$apply();
+	} else
+		console.debug("No Angular scope found!", 2);
 };
 RepDetails.prototype.loadExtended = function() {
 	console.debug("RepDetails.loadExtended()");
-
-// TODO:  Figure out when to load extended data for a rep, limited to US Congress (for now)
 
 	if (!$.isEmptyObject(this.data)) {
 		console.debug("found data, checking role for extended availability", 2);
@@ -2018,19 +2150,29 @@ RepDetails.prototype.handleLoadExtendedSuccess = function(data) {
 
 	} else {
 		console.debug("Error:  More than one result returned from Sunlight!", 2)
-
-// TODO:  Handle this error
-
+		that.handleLoadExtendedError(false, that);
 	}
 };
-RepDetails.prototype.handleLoadExtendedError = function(err) {
+RepDetails.prototype.handleLoadExtendedError = function(err, context) {
 	console.debug("RepDetails.handleLoadExtendedError(");
 	console.debug(err);
+	console.debug(context);
 
-// TODO:  Handle error
+	// Handle passed context
+	var that = (!err && (typeof context != "undefined")) ? context : this;
 
-	console.debug("Sunlight Congress data error!");
+	// Indicate to the Angular scope that the load completed erroneously
+	var ngScope = that.page.getNgScope();
+	if ((typeof ngScope != "undefined") && ngScope) {
+		console.debug("Found Angular scope!", 2);
 
+		ngScope.loaded = true;
+
+		// Also apply the updates to Angular
+//		alert("RepList.handleLoadError:  ngScope.$apply();");
+//		ngScope.$apply();
+	} else
+		console.debug("No Angular scope found!", 2);
 };
 RepDetails.prototype.show = function() {
 	console.debug("RepDetails.show()");
@@ -2041,9 +2183,14 @@ RepDetails.prototype.show = function() {
 	if (ngScope) {
 		console.debug("Found Angular scope!", 2);
 		ngScope.repData = this.data;
+		ngScope.loaded = true;
 
 		// Also apply the updates to Angular
+//		alert("RepDetails.show:  ngScope.$apply();");
 		ngScope.$apply();
+
+		// Also update the page title
+		document.title = this.data.name + " - Advocate";
 
 		// Turn on tooltips in the newly loaded content
 		$('.tooltip').tooltipster({
@@ -2157,6 +2304,7 @@ RepDetails.prototype.showVotes = function() {
 			console.debug("Found Angular scope!", 2);
 
 			// Also apply the updates to Angular
+//			alert("RepDetails.showVotes:  ngScope.$apply();");
 			ngScope.$apply();
 		} else
 			console.debug("No Angular scope found!", 2);

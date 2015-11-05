@@ -265,8 +265,10 @@ header {
 
 	top: 0;
 	z-index: 9;
-
+/*
 	padding: 18px 0;
+*/
+	padding: 15px 0 20px 0;
 }
 
 .home header {
@@ -275,7 +277,7 @@ header {
 	box-shadow: none;
 
 	position: static;
-	padding: 44px 0;
+	padding: 42px 0 46px 0;
 }
 
 /*
@@ -293,11 +295,13 @@ header a:active {
 header nav {
 /*
 	font-size: 16px;
-*/
 
 	margin-top: 3px;
+*/
 	font-size: 14px;
 	line-height: 18px;
+
+	margin-top: 5px;
 }
 
 header #logo {
@@ -385,7 +389,7 @@ footer nav .contact {
 /* @end Footer */
 
 /* @group Forms */
-label:not(.visible) {
+label:not(.visible):not(.error) {
     border: 0;
     clip: rect(0 0 0 0);
     height: 1px;
@@ -542,23 +546,28 @@ body.page .thanks .title h2 {
 	display: block;
 }
 
-button.location.active {
+/*button.location.active {*/
+button.location.entered {
 	background-position: top left;
 }
 
-input.current.active::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+/*input.current.active::-webkit-input-placeholder {*/
+input.current.entered::-webkit-input-placeholder { /* WebKit, Blink, Edge */
 	opacity: 1;
 }
 
-input.current.active:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+/*input.current.active:-moz-placeholder {*/
+input.current.entered:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
 	opacity: 1;
 }
 
-input.current.active::-moz-placeholder { /* Mozilla Firefox 19+ */
+/*input.current.active::-moz-placeholder {*/
+input.current.entered::-moz-placeholder { /* Mozilla Firefox 19+ */
 	opacity: 1;
 }
 
-input.current.active:-ms-input-placeholder { /* Internet Explorer 10-11 */
+/*input.current.active:-ms-input-placeholder {*/
+input.current.entered:-ms-input-placeholder { /* Internet Explorer 10-11 */
 	opacity: 1;
 }
 
@@ -662,11 +671,17 @@ fieldset.location button.current,
 	float: left;
 }
 
+/*
 .home button.current.active,
-/*.results button.current.active {*/
 aside.location button.current.active,
 fieldset.location button.current.active,
 .modal fieldset.location button.current.active {
+*/
+.home button.current.entered,
+/*.results button.current.active {*/
+aside.location button.current.entered,
+fieldset.location button.current.entered,
+.modal fieldset.location button.current.entered {
 	background-position: top left;
 }
 
@@ -762,7 +777,79 @@ button[type="reset"] {
 */
 }
 
+input.error,
+textarea.error,
+select.error,
+fieldset.error {
+	border: 1px solid #FD4848 !important;
+}
 
+label.error {
+	color: #FD4848 !important;
+	font-size: 12px !important;
+	line-height: 17px !important;
+	background: #FFF !important;
+}
+
+label.error br {
+	display: none;
+}
+
+#locationSearch fieldset.error {
+	margin-top: 0 !important;
+}
+
+header .error {
+	background: #F34B3C;
+	padding: 10px 0;
+	z-index: 999;
+
+/*
+	position: absolute;
+*/
+
+	overflow: auto;
+	clear: both;
+
+/*
+	top: 60px;
+	margin-bottom: -55px;
+*/
+
+
+	margin: -15px 0 15px 0;
+	font-size: 20px;
+	color: #FFF;
+	display: block;
+	width: 100%;
+}
+
+.home header .error {
+	margin: -42px 0 42px 0;
+}
+
+header .error .container {
+	margin: 0 auto;
+	max-width: 1150px;
+	min-width: 720px;
+}
+/*
+header .error {
+	display: none;
+}
+*/
+
+input.active,
+textarea.active,
+select.active,
+fieldset.active {
+	border: 1px solid #00BAE9 !important;
+}
+
+.modal fieldset.location.error button.current + input,
+.modal fieldset.location.active button.current + input {
+	width: 395px;
+}
 
 /* @end Forms */
 /* @group Loading */
@@ -1211,14 +1298,16 @@ body.page .modal form aside.social {
 	font-size: 80px;
 	line-height: 90px;
 	letter-spacing: -3px;
-*/
 	font-weight: 700;
+*/
 	margin: 0 0 22px 0;
 
 	color: #3C3C3C;
 	font-size: 54px;
 	line-height: 62px;
 	letter-spacing: -2px;
+
+	font-weight: 600;
 }
 
 #intro h2 {
@@ -1233,10 +1322,15 @@ body.page .modal form aside.social {
 	margin: 36px 0 43px 0;
 
 	color: #3C3C3C;
-	font-size: 22px;
 	font-weight: 400;
+/*
+	font-size: 22px;
 	line-height: 30px;
+*/
 	letter-spacing: 0;
+
+	font-size: 20px;
+	line-height: 28px;
 }
 
 #intro p {
@@ -1251,7 +1345,29 @@ body.page .modal form aside.social {
 	color: #6F6F6F;
 	margin: 32px auto;
 	font-size: 16px;
+	clear: both;
 }
+
+#intro p.thanks {
+	padding: 10px 20px;
+	background: #FFF;
+	font-size: 18px;
+	line-height: 24px;
+	color: #3D3D3D;
+	display: inline;
+	float: left;
+	clear: both;
+	margin: 0 0 41px 0;
+	
+}
+
+#intro p.thanks span {
+	font-size: 14px;
+	line-height: 19px;
+	color: #6F6F6F;
+	padding-left: 10px;
+}
+	
 
 #intro a.button,
 #intro button {
@@ -1383,11 +1499,22 @@ ul.feature li.aggregate {
 	padding-bottom: 169px;
 }
 
+body.error #locationSearch {
+	background: transparent;
+	padding: 0;
+	border: none;
+}
+
 #locationSearch h3 {
 	font-size: 18px;
 	line-height: 22px;
 	letter-spacing: 0;
 	margin: 0 0 -3px 0;
+}
+
+body.error #locationSearch h3 {
+	font-size: 16px;
+	color: #A6A6A6;
 }
 
 #locationSearch h2 {
@@ -1398,7 +1525,10 @@ ul.feature li.aggregate {
 #locationSearch form {
 	text-align: center;
 	margin: 50px 0;
+}
 
+body.error #locationSearch form {
+	margin-top: 0;
 }
 
 #locationSearch form.home fieldset {
@@ -1407,6 +1537,10 @@ ul.feature li.aggregate {
 	border-radius: 12px;
 	margin: 26px auto;
 	width: 525px;
+}
+
+body.error #locationSearch form.home fieldset {
+	margin-top: 22px;
 }
 
 #locationSearch form.home label {
@@ -1836,7 +1970,7 @@ ul.actions li:first-child {
 }
 
 #results ul.actions li a.invite {
-	background-image: url(../img/invite-icon.png);
+	background-image: url(../img/invite-icon@2x.png);
 }
 
 #results ul.actions li a:link,
@@ -1845,11 +1979,11 @@ ul.actions li:first-child {
 }
 
 #results ul.actions li a:hover {
-	background-position: top left;
+	background-position: center left;
 }
 
 #results ul.actions li a:active {
-	background-position: middle left;
+	background-position: top left;
 }
 /* @end Results */
 
@@ -2621,14 +2755,31 @@ body.content #main {
 	margin: 117px auto 73px auto;	
 }
 
+body.error #main {
+	margin: 122px auto 30px auto;
+}
+
 body.content #main section {
 	width: 66%;
+}
+
+body.error #main section {
+	margin: 0 auto;
+	text-align: center;
 }
 
 body.content #main h1 {
 	font-size: 42px;
 	line-height: 48px;
 	margin: 28px 0;
+}
+
+body.error #main h1 {
+	font-size: 32px;
+	font-weight: 300;
+	line-height: 42px;
+	color: #A9A9A9;
+	margin-bottom: 19px;
 }
 
 body.content #main h2 {
@@ -2644,11 +2795,17 @@ body.content #main p {
 	margin: 18px 0 28px 0;
 }
 
+body.error #main p {
+	color: #A9A9A9;
+	line-height: 24px;
+/*
+	margin: 7px 0 28px 0;
+*/
+}
+
 body.content #main ul.feature {
 	margin: 0;
 }
-
-
 /* @end About Us */
 
 
@@ -2706,7 +2863,14 @@ header .container {
 	width: 120px;
 	height: 18px;
 	background: transparent url(../img/advocate-logo-mobile@2x.png) no-repeat top left;
+/*
 	background-size: 120px 18px;
+*/
+
+	width: 122px;
+	height: 20px;
+	background-size: 122px 20px;
+
 }
 
 #map.fpo {
@@ -2751,7 +2915,7 @@ body.home {
 
 header,
 .home header {
-	background: #fff;
+	background: #FFF;
 	border-bottom: 1px solid #E2E2E2;
 	box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.15);
 
@@ -2760,13 +2924,23 @@ header,
 */
 	top: 0;
 	z-index: 9;
-
+/*
 	padding: 20px 0 22px 0;
-
+*/
 	overflow: auto;
 	position: static;
+
+	padding: 19px 0 21px 0;
 }
 
+header .error,
+.home header .error {
+	margin: -19px 0 19px 0;
+}
+
+header nav {
+	margin-top: 3px;
+}
 
 .home header button,
 .home header a.button,
@@ -2778,7 +2952,7 @@ header a.button {
 	padding: 7px 28px;
 }
 
-header nav li:first-child {
+header nav li:first-child:not(.thanks) {
 	display: none;
 }
 
@@ -2824,6 +2998,14 @@ header nav li:first-child {
 	margin: 22px auto;
 */
 	margin: 31px auto;
+}
+
+#intro p.thanks {
+	margin-top: 31px;
+}
+
+#intro p.thanks span {
+	padding-left: 0;
 }
 
 .home #main {
@@ -2873,6 +3055,11 @@ ul.feature li {
 
 #locationSearch {
 	padding: 95px 20px 50px 20px;
+	width: auto;
+}
+
+body.error #locationSearch {
+	padding: 0 20px;
 	width: auto;
 }
 
@@ -2939,6 +3126,9 @@ body.content #main p {
 	line-height: 24px;
 }
 
+body.error #main p br {
+	display: none;
+}
 /* @end About Us */
 
 /* @group Detail */
@@ -3224,6 +3414,10 @@ li.official > a {
 	display: none;
 }
 
+#results section.error {
+	padding: 0 20px 20px 20px;
+}
+
 /* @end Results */
 
 /* @group Footer */
@@ -3389,6 +3583,11 @@ input[type="radio"] {
 	margin-left: 0;
 
 	width: 72%;
+}
+
+.modal fieldset.location.error button.current + input,
+.modal fieldset.location.active button.current + input {
+	width: 71%;
 }
 
 .modal fieldset.representatives input[type="checkbox"],

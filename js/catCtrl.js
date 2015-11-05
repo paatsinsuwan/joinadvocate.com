@@ -33,6 +33,15 @@ app.controller("catHomeCtrl", function($scope) {
 
 	$scope.page.setNgScope($scope);
 
+	// Set up various page content
+	$scope.cityState = function(pre) {
+		if ($scope.page.location.getLocationIsGeocoded()) {
+			var theCity = ($scope.page.location.getLocationCity() || "");
+			var theState = ($scope.page.location.getLocationState() || "");
+			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
+		}
+	};
+
 //	alert($scope.page.getUserEmail());
 });
 
@@ -58,6 +67,15 @@ app.controller("catContentCtrl", function($scope) {
 	// Grab the Angular scope, which we'll need later
 	$scope.page.setNgScope($scope);
 
+	// Set up various page content
+	$scope.cityState = function(pre) {
+		if ($scope.page.location.getLocationIsGeocoded()) {
+			var theCity = ($scope.page.location.getLocationCity() || "");
+			var theState = ($scope.page.location.getLocationState() || "");
+			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
+		}
+	};
+
 //	alert($scope.page.isUserRegistered());
 });
 
@@ -67,7 +85,8 @@ app.controller("catResultsCtrl", function($scope) {
 	console.debug("initializing catResultsCtrl");
 
 	// Set the default debugging level
-	window.console.debugLevel = 2;
+	window.console.debugLevel = 1;
+	console.debug("debug level = " + window.console.debugLevel, -99);
 
 	// Add the Join Advocate form to the page
 //	ModalForm.prototype.getJoinForm();
@@ -88,8 +107,11 @@ app.controller("catResultsCtrl", function($scope) {
 
 	// Set up various page content
 	$scope.cityState = function(pre) {
-		if ($scope.page.location.getLocationIsGeocoded())
-			return ((typeof pre != "undefined") ? pre : "") + $scope.page.location.getLocationCity() + ", " + $scope.page.location.getLocationState();
+		if ($scope.page.location.getLocationIsGeocoded()) {
+			var theCity = ($scope.page.location.getLocationCity() || "");
+			var theState = ($scope.page.location.getLocationState() || "");
+			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
+		}
 	};
 
 	// Draw the Google map
@@ -132,8 +154,11 @@ app.controller("catDetailsCtrl", function($scope) {
 
 	// Set up various page content
 	$scope.cityState = function(pre) {
-		if ($scope.page.location.getLocationIsGeocoded())
-			return ((typeof pre != "undefined") ? pre : "") + $scope.page.location.getLocationCity() + ", " + $scope.page.location.getLocationState();
+		if ($scope.page.location.getLocationIsGeocoded()) {
+			var theCity = ($scope.page.location.getLocationCity() || "");
+			var theState = ($scope.page.location.getLocationState() || "");
+			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
+		}
 	};
 
 	// Draw the Google map
@@ -233,8 +258,11 @@ app.controller("catContactCtrl", function($scope) {
 
 	// Set up various page content
 	$scope.cityState = function(pre) {
-		if ($scope.page.location.getLocationIsGeocoded())
-			return ((typeof pre != "undefined") ? pre : "") + $scope.page.location.getLocationCity() + ", " + $scope.page.location.getLocationState();
+		if ($scope.page.location.getLocationIsGeocoded()) {
+			var theCity = ($scope.page.location.getLocationCity() || "");
+			var theState = ($scope.page.location.getLocationState() || "");
+			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
+		}
 	};
 
 	// Set up cancel as back button

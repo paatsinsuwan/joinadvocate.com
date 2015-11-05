@@ -33,28 +33,31 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/theme.css">
 
-	<link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="img/favicon/apple-icon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="img/favicon/apple-icon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-icon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="img/favicon/apple-icon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="img/favicon/apple-icon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-icon-180x180.png">
-	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
-	<link rel="manifest" href="img/favicon/manifest.json">
+	<link rel="apple-touch-icon" sizes="57x57" href="http://www.joinadvocate.com/img/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="http://www.joinadvocate.com/img/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="http://www.joinadvocate.com/img/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="http://www.joinadvocate.com/img/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="http://www.joinadvocate.com/img/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="http://www.joinadvocate.com/img/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="http://www.joinadvocate.com/img/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="http://www.joinadvocate.com/img/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="http://www.joinadvocate.com/img/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="http://www.joinadvocate.com/img/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="http://www.joinadvocate.com/img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="http://www.joinadvocate.com/img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="http://www.joinadvocate.com/img/favicon/manifest.json">
 	<meta name="msapplication-TileColor" content="#fd4848">
-	<meta name="msapplication-TileImage" content="img/favicon/ms-icon-144x144.png">
+	<meta name="msapplication-TileImage" content="http://www.joinadvocate.com/img/favicon/ms-icon-144x144.png">
 	<meta name="theme-color" content="#fd4848">
 
-	<meta itemprop="image" content="img/favicon/favicon-96x96.png">
-	<meta name="thumbnail" content="img/favicon/favicon-96x96.png">
-	<meta name="og:image" content="img/favicon/favicon-96x96.png">
-	<meta name="twitter:image" content="img/favicon/favicon-96x96.png">
+<!-- TODO:  Need to update image paths for live site -->
+
+	<meta itemprop="image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="thumbnail" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="og:image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="twitter:image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
 
 	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
@@ -66,10 +69,10 @@
 
 	<header>
 		<div class="container">
-			<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo@2x.png" alt="Advocate" width="174" height="24" /></a></section>
+			<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo@2x.png" alt="Advocate" width="153" height="25" /></a></section>
 			<nav>
-				<ul>
-					<li><a href="about.html">About Us</a></li>
+				<ul data-ng-cloak>
+					<li class="{{(page.isUserRegistered()) ? 'thanks' : ''}}"><a href="about.html">About Us</a></li>
 					<li data-ng-if="!page.isUserRegistered()"><a href="join.html" class="join button primary">Sign Up</a></li>
 				</ul>
 			</nav>
@@ -81,7 +84,9 @@
 	<aside class="location">
 		<form id="loc" action="results.html" autocomplete="on">
 			<label class="hidden" for="loc-location">In the meantime, enter your location<br /> to get to know your local representatives.</label>
+<!--			<label class="error" for="loc-location">We were not able to get your location, please enter your address</label>-->
 			<fieldset class="location">
+<!--			<fieldset class="location error">-->
 				<button id="loc-current" class="current tooltip" type="button" value="current" title="Use your current location"></button>
 				<input id="loc-location" class="location" name="loc-location" type="text" placeholder="Where do you live?" />
 				<input id="loc-hidden" class="hidden" name="loc-hidden" type="hidden" />
@@ -100,8 +105,15 @@
 		</aside>
 -->
 
-		<div id="results">
-			<h1>These are your representatives for <span class="cityState" data-ng-bind="cityState()">your location</span>; invite them all to alert them that supporters are waiting</h1>
+		<div id="results" data-ng-if="loaded" data-ng-cloak>
+			<h1 data-ng-if="results">These are your representatives for <span class="cityState" data-ng-bind="cityState()">your location</span>; invite them all to alert them that supporters are waiting</h1>
+
+			<h1 class="error" data-ng-if="!results">We couldn't find any representatives for <span class="cityState" data-ng-bind="(cityState() || 'that location')">this location</span></h1>
+			<section class="error" data-ng-if="!results">
+				<p>Advocate provides local information for most cities in the United States, and will expand to select global markets soon.  However, we had trouble with the location you entered.</p>
+				<p>Please enter a different location in the search field, above.  You can also click the arrow icon and we'll try to use your current location.  More specific addresses will usually have more local representative information available.</p>
+				<p>Or, if you think something might be wrong, please <a href="contact.html" target="_blank">tell us about it</a>.</p>
+			</section>
 
 <!-- TODO:  Turn on the Nav -->
 <!--
@@ -143,13 +155,13 @@
 			</section>
 		</div>
 
-		<aside data-ng-if="!page.isUserRegistered()" id="signUpPromo" class="join">
+		<aside data-ng-if="!page.isUserRegistered()" id="signUpPromo" class="join" data-ng-cloak>
 			<h2>All of the politicians that represent you in one place.</h2>
 			<p>Join Advocate and see how you can build a replationship with your reps and help initiate change in your community.</p>
 			<a href="join.html" class="join button primary">Sign Up</a>
 		</aside>
 
-		<aside data-ng-if="page.isUserRegistered()" id="signUpPromo" class="invite">
+		<aside data-ng-if="page.isUserRegistered()" id="signUpPromo" class="invite" data-ng-cloak>
 
 <!-- TODO:  Turn on the Invite functionality -->
 <!-- TODO:  Convert this into the "shopping cart" of invited reps. -->
@@ -197,6 +209,7 @@
 			<p>Copyright &copy; 2015 by Advocate</p>
 			<nav>
 				<ul>
+					<li><a href="about.html" class="mobile">About Us</a></li>
 					<li><a target="_blank" href="https://angel.co/joinadvocate" class="a">AngelList</a></li>
 					<li><a target="_blank" href="https://www.facebook.com/joinadvocate" class="fb">Facebook</a></li>
 					<li><a target="_blank" href="https://twitter.com/joinadvocate" clas="t">Twitter</a></li>
@@ -210,7 +223,7 @@
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVqLHZ4NKXp8goalS25-YUqexpP2-JPn4"></script>
 
 	<script src="js/plugins.js"></script>
 	<script src="js/lib.js"></script>
@@ -223,7 +236,8 @@
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,"script","//www.google-analytics.com/analytics.js","ga");
-		ga("create", "UA-67525790-1", "auto");
+//		ga("create", "UA-67525790-1", "auto");
+		ga("create", "UA-67525790-2", "auto");
 		ga("require", "linkid", "linkid.js");
 		ga("send", "pageview");
 	</script>

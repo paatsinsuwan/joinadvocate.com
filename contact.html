@@ -12,6 +12,7 @@
 	<meta property="og:title" content="Contact Us - Advocate">
 	<meta name="twitter:title" content="Contact Us - Advocate">
 
+
 	<meta name="description" content="Redefining democracy.">
 	<meta itemprop="description" content="Redefining democracy.">
 	<meta property="og:description" content="Redefining democracy.">
@@ -33,28 +34,31 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/theme.css">
 
-	<link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="img/favicon/apple-icon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="img/favicon/apple-icon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-icon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="img/favicon/apple-icon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="img/favicon/apple-icon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-icon-180x180.png">
-	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
-	<link rel="manifest" href="img/favicon/manifest.json">
+	<link rel="apple-touch-icon" sizes="57x57" href="http://www.joinadvocate.com/img/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="http://www.joinadvocate.com/img/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="http://www.joinadvocate.com/img/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="http://www.joinadvocate.com/img/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="http://www.joinadvocate.com/img/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="http://www.joinadvocate.com/img/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="http://www.joinadvocate.com/img/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="http://www.joinadvocate.com/img/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="http://www.joinadvocate.com/img/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="http://www.joinadvocate.com/img/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="http://www.joinadvocate.com/img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="http://www.joinadvocate.com/img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="http://www.joinadvocate.com/img/favicon/manifest.json">
 	<meta name="msapplication-TileColor" content="#fd4848">
-	<meta name="msapplication-TileImage" content="img/favicon/ms-icon-144x144.png">
+	<meta name="msapplication-TileImage" content="http://www.joinadvocate.com/img/favicon/ms-icon-144x144.png">
 	<meta name="theme-color" content="#fd4848">
 
-	<meta itemprop="image" content="img/favicon/favicon-96x96.png">
-	<meta name="thumbnail" content="img/favicon/favicon-96x96.png">
-	<meta name="og:image" content="img/favicon/favicon-96x96.png">
-	<meta name="twitter:image" content="img/favicon/favicon-96x96.png">
+<!-- TODO:  Need to update image paths for live site -->
+
+	<meta itemprop="image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="thumbnail" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="og:image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
+	<meta name="twitter:image" content="http://www.joinadvocate.com/img/favicon/favicon-96x96.png">
 
 	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
@@ -66,11 +70,11 @@
 
 	<header>
 		<div class="container">
-			<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo@2x.png" alt="Advocate" width="174" height="24" /></a></section>
+			<section id="logo"><a href="/" title="Back to Home"><img src="img/advocate-logo@2x.png" alt="Advocate" width="153" height="25" /></a></section>
 <!--
 			<nav>
-				<ul>
-					<li><a href="about.html">About Us</a></li>
+				<ul data-ng-cloak>
+					<li class="{{(page.isUserRegistered()) ? 'thanks' : ''}}"><a href="about.html">About Us</a></li>
 					<li data-ng-if="!page.isUserRegistered()"><a href="join.html" class="join button primary">Sign Up</a></li>
 				</ul>
 			</nav>
@@ -85,7 +89,7 @@
 			<aside class="close"><a class="close fa fa-times" title="close" href="#"></a></aside>
 			<header><!-- id="intro">-->
 				<h1>We're an open book.</h1>
-				<p>Contact messaging TK.</p>
+				<p>Advocate is a political engagement platform currently in private beta.  Please send us your comments or questions, and we'll get back to you soon.</p>
 
 				<aside class="social">
 					<p>Help spread the word:</p>
@@ -152,12 +156,15 @@
 
 			<div class="thanks">
 				<div class="title">
-					<h2>Thank you.</h2>
+					<h2>
+						Thank you.<br />
+						We will be in contact shortly.
+					</h2>
 
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+					<p>Your comments will help us to create a modern political platform that will restore trust and transparency to government.</p>
 
 					<aside class="social">
-						<p>Help spread the word:</p>
+						<p>In the meantime, help us spread the word:</p>
 						<ul class="channels">
 							<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
 							<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
@@ -201,6 +208,7 @@
 			<p>Copyright &copy; 2015 by Advocate</p>
 			<nav>
 				<ul>
+					<li><a href="about.html" class="mobile">About Us</a></li>
 					<li><a target="_blank" href="https://angel.co/joinadvocate" class="a">AngelList</a></li>
 					<li><a target="_blank" href="https://www.facebook.com/joinadvocate" class="fb">Facebook</a></li>
 					<li><a target="_blank" href="https://twitter.com/joinadvocate" clas="t">Twitter</a></li>
@@ -214,7 +222,7 @@
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn6XiONTTiBm7HPFiC4irVqlGRGW3PiRA"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVqLHZ4NKXp8goalS25-YUqexpP2-JPn4"></script>
 
 	<script src="js/plugins.js"></script>
 	<script src="js/lib.js"></script>
@@ -227,7 +235,8 @@
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,"script","//www.google-analytics.com/analytics.js","ga");
-		ga("create", "UA-67525790-1", "auto");
+//		ga("create", "UA-67525790-1", "auto");
+		ga("create", "UA-67525790-2", "auto");
 		ga("require", "linkid", "linkid.js");
 		ga("send", "pageview");
 	</script>
