@@ -116,7 +116,7 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theLocationDoUpdateCookie + ", [" + theModalObjs + "], [" + theModalFormObjs + "], " + theMapID + ", " + theRepListID + ", " + theRepDetailsID + ", " + theVoteID + ") {");
 
 	this.ngScope = null;
-	this.userEmail = this.getUserEmailCookie();
+	this.userData = this.getUserDataCookie();
 	this.params = parseURL();
 
 	// If initializing as Page(), we're just getting a handle to run Page methods, so don't run the full init
@@ -153,10 +153,19 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 			position: "bottom-left"
 		});
 
+/*
 		// Check for debugging params
-		if (typeof this.params.debugEmail != "undefined")
-			this.userEmail = (!this.params.debugEmail || (this.params.debugEmail == "false")) ? false : this.params.debugEmail;
-
+		if (typeof this.params.debugEmail != "undefined") {
+			if (!this.params.debugEmail || (this.params.debugEmail == "false")) {
+				alert("resetting userData");
+			 	this.userData.email = null;
+				this.userData.name = null;
+			} else {
+				this.userData.email = this.params.debugEmail;
+				this.userData.name = "test";
+			}
+		}
+*/
 		if (typeof this.params.debugLevel != "undefined")
 			window.console.debugLevel = (!this.params.debugLevel || (this.params.debugEmail == "false")) ? false : this.params.debugLevel;
 
@@ -186,26 +195,45 @@ Page.prototype.setNgScope = function(theNgScope) {
 	if (typeof theNgScope != "undefined")
 		this.ngScope = theNgScope;
 };
-Page.prototype.getUserEmail = function() {
-	console.debug("Page.getUserEmail() {");
-	console.debug(this.userEmail);
-	return (typeof this.userEmail != "undefined") ? this.userEmail : false;
+Page.prototype.initNgScope = function() {
+	console.debug("Page.initNgScope()");
+
+	var theScope = this.getNgScope();
+
+	// Set up various page content helpers
+	theScope.cityState = function(pre) {
+		if (theScope.page.location.getLocationIsGeocoded()) {
+			var theCity = (theScope.page.location.getLocationCity() || "");
+			var theState = (theScope.page.location.getLocationState() || "");
+			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? theScope.page.location.getLocationText() : [theCity, theState].join(", "));
+		}
+	};
+
+	theScope.userData = this.userData;
+
 };
-Page.prototype.setUserEmail = function(theUserEmail) {
-	console.debug("Page.setUserEmail('" + theUserEmail + "')");
-	if (typeof theUserEmail != "undefined") {
-		this.userEmail = theUserEmail;
-		return true;
+Page.prototype.getUserData = function() {
+	console.debug("Page.getUserData() {");
+	console.debug(this.userData);
+	return (typeof this.userData != "undefined") ? this.userData : false;
+};
+Page.prototype.setUserData = function(theUserData) {
+	console.debug("Page.setUserData('");
+	console.debug(theUserData);
+	if (typeof theUserData != "undefined") {
+		this.userData = theUserData;
+		return this.userData;
 	} else
 		return false;
 };	
-Page.prototype.getUserEmailCookie = function() {
-	console.debug("Page.getUserEmailCookie() {");
+Page.prototype.getUserDataCookie = function() {
+	console.debug("Page.getUserDataCookie() {");
 	// http://www.w3schools.com/js/js_cookies.asp
 
 // TODO:  Handle disabled cookies, try HTML5 local storage
 
-	var theUserEmail = "";
+	var theUserData = "";
+	var cookieName = "userData=";
 
 	console.debug("document.cookie = ", 2);
 	console.debug(document.cookie, 2);
@@ -216,43 +244,42 @@ Page.prototype.getUserEmailCookie = function() {
 		while (c.charAt(0) == ' ')
 			c = c.substring(1);
 
-		// Look for the "userEmail" cookie, and parse out the value as string
-		if (c.indexOf("userEmail=") == 0) {
-			var cookieVal = c.substring(10, c.length);
+		// Look for the "userData" cookie, and parse out the value as string
+		if (c.indexOf(cookieName) == 0) {
+			var cookieVal = c.substring(cookieName.length, c.length);
 			console.debug("found cookie: ", 2);
 			console.debug(cookieVal, 2);
 
-			theUserEmail = decodeURIComponent(cookieVal);
-			console.debug("theUserEmail = ", 2);
-			console.debug(theUserEmail, 2);
+			console.debug("decodeURI = " + decodeURIComponent(cookieVal), 2);
+
+			theUserData = JSON.parse(decodeURIComponent(cookieVal));
+			console.debug("theUserData = ", 2);
+			console.debug(theUserData, 2);
 		}
 	}
-/*
-	// Make sure we have a valid location, in case the cookie is busted
-	if (!this.isValid(theLocation))
-		theLocation = this.getNew();
 
-	console.debug("theLocation = ");
-	console.debug(theLocation);
-*/
-	this.setUserEmail(theUserEmail);
+	// Make sure we have valid data, in case the cookie is busted
+	if ((typeof theUserData != "object") || (typeof theUserData.name == "undefined") || (typeof theUserData.email == "undefined"))
+		theUserData = {name:"", email:""};
 
-//	console.debug("isValid() = ", 2);
-//	console.debug(this.isValid(), 2);
-//	return this.isValid();
+	console.debug("theUserData = ");
+	console.debug(theUserData);
 
-	return (typeof this.userEmail != "undefined") ? this.userEmail : false;
+	return this.setUserData(theUserData);
 };	
-Page.prototype.setUserEmailCookie = function(theUserEmail) {
-	console.debug("Page.setUserEmailCookie(" + theUserEmail + ") {");
+Page.prototype.setUserDataCookie = function(theUserData) {
+	console.debug("Page.setUserDataCookie(");
+	console.debug(theUserData);
 	// http://www.w3schools.com/js/js_cookies.asp
 
-	if (typeof theUserEmail != "undefined")
-		this.setUserEmail(theUserEmail);
+	// Make sure we have valid data, in case the cookie is busted
+	if ((typeof theUserData != "object") || (typeof theUserData.name == "undefined") || (typeof theUserData.email == "undefined"))
+		theUserData = this.getUserData();
 	else
-		theUserEmail = this.getUserEmail();
+		this.setUserData(theUserData);
 
-	var cookieVal = encodeURIComponent(theUserEmail)
+	var cookieVal = encodeURIComponent(JSON.stringify(theUserData))
+	var cookieName = "userData=";
 
 // TODO:  Handle disabled cookies, try fallback to HTML5 local storage
 
@@ -262,21 +289,22 @@ Page.prototype.setUserEmailCookie = function(theUserEmail) {
 	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
 	var expires = "expires=" + d.toUTCString();
 
-	document.cookie = "userEmail=" + cookieVal + "; " + expires;
+	document.cookie = cookieName + cookieVal + "; " + expires;
 
 	console.debug("document.cookie = ");
 	console.debug(document.cookie);
 };
 Page.prototype.isUserRegistered = function() {
 	console.debug("Page.isUserRegistered() {");
-	
-	var theUserEmail = this.userEmail;	
-	console.debug("theUserEmail = '" + theUserEmail + "'", 2);
 
-	if ((theUserEmail !== false) && ((typeof theUserEmail == "undefined") || (theUserEmail.length <= 0)))
-		theUserEmail = this.getUserEmailCookie();
+	var theUserData = this.getUserData();
+	console.debug("theUserData = ", 2);
+	console.debug(theUserData, 2);
 
-	var isRegistered = ((typeof theUserEmail != "undefined") && (theUserEmail.length > 0)) ? true : false;
+	if ((typeof theUserData != "object") || (typeof theUserData.name == "undefined") || (typeof theUserData.email == "undefined") || (theUserData.email.length <= 0))
+		theUserData = this.getUserDataCookie();
+
+	var isRegistered = ((typeof theUserData != "object") || (typeof theUserData.name == "undefined") || (typeof theUserData.email == "undefined") || (theUserData.email.length <= 0)) ? false : true;
 	console.debug("isRegistered = " + isRegistered);
 	return isRegistered;
 };	
@@ -1256,8 +1284,9 @@ ModalForm.prototype.showCallback = function(event) {
 
 				// Iterate through the checkboxes, checking any that are selected
 				checkboxes.each(function(i, element) {
-					console.debug("checking #" + i);
-					console.debug(element);
+					console.debug("checking #" + i, 2);
+					console.debug(element, 2);
+					console.debug(query, 2);
 
 					if ($(element).val() == query) {
 						$(element).prop("checked", true);
@@ -1266,6 +1295,7 @@ ModalForm.prototype.showCallback = function(event) {
 					}
 
 				});
+
 			}
 		} else
 			console.debug("did not find query parameters in click handler",2);
@@ -1322,9 +1352,12 @@ ModalForm.prototype.submit = function(event) {
 			console.debug(that, 2);
 			console.debug(this, 2);
 
-			// Store the Email in a cookie, so we know they've already submitted
-			that.location.page.setUserEmailCookie($("input[type='email']", that.form).val());
-
+			// Store the user data in a cookie, so we know they've already submitted
+			var userData = {
+				name: $("input.name", that.form).val(),
+				email: $("input[type='email']", that.form).val()
+			};
+			that.location.page.setUserDataCookie(userData);
 /*
 			$(that).siblings(".thanks").find("button.close").click(function() {
 				window.history.go(-1);
@@ -1332,6 +1365,40 @@ ModalForm.prototype.submit = function(event) {
 */
 			// Show the Thank You message
 			$(that.element).addClass("complete");
+
+			// Add a click handler to CTAs for the Search Results page
+			$(".thanks button.results, .thanks a.button.results", that.element).click(function() {
+				console.debug("click on CTA for results page");
+				console.debug("event = ");
+				console.debug(event);
+
+				// Store the submitted location value in the cookie (which we didn't do before)
+				event.data.doUpdateCookie = true;
+				event.data.handleSubmit(event);
+
+				// Go to the results page
+				location.href = "results.html";
+				return false;
+			});
+
+/*
+			// Now drop the name of the invited rep(s) into $scope
+			var theScope = that.location.page.getNgScope();
+			theScope.$apply(function() {
+				var invitedNames = false;
+
+				var invited = $("input.invites", that.form).val().split(",");
+				if (invited.indexOf("all") >= 0)
+
+				var invitedNames = JSON.parse("[" + query.substring(1, query.length-1).replace(/'/g, '"') + "]")[1]
+
+
+
+				};
+			});
+*/
+
+
 
 /*
 			that.close.click();

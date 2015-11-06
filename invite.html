@@ -87,7 +87,8 @@
 		<div class="container">
 			<aside class="close"><a class="close fa fa-times" title="close" href="#"></a></aside>
 			<header><!-- id="intro">-->
-				<h1 data-ng-cloak>Invite <span class="name" data-ng-bind="(repData.name || 'your representatives')">your representatives</span> to join you on Advocate</h1>
+				<h1 data-ng-if="page.isUserRegistered()" data-ng-cloak>Invite <span class="name" data-ng-bind="(repData.name || 'your representatives')">your representatives</span> to join you on Advocate</h1>
+				<h1 data-ng-if="!page.isUserRegistered()" data-ng-cloak>Please sign up to invite <span class="name" data-ng-bind="(repData.name || 'your representatives')">your representatives</span></h1>
 				<p>Help build a common way for citizens and representatives to connect about the issues.</p>
 
 				<aside class="social">
@@ -109,12 +110,12 @@
 
 				<fieldset>
 					<label class="name hidden" for="entry_486126353">Enter your name</label>
-					<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Name">
+					<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Name" data-ng-model="userData.name">
 				</fieldset>
 
 				<fieldset>
 					<label class="email hidden" for="entry_1188935479">Enter your Email address</label>
-					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email">
+					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email" data-ng-model="userData.email">
 				</fieldset>
 
 				<fieldset class="location">
@@ -210,9 +211,9 @@
 
 			<div class="thanks">
 				<div class="title">
-					<h2>Thank you.</h2>
-
-					<p>We aim to create a platform that will allow your representatives to run a more efficient and modern government.  We'll reach out to invite them to join during our beta period, and will keep you up to date on our progress, as well.</p>
+					<h2>Redefining discovery.</h2>
+					<p>Thank you.  By inviting your representatives to join Advocate, you are letting them know that you want more transparency and accountability from those that represent you.  We will send them your request along with those of other Advocates who also believe in the same principles of Democracy.</p>
+					<p>Please check back frequently as we add more information about your representatives in the future.</p>
 
 					<aside class="social">
 						<p>Help spread the word:</p>
@@ -296,10 +297,20 @@
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,"script","//www.google-analytics.com/analytics.js","ga");
-//		ga("create", "UA-67525790-1", "auto");
-		ga("create", "UA-67525790-2", "auto");
+//		ga("create", "UA-67525790-1", "auto");	// stage
+		ga("create", "UA-67525790-2", "auto");	// prod
 		ga("require", "linkid", "linkid.js");
 		ga("send", "pageview");
+	</script>
+	<script>
+	    (function(h,o,t,j,a,r){
+	        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+	        h._hjSettings={hjid:99162,hjsv:5};
+	        a=o.getElementsByTagName('head')[0];
+	        r=o.createElement('script');r.async=1;
+	        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+	        a.appendChild(r);
+	    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 	</script>
 	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56312dcbbdcd9202" async="async"></script>
 

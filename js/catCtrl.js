@@ -32,15 +32,7 @@ app.controller("catHomeCtrl", function($scope) {
 	]);
 
 	$scope.page.setNgScope($scope);
-
-	// Set up various page content
-	$scope.cityState = function(pre) {
-		if ($scope.page.location.getLocationIsGeocoded()) {
-			var theCity = ($scope.page.location.getLocationCity() || "");
-			var theState = ($scope.page.location.getLocationState() || "");
-			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
-		}
-	};
+	$scope.page.initNgScope();
 
 //	alert($scope.page.getUserEmail());
 });
@@ -66,7 +58,9 @@ app.controller("catContentCtrl", function($scope) {
 
 	// Grab the Angular scope, which we'll need later
 	$scope.page.setNgScope($scope);
+	$scope.page.initNgScope();
 
+/*
 	// Set up various page content
 	$scope.cityState = function(pre) {
 		if ($scope.page.location.getLocationIsGeocoded()) {
@@ -75,6 +69,7 @@ app.controller("catContentCtrl", function($scope) {
 			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
 		}
 	};
+*/
 
 //	alert($scope.page.isUserRegistered());
 });
@@ -104,7 +99,8 @@ app.controller("catResultsCtrl", function($scope) {
 	], "#map", "#results");
 
 	$scope.page.setNgScope($scope);
-
+	$scope.page.initNgScope();
+/*
 	// Set up various page content
 	$scope.cityState = function(pre) {
 		if ($scope.page.location.getLocationIsGeocoded()) {
@@ -113,13 +109,13 @@ app.controller("catResultsCtrl", function($scope) {
 			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
 		}
 	};
+*/
 
 	// Draw the Google map
 	$scope.page.map.draw();
 
 	// Build the Rep List
 	$scope.page.repList.load();
-
 });
 
 
@@ -149,9 +145,9 @@ app.controller("catDetailsCtrl", function($scope) {
 		["#modal-" + theForm3, "#actions a.claim", "#modal-" + theForm3 + " .close, #modal-" + theForm3 + " form button.reset", "Claim Your Profile", "#modal-" + theForm3 + " form", theForm3 + ".html"]
 	], "#map", null, "#main", "#votes");
 
-
 	$scope.page.setNgScope($scope);
-
+	$scope.page.initNgScope();
+/*
 	// Set up various page content
 	$scope.cityState = function(pre) {
 		if ($scope.page.location.getLocationIsGeocoded()) {
@@ -160,7 +156,7 @@ app.controller("catDetailsCtrl", function($scope) {
 			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
 		}
 	};
-
+*/
 	// Draw the Google map
 	$scope.page.map.draw();
 
@@ -230,8 +226,15 @@ app.controller("catContactCtrl", function($scope) {
 				console.debug(that, 2);
 				console.debug(this, 2);
 
+				// Store the user data in a cookie, so we know they've already submitted
+				var userData = {
+					name: $("input.name", that).val(),
+					email: $("input[type='email']", that).val()
+				};
+				$scope.page.setUserDataCookie(userData);
+
 				// Store the Email in a cookie, so we know they've already submitted
-				$scope.page.setUserEmailCookie($("input[type='email']", that).val());
+//				$scope.page.setUserEmailCookie($("input[type='email']", that).val());
 
 				$(that).siblings(".thanks").find("button.close").html("Go back").click(function() {
 					window.history.go(-1);
@@ -255,7 +258,9 @@ app.controller("catContactCtrl", function($scope) {
 	});
 
 	$scope.page.setNgScope($scope);
+	$scope.page.initNgScope();
 
+/*
 	// Set up various page content
 	$scope.cityState = function(pre) {
 		if ($scope.page.location.getLocationIsGeocoded()) {
@@ -264,7 +269,7 @@ app.controller("catContactCtrl", function($scope) {
 			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? $scope.page.location.getLocationText() : [theCity, theState].join(", "));
 		}
 	};
-
+*/
 	// Set up cancel as back button
 	$("button[type='reset']").click(function(event) {
 		console.debug("cancel button click");

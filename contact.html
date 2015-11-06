@@ -88,8 +88,8 @@
 		<div class="container">
 			<aside class="close"><a class="close fa fa-times" title="close" href="#"></a></aside>
 			<header><!-- id="intro">-->
-				<h1>We're an open book.</h1>
-				<p>Advocate is a political engagement platform currently in private beta.  Please send us your comments or questions, and we'll get back to you soon.</p>
+				<h1>Redefining transparency</h1>
+				<p>We'd love to hear your thoughts, suggestions, comments, and/or questions about what we're cooking up over here on the Advocate team.  Drop us a note and we'll get back to you soon!</p>
 
 				<aside class="social">
 					<p>Help spread the word:</p>
@@ -110,12 +110,14 @@
 
 				<fieldset>
 					<label class="name hidden" for="entry_486126353">Enter your name</label>
-					<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Name">
+<!--					<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Name" data-ng-bind="userData.name">-->
+					<input class="name" type="text" name="entry.486126353" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Name" data-ng-model="userData.name">
 				</fieldset>
 
 				<fieldset>
 					<label class="email hidden" for="entry_1188935479">Enter your Email address</label>
-					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email">
+<!--					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email" data-ng-bind="userData.email">-->
+					<input class="email" type="email" name="entry.1188935479" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email" data-ng-model="userData.email">
 				</fieldset>
 
 				<fieldset class="location">
@@ -156,12 +158,8 @@
 
 			<div class="thanks">
 				<div class="title">
-					<h2>
-						Thank you.<br />
-						We will be in contact shortly.
-					</h2>
-
-					<p>Your comments will help us to create a modern political platform that will restore trust and transparency to government.</p>
+					<h2>Thank you for your comments.</h2>
+					<p>Someone from our Customer Service team will get back to you soon.</p>
 
 					<aside class="social">
 						<p>In the meantime, help us spread the word:</p>
@@ -235,10 +233,20 @@
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,"script","//www.google-analytics.com/analytics.js","ga");
-//		ga("create", "UA-67525790-1", "auto");
-		ga("create", "UA-67525790-2", "auto");
+//		ga("create", "UA-67525790-1", "auto");	// stage
+		ga("create", "UA-67525790-2", "auto");	// prod
 		ga("require", "linkid", "linkid.js");
 		ga("send", "pageview");
+	</script>
+	<script>
+	    (function(h,o,t,j,a,r){
+	        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+	        h._hjSettings={hjid:99162,hjsv:5};
+	        a=o.getElementsByTagName('head')[0];
+	        r=o.createElement('script');r.async=1;
+	        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+	        a.appendChild(r);
+	    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 	</script>
 	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56312dcbbdcd9202" async="async"></script>
 

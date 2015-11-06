@@ -124,7 +124,10 @@
 						</ul>
 					</aside>
 
+<!--
 					<button class="close" type="submit" name="submit" value="Close" id="ss-submit">Go back</button>
+					<button class="results primary" type="submit" name="submit" value="Show my reps" id="ss-submit">Show my reps</button>
+-->
 				</div>
 			</div>
 
@@ -243,10 +246,20 @@
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,"script","//www.google-analytics.com/analytics.js","ga");
-//		ga("create", "UA-67525790-1", "auto");
-		ga("create", "UA-67525790-2", "auto");
+//		ga("create", "UA-67525790-1", "auto");	// stage
+		ga("create", "UA-67525790-2", "auto");	// prod
 		ga("require", "linkid", "linkid.js");
 		ga("send", "pageview");
+	</script>
+	<script>
+	    (function(h,o,t,j,a,r){
+	        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+	        h._hjSettings={hjid:99162,hjsv:5};
+	        a=o.getElementsByTagName('head')[0];
+	        r=o.createElement('script');r.async=1;
+	        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+	        a.appendChild(r);
+	    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 	</script>
 	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56312dcbbdcd9202" async="async"></script>
 

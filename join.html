@@ -111,12 +111,12 @@
 
 				<fieldset>
 					<label class="name hidden" for="entry_486126353">Enter your name</label>
-					<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Name">
+					<input class="name" type="text" name="entry.486126353" value="" id="entry_486126353" dir="auto" aria-label="Name" title="" required placeholder="Name" data-ng-model="userData.name">
 				</fieldset>
 
 				<fieldset>
 					<label class="email hidden" for="entry_1188935479">Enter your Email address</label>
-					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email">
+					<input class="email" type="email" name="entry.1188935479" value="" id="entry_1188935479" dir="auto" aria-label="Email - Must be a valid email address" title="Must be a valid email address" required placeholder="Email" data-ng-model="userData.email">
 				</fieldset>
 
 				<fieldset class="location">
@@ -125,6 +125,12 @@
 					<input class="location" type="text" name="entry.601326317" value="" id="entry_601326317" dir="auto" aria-label="Location" title="" placeholder="Location">
 					<input class="hidden" type="hidden" name="entry.899064948" value="" id="entry_899064948">
 				</fieldset>
+
+
+				<fieldset class="representatives open" data-ng-if="results" data-ng-cloak>
+					<label class="visible"><input name="entry.861428420" id="reps-all" type="checkbox" value="all, " class="all" checked>Invite all of your representatives at this location</label>
+				</fieldset>
+
 <!--
 				<fieldset>
 					<label class="interest" for="entry_1235129365">Enter your area of interest</label>
@@ -174,7 +180,8 @@
 						</ul>
 					</aside>
 
-					<button class="close" type="submit" name="submit" value="Close" id="ss-submit">Go back</button>
+					<button class="results primary" type="submit" name="submit" value="Show my reps" id="ss-submit">Show my reps</button>
+					<button class="close mobile" type="submit" name="submit" value="Close" id="ss-submit">Go back</button>
 				</div>
 			</div>
 
@@ -243,10 +250,20 @@
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,"script","//www.google-analytics.com/analytics.js","ga");
-//		ga("create", "UA-67525790-1", "auto");
-		ga("create", "UA-67525790-2", "auto");
+//		ga("create", "UA-67525790-1", "auto");	// stage
+		ga("create", "UA-67525790-2", "auto");	// prod
 		ga("require", "linkid", "linkid.js");
 		ga("send", "pageview");
+	</script>
+	<script>
+	    (function(h,o,t,j,a,r){
+	        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+	        h._hjSettings={hjid:99162,hjsv:5};
+	        a=o.getElementsByTagName('head')[0];
+	        r=o.createElement('script');r.async=1;
+	        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+	        a.appendChild(r);
+	    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 	</script>
 	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56312dcbbdcd9202" async="async"></script>
 

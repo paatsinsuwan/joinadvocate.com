@@ -795,10 +795,6 @@ label.error br {
 	display: none;
 }
 
-#locationSearch fieldset.error {
-	margin-top: 0 !important;
-}
-
 header .error {
 	background: #F34B3C;
 	padding: 10px 0;
@@ -1099,6 +1095,12 @@ body.page .modal .thanks .title {
 	margin-bottom: 8px;
 }
 
+.modal .thanks button.results {
+	margin-top: 24px;
+	clear: none;
+	float: left;
+}
+
 /*
 body.page .modal form.complete button {
 */
@@ -1147,6 +1149,15 @@ body.page .modal p,
 
 .modal .thanks aside.social p {
 	margin-bottom: 0;
+}
+
+#modal-join.modal .thanks aside.social p {
+/*
+	margin-bottom: 0;
+*/
+	font-size: 12px;
+	line-height: 22px;
+	margin: 0;
 }
 
 body.page .modal ul:not(.channels) li,
@@ -1225,7 +1236,7 @@ body.page .modal aside.close {
 
 .modal fieldset p:first-of-type,
 .modal .thanks .title p:first-of-type {
-	margin-top: 16px;
+	margin-top: 16px;	
 }
 
 body.page .modal legend,
@@ -1249,6 +1260,17 @@ body.page .modal .thanks aside.social {
 body:not(.page) .modal.complete .thanks aside.social {
 	display: block;
 	margin: 10px 0 30px 0;
+}
+
+
+body:not(.page) #modal-join.complete .thanks aside.social {
+	display: block;
+/*
+	margin: 10px 0 30px 0;
+*/
+	width: 35%;
+	float: right;
+	margin: 0;
 }
 
 /*
@@ -1539,6 +1561,11 @@ body.error #locationSearch form {
 	width: 525px;
 }
 
+#locationSearch fieldset.error {
+	margin-top: 0 !important;
+	border: none !important;
+}
+
 body.error #locationSearch form.home fieldset {
 	margin-top: 22px;
 }
@@ -1590,7 +1617,14 @@ body.error #locationSearch form.home fieldset {
 	width: 50px;
 	height: 50px;
 */
-}	
+}
+
+#locationSearch form.home fieldset.error input.current,
+#locationSearch form.home fieldset.error > :first-child,
+#locationSearch form.home fieldset.error > :last-child {
+	border-color: #FD4848;
+}
+
 /* @end Location Search */
 
 /* @group Map */
@@ -3492,11 +3526,6 @@ body.page .modal header > aside.social {
 	display: none;
 }
 
-body.page .modal.complete .thanks aside.social {
-	display: block;
-	margin: 10px 0 30px 0;
-}
-
 body.page .modal.complete .thanks {
 	width: auto;
 	float: none;
@@ -3505,6 +3534,24 @@ body.page .modal.complete .thanks {
 	background: transparent;
 	padding: 0;
 	display: block;
+}
+
+body.page .modal.complete .thanks aside.social {
+	display: block;
+	margin: 10px 0 30px 0;
+}
+
+body:not(.page) #modal-join.complete .thanks aside.social {
+	float: none;
+	width: auto;
+}
+
+#modal-join.modal .thanks aside.social p {
+	font-size: 16px;
+	line-height: 24px;
+/*
+	margin: 0;
+*/
 }
 
 body.page .modal h1,
@@ -3614,7 +3661,12 @@ input[type="radio"] {
 
 	display: block;
 }
+
+#modal-join.complete .thanks button.close {
+	margin-top: 95px;
+}
 /* @end Modals */
+
 
 /*
 div#main,
