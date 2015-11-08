@@ -205,6 +205,18 @@ Page.prototype.initNgScope = function() {
 
 	var theScope = this.getNgScope();
 
+// TODO:  Make the cityState update less chatty
+
+	// Set up various page content helpers
+	theScope.cityState = function(pre) {
+		if (theScope.page.location.getLocationIsGeocoded()) {
+			var theCity = (theScope.page.location.getLocationCity() || "");
+			var theState = (theScope.page.location.getLocationState() || "");
+			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? theScope.page.location.getLocationText() : [theCity, theState].join(", "));
+		}
+	};
+
+/*
 	// Set up various page content helpers
 	theScope.cityState = function(pre) {
 		var theLocation = theScope.page.location;
@@ -215,6 +227,7 @@ Page.prototype.initNgScope = function() {
 			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? theText : [theCity, theState].join(", "));
 		}
 	};
+*/
 
 	theScope.userData = this.userData;
 };
