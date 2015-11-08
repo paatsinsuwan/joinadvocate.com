@@ -112,8 +112,8 @@ function parseURL(theURL) {
 
 
 //	Page Object
-function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie, theModalObjs, theModalFormObjs, theMapID, theRepListID, theRepDetailsID, theVoteID) {
-	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theLocationDoUpdateCookie + ", [" + theModalObjs + "], [" + theModalFormObjs + "], " + theMapID + ", " + theRepListID + ", " + theRepDetailsID + ", " + theVoteID + ") {");
+function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie, theLocationDoSubmitForm, theModalObjs, theModalFormObjs, theMapID, theRepListID, theRepDetailsID, theVoteID) {
+	console.debug("new Page(" + theLocationFieldID + ", " + theLocationHiddenID + ", " + theLocationDoUpdateCookie + ", " + theLocationDoSubmitForm + ", [" + theModalObjs + "], [" + theModalFormObjs + "], " + theMapID + ", " + theRepListID + ", " + theRepDetailsID + ", " + theVoteID + ") {");
 
 	this.ngScope = null;
 	this.userData = this.getUserDataCookie();
@@ -122,7 +122,7 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 	// If initializing as Page(), we're just getting a handle to run Page methods, so don't run the full init
 	if (arguments.length > 0) {
 		if ((typeof theLocationFieldID != "undefined") && (typeof theLocationHiddenID != "undefined")) {
-			this.location = new Location(theLocationFieldID, theLocationHiddenID, null, theLocationDoUpdateCookie, this);
+			this.location = new Location(theLocationFieldID, theLocationHiddenID, null, theLocationDoUpdateCookie, theLocationDoSubmitForm, this);
 		}
 		this.modals = new Array();
 		if (typeof theModalObjs != "undefined")
@@ -152,6 +152,11 @@ function Page(theLocationFieldID, theLocationHiddenID, theLocationDoUpdateCookie
 			offsetX: 5,
 			position: "bottom-left"
 		});
+
+		// A horrible hack to update the AddThis buttons after the page has loaded
+// TODO:  Fix this
+		if ($("aside.social").length)
+		 	this.updateAddThisIcons("aside.social");
 
 /*
 		// Check for debugging params
@@ -202,15 +207,16 @@ Page.prototype.initNgScope = function() {
 
 	// Set up various page content helpers
 	theScope.cityState = function(pre) {
-		if (theScope.page.location.getLocationIsGeocoded()) {
-			var theCity = (theScope.page.location.getLocationCity() || "");
-			var theState = (theScope.page.location.getLocationState() || "");
-			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? theScope.page.location.getLocationText() : [theCity, theState].join(", "));
+		var theLocation = theScope.page.location;
+		if (theLocation.isGeocoded) {
+			var theCity = (theLocation.location.city || "");
+			var theState = (theLocation.location.state || "");
+			var theText = (theLocation.location.text || "");
+			return ((typeof pre != "undefined") ? pre : "") + ((!theCity || !theState) ? theText : [theCity, theState].join(", "));
 		}
 	};
 
 	theScope.userData = this.userData;
-
 };
 Page.prototype.getUserData = function() {
 	console.debug("Page.getUserData() {");
@@ -307,12 +313,37 @@ Page.prototype.isUserRegistered = function() {
 	var isRegistered = ((typeof theUserData != "object") || (typeof theUserData.name == "undefined") || (typeof theUserData.email == "undefined") || (theUserData.email.length <= 0)) ? false : true;
 	console.debug("isRegistered = " + isRegistered);
 	return isRegistered;
-};	
+};
+Page.prototype.updateAddThisIcons = function(element) {
+	console.debug("Page.updateAddThisIcons(");
+	console.debug(element);
 
+	var theElement = (typeof element != "undefined") ? element : "aside.social";
+
+// TODO:  Fix this terrible hack
+// http://stackoverflow.com/a/32682939
+
+	var addThisTimer = setInterval( function() {
+	    if ( typeof addthis !== 'undefined' ) {
+	        clearInterval( addThisTimer );
+	        addthis.addEventListener( 'addthis.ready', function() {
+	           	console.debug('AddThis API is fully loaded.', 2);
+
+				var count = 0;
+				var timer = setInterval(function() {
+					count += 1;
+					if ($("span.at4-icon", theElement).removeAttr("style").length)
+						clearInterval(timer);
+					console.debug("looking for icons... " + count, 2);
+				}, 100);
+	        });
+	    }
+	}, 100 );
+};
 
 // Location Object
-function Location(theFieldID, theHiddenID, theLocation, doUpdateCookie, thePage) {
-	console.debug("new Location(" + theFieldID + ", " + theHiddenID + ", " + theLocation + ", " + doUpdateCookie + ", " + thePage + ") {");
+function Location(theFieldID, theHiddenID, theLocation, doUpdateCookie, doSubmitForm, thePage) {
+	console.debug("new Location(" + theFieldID + ", " + theHiddenID + ", " + theLocation + ", " + doUpdateCookie + ", " + doSubmitForm + ", " + thePage + ") {");
 
 	this.field = (typeof theFieldID != "undefined") ? $(theFieldID) : null;
 	this.hidden = (typeof theHiddenID != "undefined") ? $(theHiddenID) : null;
@@ -324,6 +355,8 @@ function Location(theFieldID, theHiddenID, theLocation, doUpdateCookie, thePage)
 
 	// Note that we're using doUpdateCookie to also indicate that the form shouldn't be submitted, which is the case for join and contact forms.
 	this.doUpdateCookie = (typeof doUpdateCookie != "undefined") ? doUpdateCookie : true;
+	this.doSubmitForm = (typeof doSubmitForm != "undefined") ? doSubmitForm : false;
+
 	this.valid = this.setFromCookie();
 	this.target = "results.html";
 	this.page = (thePage instanceof Page) ? thePage : new Page();
@@ -867,8 +900,14 @@ Location.prototype.handleUseCurrentLocation = function(event) {
 
 // TODO:  Add a separate form update flag
 
-		if (that.doUpdateCookie)
+//		if (that.doUpdateCookie)
+		if (that.doSubmitForm)
 			that.form.submit();
+
+//asdf
+
+
+
 		else
 			that.page.stopLoading();
 	}, that);
@@ -1137,7 +1176,10 @@ ModalForm.prototype.initForm = function(that) {
 	// If the form has a location (Join Advocate, Contact Us), set up a proper Location object to handle these.
 	if ($("input.location", that.form).attr("id")) {
 //		this.location = new Location("#" + $("input.location", this.form).attr("id"), "#" + $("input.location", this.form).siblings("input[type=hidden]").attr("id"), null, false);
-		that.location = new Location("#" + $(that.form).attr("id") + " input.location", "#" + $(that.form).attr("id") + " input.location ~ input[type=hidden]", null, false);
+
+//asdf
+//		that.location = new Location("#" + $(that.form).attr("id") + " input.location", "#" + $(that.form).attr("id") + " input.location ~ input[type=hidden]", null, false);
+		that.location = new Location("#" + $(that.form).attr("id") + " input.location", "#" + $(that.form).attr("id") + " input.location ~ input[type=hidden]", null, true, false);
 	}
 
 };
@@ -1174,6 +1216,10 @@ ModalForm.prototype.loadForm = function(that, callback) {
 
 				// Run the callback function
 				callback(that);
+
+				// Fix the Add This icons
+				if ($("aside.social", theElement).length)
+				 	that.page.updateAddThisIcons("aside.social");
 
 				// Compile the Angular directives within the modal
 				angular.element(document).injector().invoke(function($compile) {
@@ -1311,6 +1357,10 @@ ModalForm.prototype.submit = function(event) {
 	var that = event.data;
 	console.debug(that, 2);
 
+	// Prevent the form submission from redirecting the browser
+//	alert("preventing default...");
+	event.preventDefault();
+
 	// Turn on the loading spinner while the submit happens
 	that.location.page.startLoading("Submitting...");
 
@@ -1358,64 +1408,73 @@ ModalForm.prototype.submit = function(event) {
 				email: $("input[type='email']", that.form).val()
 			};
 			that.location.page.setUserDataCookie(userData);
+
 /*
 			$(that).siblings(".thanks").find("button.close").click(function() {
 				window.history.go(-1);
 			});
 */
-			// Show the Thank You message
-			$(that.element).addClass("complete");
 
-			// Add a click handler to CTAs for the Search Results page
-			$(".thanks button.results, .thanks a.button.results", that.element).click(function() {
-				console.debug("click on CTA for results page");
-				console.debug("event = ");
-				console.debug(event);
-
-				// Store the submitted location value in the cookie (which we didn't do before)
-				event.data.doUpdateCookie = true;
-				event.data.handleSubmit(event);
-
-				// Go to the results page
+			// If this is the Join form, skip the Thank You and load directly to the Results page.
+			if ($(that.element).is("#modal-join"))
 				location.href = "results.html";
-				return false;
-			});
+			else {
+
+
+				// Show the Thank You message
+				$(that.element).addClass("complete");
+
+				// Add a click handler to CTAs for the Search Results page
+				$(".thanks button.results, .thanks a.button.results", that.element).click(function() {
+					console.debug("click on CTA for results page");
+					console.debug("event = ");
+					console.debug(event);
+
+					// Store the submitted location value in the cookie (which we didn't do before)
+					event.data.doUpdateCookie = true;
+					event.data.handleSubmit(event);
+
+					// Go to the results page
+					location.href = "results.html";
+					return false;
+				});
 
 /*
-			// Now drop the name of the invited rep(s) into $scope
-			var theScope = that.location.page.getNgScope();
-			theScope.$apply(function() {
-				var invitedNames = false;
+				// Now drop the name of the invited rep(s) into $scope
+				var theScope = that.location.page.getNgScope();
+				theScope.$apply(function() {
+					var invitedNames = false;
 
-				var invited = $("input.invites", that.form).val().split(",");
-				if (invited.indexOf("all") >= 0)
+					var invited = $("input.invites", that.form).val().split(",");
+					if (invited.indexOf("all") >= 0)
 
-				var invitedNames = JSON.parse("[" + query.substring(1, query.length-1).replace(/'/g, '"') + "]")[1]
+					var invitedNames = JSON.parse("[" + query.substring(1, query.length-1).replace(/'/g, '"') + "]")[1]
 
 
 
-				};
-			});
+					};
+				});
 */
 
 
 
 /*
-			that.close.click();
+				that.close.click();
 */
 
-			// Update the Angular scope, to capture any updates that occurred due to the submission
-			var ngScope = that.page.getNgScope();
-			if (ngScope) {
-//				alert("ModalForm.submit:  ngScope.$apply();");
-				ngScope.$apply();
+				// Update the Angular scope, to capture any updates that occurred due to the submission
+				var ngScope = that.page.getNgScope();
+				if (ngScope) {
+	//				alert("ModalForm.submit:  ngScope.$apply();");
+					ngScope.$apply();
+				}
+
+				that.location.page.stopLoading();
 			}
-
-			that.location.page.stopLoading();
 		}
 	});
 
-	event.preventDefault();
+//	event.preventDefault();
 	return false;
 };
 ModalForm.prototype.cancel = function(event) {

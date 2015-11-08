@@ -2435,6 +2435,8 @@ aside#actions ul.actions li:last-child > span {
 	line-height: 32px;
 }
 
+/* @group Add This */
+
 aside#actions .addthis_sharing_toolbox .at4-icon.aticon-addthis, 
 aside#actions .addthis_sharing_toolbox .at4-icon.aticon-compact, 
 aside#actions .addthis_sharing_toolbox .at4-icon.aticon-expanded, 
@@ -2543,7 +2545,26 @@ aside#actions .addthis_sharing_toolbox .addthis_default_style .at4-icon, .at4-ic
 }
 */
 
+aside.social .addthis_toolbox {
+	margin-top: 10px;
+}
+aside.social .at4-icon-left.at4-icon.aticon-facebook {
+	background: transparent url(../img/fa-facebook-square@4x.png) no-repeat top left !important;
+	background-size: 28px 28px !important;
+}
 
+aside.social .at4-icon-left.at4-icon.aticon-twitter {
+	background: transparent url(../img/fa-twitter-square@4x.png) no-repeat top left !important;
+	background-size: 28px 28px !important;
+}
+
+aside.social .at4-icon-left.at4-icon.aticon-linkedin {
+	background: transparent url(../img/fa-linkedin-square@4x.png) no-repeat top left !important;
+	background-size: 28px 28px !important;
+}
+
+
+/* @end Add This */
 
 
 aside#actions ul.actions i.fa {

@@ -25,7 +25,7 @@ app.controller("catHomeCtrl", function($scope) {
 // TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
 
 	var theForm1 = "join";
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, false, null, [
 //		["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]
 //		["#modal-" + theForm1, "header a.join, #joinPromo a.join, #signUpPromo a.join", "#modal-" + theForm1 + " .close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
 		["#modal-" + theForm1, "a.join:not('.disabled')", "#modal-" + theForm1 + " .close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
@@ -50,7 +50,7 @@ app.controller("catContentCtrl", function($scope) {
 // TODO:  Pass the URL as an argument into the ModalForm object at initialization, so we can vary the form we load
 
 	var theForm1 = "join";
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, false, null, [
 //		["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]
 //		["#modal-" + theForm1, "header a.join, #joinPromo a.join, #signUpPromo a.join", "#modal-" + theForm1 + " .close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
 		["#modal-" + theForm1, "a.join:not('.disabled')", "#modal-" + theForm1 + " .close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
@@ -92,7 +92,7 @@ app.controller("catResultsCtrl", function($scope) {
 
 	var theForm1 = "join";
 	var theForm2 = "invite";
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, false, null, [
 		["#modal-" + theForm1, "a.join:not('.disabled')", "#modal-" + theForm1 + " .close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"],
 //		["#modal-" + theForm1, "a.invite", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
 		["#modal-" + theForm2, "a.invite", "#modal-" + theForm2 + " .close, #modal-" + theForm2 + " form button.reset", "Invite Representatives", "#modal-" + theForm2 + " form", theForm2 + ".html"]
@@ -137,7 +137,7 @@ app.controller("catDetailsCtrl", function($scope) {
 	var theForm3 = "claim";
 //	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [["#" + theForm + "-modal", "header a.join", "#" + theForm + "-modal a.close, #" + theForm + "-modal form button.reset", "Join Advocate", "#" + theForm + "-modal form"]], "#map", null, "#main", "#votes");
 
-	$scope.page = new Page("#loc-location", "#loc-hidden", true, null, [
+	$scope.page = new Page("#loc-location", "#loc-hidden", true, false, null, [
 //		["#" + theForm1 + "-modal", "header a.join", "#" + theForm1 + "-modal a.close, #" + theForm1 + "-modal form button.reset", "Join Advocate", "#" + theForm1 + "-modal form"]
 		["#modal-" + theForm1, "a.join:not('.disabled')", "#modal-" + theForm1 + " .close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"],
 //		["#" + theForm2 + "-modal", "#invite a.invite", "#" + theForm2 + "-modal a.close, #" + theForm2 + "-modal form button.reset", "Invite Representatives", "#" + theForm2 + "-modal form"],
@@ -179,7 +179,7 @@ app.controller("catContactCtrl", function($scope) {
 	// Initialize the JS
 //	$scope.page = new Page("form.contact fieldset.location input.location", "form.contact fieldset.location input.hidden", false, null, [["#join", "header a.join", "#join a.close, form.join button.reset", "Join Advocate", "form.join"]]);
 //	$scope.page = new Page("form.contact fieldset.location input.location", "form.contact fieldset.location input.hidden", false, null, null);
-	$scope.page = new Page(".modal form fieldset.location input.location", ".modal form fieldset.location input.hidden", false, null, null);
+	$scope.page = new Page(".modal form fieldset.location input.location", ".modal form fieldset.location input.hidden", false, true, null, null);
 
 	// Set up the form submission
 	$("form").submit(function(event) {
