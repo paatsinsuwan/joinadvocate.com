@@ -617,7 +617,8 @@ a.button.primary {
 }
 
 button.disabled,
-a.button.disabled {
+a.button.disabled,
+button[disabled] {
 	opacity: 0.5;
 }
 
@@ -1073,6 +1074,9 @@ body.page .modal.complete .thanks {
 	float: right;
 }
 
+
+
+
 body:not(.page) .modal.complete .thanks {
 	width: auto;
 	float: none;
@@ -1083,10 +1087,10 @@ body:not(.page) .modal.complete .thanks {
 	display: block;
 }
 
+aside#signUpPromo .thanks,
 .modal .thanks {
 	display: none;
 }
-
 
 /*
 body.page .modal form.complete fieldset.title {
@@ -1780,9 +1784,13 @@ aside#signUpPromo {
 	display: block;
 
 	margin: 50px 2px 0 0;
-	width: 304px;
-	padding: 30px 32px 50px 32px;
+	width: 308px;
+	padding: 30px 30px 50px 30px;
 	border: 1px solid #E2E2E2;
+}
+
+aside#signUpPromo.invite {
+	padding-bottom: 0;
 }
 
 aside#signUpPromo h2 {
@@ -1796,13 +1804,40 @@ aside#signUpPromo p {
 	font-size: 16px;
 	line-height: 24px;
 	color: #6F6F6F;
-	margin-bottom: 44px;
+	margin-bottom: 40px;
+}
+
+aside#signUpPromo .thanks p {
+	margin-bottom: 24px;
 }
 
 aside#signUpPromo button,
 aside#signUpPromo a.button {
 	padding: 14px 64px;
 }
+
+aside#signUpPromo.complete .thanks {
+/*
+	background: #FFF;
+	margin: -3px 97px 0 0;
+	padding: 32px 20px 30px 29px;
+	border-radius: 2px;
+	width: 419px;
+*/
+	clear: both;
+	display: block;
+/*
+	float: right;
+*/
+	padding-bottom: 30px;
+}
+
+aside#signUpPromo.complete form {
+	display: none;
+}
+
+
+
 
 /*
 aside#joinPromo {
@@ -2007,17 +2042,22 @@ ul.actions li:first-child {
 	background-image: url(../img/invite-icon@2x.png);
 }
 
+body.anonymous #results ul.actions a.invite {
+	display: none;
+}
+
 #results ul.actions li a:link,
 #results ul.actions li a:visited {
 	background-position: bottom left;
 }
 
 #results ul.actions li a:hover {
-	background-position: center left;
+	background-position: top left;
 }
 
+#results ul.actions li a.selected,
 #results ul.actions li a:active {
-	background-position: top left;
+	background-position: center left;
 }
 /* @end Results */
 
@@ -2364,6 +2404,11 @@ aside#actions ul li img {
 }
 */
 
+aside#signUpPromo ul.actions {
+	padding: 0;
+	margin: 0 -30px;
+	border-top: 1px solid #DEDEDE;
+}
 
 aside#actions ul.actions {
 /*
@@ -2376,6 +2421,7 @@ aside#actions ul.actions {
 	margin: 0;
 }
 
+aside#signUpPromo ul.actions li,
 aside#actions ul.actions li {
 	display: inline;
 	float: left;
@@ -2388,6 +2434,20 @@ aside#actions ul.actions li {
 */
 }
 
+aside#signUpPromo ul.actions li {
+	max-width: 50%;
+/*
+	padding: 18px 0 18px 30px;
+	text-align: center;
+*/
+	font-size: 14px;
+	color: #A9A9A9;
+	line-height: 22px;
+
+
+	padding: 14px 0 14px 30px;
+}
+
 aside#actions ul.actions li:last-child {
 	border-left: 1px solid #DEDEDE;
 	float: right;
@@ -2398,6 +2458,23 @@ aside#actions ul.actions li:last-child {
 	padding: 15px 0 10px 35px;
 
 	width: 122px;
+}
+
+aside#signUpPromo ul.actions li:last-child {
+	float: right;
+	width: auto;
+	padding: 0;
+}
+
+aside#signUpPromo ul.actions li a.invite.button,
+aside#signUpPromo ul.actions li button.invite {
+	background-image: none;
+	font-size: 14px;
+	font-weight: 400;
+	width: auto;
+	color: #FFF;
+	padding: 18px 40px;
+	border-radius: 0;
 }
 
 aside#actions ul.actions li:last-child .addthis_sharing_toolbox {
@@ -2888,6 +2965,10 @@ aside.location {
 
 .mobile {
 	display: block !important;
+}
+
+.desktop {
+	display: none !important;
 }
 
 body:not(.home) {
@@ -3400,10 +3481,11 @@ aside#actions ul.actions li:last-child span {
 /* @end Detail */
 
 /* @group Results */
-aside#signUpPromo {
+aside#signUpPromo,
+aside#signUpPromo.invite {
 	float: none;
 	margin: 0;
-	pading: 40px 20px;
+	padding: 40px 20px;
 	width: auto;
 	border-left: none;
 	border-right: none;

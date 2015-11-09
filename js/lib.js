@@ -230,6 +230,13 @@ Page.prototype.initNgScope = function() {
 */
 
 	theScope.userData = this.userData;
+
+// TODO:  Refactor other form pages to use these values through Angular scope, like Results Invite form, rather than filling them in w/ JS
+
+	theScope.WURFL = (WURFL) ? WURFL : null;
+	theScope.referer = window.location.href;
+	theScope.userAgent = navigator.userAgent;
+//	theScope.$apply();
 };
 Page.prototype.getUserData = function() {
 	console.debug("Page.getUserData() {");
@@ -363,12 +370,16 @@ function Location(theFieldID, theHiddenID, theLocation, doUpdateCookie, doSubmit
 	this.form = (this.field != null) ? this.field.parents("form") : null;
 	this.location = ((typeof theLocation != "undefined") && theLocation) ? theLocation : this.getNew();
 
-	console.debug("*** this.location = ");
-	console.debug(this.location);
+//	console.debug("*** this.location = ");
+//	console.debug(this.location);
 
-	// Note that we're using doUpdateCookie to also indicate that the form shouldn't be submitted, which is the case for join and contact forms.
+	// We don't always want to override the user's location
 	this.doUpdateCookie = (typeof doUpdateCookie != "undefined") ? doUpdateCookie : true;
+
+	// We don't always want getting the current location to submit the form
 	this.doSubmitForm = (typeof doSubmitForm != "undefined") ? doSubmitForm : false;
+	if (this.form.is("#loc"))
+		this.doSubmitForm = true;
 
 	this.valid = this.setFromCookie();
 	this.target = "results.html";
@@ -1340,6 +1351,15 @@ ModalForm.prototype.showCallback = function(event) {
 
 			} else {
 				var checkboxes = $("fieldset.representatives > span input[type='checkbox']", that.form);
+/*
+				var inviteArray = JSON.parse("[" + query + "]");
+				console.debug("**********");
+				console.debug("**********");
+				console.debug(inviteArray);
+				console.debug("**********");
+				console.debug("**********");
+*/
+
 
 				// Iterate through the checkboxes, checking any that are selected
 				checkboxes.each(function(i, element) {

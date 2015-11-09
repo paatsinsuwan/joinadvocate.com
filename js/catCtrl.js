@@ -95,7 +95,8 @@ app.controller("catResultsCtrl", function($scope) {
 	$scope.page = new Page("#loc-location", "#loc-hidden", true, false, null, [
 		["#modal-" + theForm1, "a.join:not('.disabled')", "#modal-" + theForm1 + " .close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"],
 //		["#modal-" + theForm1, "a.invite", "#modal-" + theForm1 + " a.close, #modal-" + theForm1 + " form button.reset", "Join Advocate", "#modal-" + theForm1 + " form", theForm1 + ".html"]
-		["#modal-" + theForm2, "a.invite", "#modal-" + theForm2 + " .close, #modal-" + theForm2 + " form button.reset", "Invite Representatives", "#modal-" + theForm2 + " form", theForm2 + ".html"]
+		["#modal-" + theForm2, "aside#signUpPromo a.invite", "#modal-" + theForm2 + " .close, #modal-" + theForm2 + " form button.reset", "Invite Representatives", "#modal-" + theForm2 + " form", theForm2 + ".html"]
+
 	], "#map", "#results");
 
 	$scope.page.setNgScope($scope);
@@ -111,11 +112,141 @@ app.controller("catResultsCtrl", function($scope) {
 	};
 */
 
+	// Keep a list of the invited reps
+	$scope.invites = new Array();
+	$scope.inviteQuery = function() {
+		console.debug("$scope.inviteQuery()");
+		console.debug($scope.invites);
+		if (typeof $scope.invites[$scope.invites.length-1] == "undefined")
+			$scope.invites.pop();
+		var theQuery = $scope.invites.join();
+		console.debug(theQuery);
+		return theQuery;
+	};
+
+	$("body").on("click", "a.invite", function(event) {
+		if (!$(this).hasClass("selected")) {
+
+			// Invite the rep
+			var theRep = $(this).attr("data-rep");
+			$(this).addClass("selected");
+			console.debug("Inviting " + theRep);
+/*
+
+		$scope.addInvite = function(theRep) {
+			console.debug("$scope.addInvite(" + theRep + ")");
+*/
+	//		alert("inviting");
+			$scope.invites.push(theRep);
+		} else {
+
+			// Uninvite the rep
+			var theRep = $(this).attr("data-rep");
+			$(this).removeClass("selected");
+			console.debug("Uninviting " + theRep);
+
+			var index = $scope.invites.indexOf(theRep);
+			if (index > -1)
+				$scope.invites.splice(index, 1);
+		}
+		$scope.$apply();
+		event.preventDefault();
+		return false;
+	});
+
+	// Set up the form submission
+	$("body").on("submit", "form#results-form", function(event) {
+		console.debug("submitting...");
+		console.debug(event);
+
+		var that = this;
+
+		// Turn on the loading spinner while the submit happens
+		$scope.page.startLoading("Submitting...");
+
+/*
+		This is the Google Spreadsheet:
+
+		<iframe src="
+			https://docs.google.com/spreadsheets/d/1f_GAYfF76upMt2Us3kuVCK92Zc93np82U_yoq-MXeQo/pubhtml?gid=677216200&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+			https://docs.google.com/spreadsheets/d/1f_GAYfF76upMt2Us3kuVCK92Zc93np82U_yoq-MXeQo/pubhtml
+
+		Using google Spreadsheets as a Database with the Google Visualization API Query Language - OUseful.Info, the blog...
+		http://blog.ouseful.info/2009/05/18/using-google-spreadsheets-as-a-databace-with-the-google-visualisation-api-query-language/
+*/
+
+//		$("input.referer", that).val(window.location.href);
+//		$("input.userAgent", that).val(navigator.userAgent);
+//		if (typeof WURFL != "undefined")
+//			$("input.device", that).val(JSON.stringify(WURFL));	// Requires wurfl.js
+
+		// Submit the form to Google Spreadsheets via AJAX
+
+		$.ajax({
+			url: $(that).attr("action"), 
+			data: $(that).serialize(),
+			success: function(data) {
+				console.debug("success");
+			},
+			error: function(jqXHR) {
+				console.debug("error");
+
+// TODO:  Handle the CORS error
+
+			},
+			complete: function completeCallback(data) {
+				console.debug("complete!");
+				console.debug(data, 2);
+				console.debug(that, 2);
+				console.debug(this, 2);
+
+				// Store the user data in a cookie, so we know they've already submitted
+//				var userData = {
+//					name: $("input.name", that).val(),
+//					email: $("input[type='email']", that).val()
+//				};
+//				$scope.page.setUserDataCookie(userData);
+
+				// Store the Email in a cookie, so we know they've already submitted
+//				$scope.page.setUserEmailCookie($("input[type='email']", that).val());
+
+
+//				$(that).siblings(".thanks").find("button.close").html("Go back").click(function() {
+//					window.history.go(-1);
+//				});
+				$(that).parents("#signUpPromo").addClass("complete");
+
+//				alert("submitted!");
+
+
+//				window.location.replace("thank-you.html");
+/*
+				$(that).hide();
+				$(that).parent().append("<section><p>Thank you message</p></section>");
+*/
+
+				// Disable the invite icons
+				$("li.official ul.actions a.invite:not(.selected)").hide();
+				$("li.official ul.actions a.invite.selected").replaceWith("<span class=\"blue\">Invited!</span>");
+
+				$scope.page.stopLoading();
+
+			}
+		});
+
+		event.preventDefault();
+		return false;
+	});
+
+
 	// Draw the Google map
 	$scope.page.map.draw();
 
 	// Build the Rep List
 	$scope.page.repList.load();
+
+
+
 });
 
 

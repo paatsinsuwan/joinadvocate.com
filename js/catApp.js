@@ -20,3 +20,12 @@ app.filter('escape', function() {
 		return "";
 	}
 });
+
+app.filter('stringify', function() {
+	return function (input) {
+		if (input)
+			return JSON.stringify(input); 
+		return "";
+	}
+});
+
