@@ -132,12 +132,14 @@ app.controller("catResultsCtrl", function($scope) {
 			$(this).addClass("selected");
 			console.debug("Inviting " + theRep);
 /*
-
 		$scope.addInvite = function(theRep) {
 			console.debug("$scope.addInvite(" + theRep + ")");
 */
 	//		alert("inviting");
 			$scope.invites.push(theRep);
+			
+			// If the form was already completed, uncomplete it
+			$("#signUpPromo.complete").removeClass("complete");
 		} else {
 
 			// Uninvite the rep
@@ -226,11 +228,13 @@ app.controller("catResultsCtrl", function($scope) {
 */
 
 				// Disable the invite icons
-				$("li.official ul.actions a.invite:not(.selected)").hide();
+//				$("li.official ul.actions a.invite:not(.selected)").hide();
 				$("li.official ul.actions a.invite.selected").replaceWith("<span class=\"blue\">Invited!</span>");
 
-				$scope.page.stopLoading();
+				// Clear out the list of invitees, in case the user begins to reinvite
+				$scope.invites = new Array();
 
+				$scope.page.stopLoading();
 			}
 		});
 
