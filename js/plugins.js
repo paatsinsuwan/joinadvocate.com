@@ -62,4 +62,4 @@ var addthis_share = {
 	shorteners : {
 		bitly : {} 
 	}
-}
+};

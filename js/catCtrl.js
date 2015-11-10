@@ -139,7 +139,8 @@ app.controller("catResultsCtrl", function($scope) {
 			$scope.invites.push(theRep);
 			
 			// If the form was already completed, uncomplete it
-			$("#signUpPromo.complete").removeClass("complete");
+//			$("#signUpPromo.complete").removeClass("complete");
+			$("#sidebar.complete").removeClass("complete");
 		} else {
 
 			// Uninvite the rep
@@ -216,7 +217,10 @@ app.controller("catResultsCtrl", function($scope) {
 //				$(that).siblings(".thanks").find("button.close").html("Go back").click(function() {
 //					window.history.go(-1);
 //				});
-				$(that).parents("#signUpPromo").addClass("complete");
+
+
+//				$(that).parents("#signUpPromo").addClass("complete");
+				$(that).parents("#sidebar").addClass("complete");
 
 //				alert("submitted!");
 
@@ -234,6 +238,7 @@ app.controller("catResultsCtrl", function($scope) {
 				// Clear out the list of invitees, in case the user begins to reinvite
 				$scope.invites = new Array();
 
+				$("html, body").scrollTop(0);
 				$scope.page.stopLoading();
 			}
 		});
@@ -242,7 +247,6 @@ app.controller("catResultsCtrl", function($scope) {
 		return false;
 	});
 
-
 	// Draw the Google map
 	$scope.page.map.draw();
 
@@ -250,7 +254,30 @@ app.controller("catResultsCtrl", function($scope) {
 	$scope.page.repList.load();
 
 
+	// Scroll-following sidebar
+	// https://css-tricks.com/scrollfollow-sidebar/
+	var sidebar = $("#sidebar");
+	var offset = sidebar.offset();
+	var topPadding = 180;
+	var topMargin = 80;
 
+	$(window).scroll(function() {
+		if ($(window).width() > 1110) {
+			if ($(window).scrollTop() + 90 > offset.top) {
+				sidebar.stop().animate({
+					marginTop: $(window).scrollTop() - offset.top + topPadding
+				}, 0);
+			} else {
+				sidebar.stop().animate({
+					marginTop: topMargin
+				}, 0);
+			}
+		} else {
+			sidebar.stop().animate({
+				marginTop: topMargin
+			}, 0);
+		}
+	});
 });
 
 

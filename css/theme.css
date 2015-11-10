@@ -1087,7 +1087,6 @@ body:not(.page) .modal.complete .thanks {
 	display: block;
 }
 
-aside#signUpPromo .thanks,
 .modal .thanks {
 	display: none;
 }
@@ -1778,15 +1777,43 @@ aside#joinPromo,
 	text-decoration: underline;
 }
 
+
+/* @group Sign Up Promo */
+
+/*
+#sidebar:not(.complete) {
+	display: block;
+	margin: 80px 2px 0 778px;
+	position: fixed;
+}
+*/
+
+
+#sidebar
+/*
+.complete aside#signUpPromo*/ {
+	float: right;
+	display: block;
+
+	margin: 80px 2px 0 0;
+}	
+
 aside#signUpPromo {
+/*
 	width: 370px;
 	float: right;
 	display: block;
 
 	margin: 50px 2px 0 0;
+*/
 	width: 308px;
 	padding: 30px 30px 50px 30px;
 	border: 1px solid #E2E2E2;
+	overflow: auto;
+
+/*
+	position: fixed;
+*/
 }
 
 aside#signUpPromo.invite {
@@ -1816,6 +1843,11 @@ aside#signUpPromo a.button {
 	padding: 14px 64px;
 }
 
+aside#signUpPromo .thanks {
+	display: none;
+}
+
+.complete aside#signUpPromo .thanks,
 aside#signUpPromo.complete .thanks {
 /*
 	background: #FFF;
@@ -1832,11 +1864,12 @@ aside#signUpPromo.complete .thanks {
 	padding-bottom: 30px;
 }
 
+.complete aside#signUpPromo form,
 aside#signUpPromo.complete form {
 	display: none;
 }
 
-
+/* @end Sign Up Promo */
 
 
 /*

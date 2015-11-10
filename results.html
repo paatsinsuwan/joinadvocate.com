@@ -154,84 +154,84 @@
 			</section>
 		</div>
 
-		<aside data-ng-if="!page.isUserRegistered()" id="signUpPromo" class="join" data-ng-cloak>
-			<h2>All of the politicians that represent you in one place.</h2>
-			<p>Join Advocate and see how you can build a relationship with your reps and help initiate change in your community.</p>
-			<a href="join.html" class="join button primary">Sign Up</a>
-		</aside>
 
-		<aside data-ng-if="page.isUserRegistered()" id="signUpPromo" class="invite" data-ng-cloak>
-			<form id="results-form" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" target="_self" onsubmit="" autocomplete="on">
+		<div id="sidebar">
 
-<!-- TODO:  Turn on the Invite functionality -->
-<!-- TODO:  Convert this into the "shopping cart" of invited reps. -->
-				<div class="title">
-					<h2>All of the politicians that represent you in one place.</h2>
-					<p>Invite your representatives to join you on Advocate.</p>
-				</div>
+			<aside data-ng-if="!page.isUserRegistered()" id="signUpPromo" class="join" data-ng-cloak>
+				<h2>All of the politicians that represent you in one place.</h2>
+				<p>Join Advocate and see how you can build a relationship with your reps and help initiate change in your community.</p>
+				<a href="join.html" class="join button primary">Sign Up</a>
+			</aside>
 
-				<input class="name" type="hidden" name="entry.486126353" id="entry_486126353" value="{{userData.name}}">
-				<input class="email" type="hidden" name="entry.1188935479" id="entry_1188935479" value="{{userData.email}}">
+			<aside data-ng-if="page.isUserRegistered()" id="signUpPromo" class="invite" data-ng-cloak>
+				<form id="results-form" action="https://docs.google.com/forms/d/1y0rltyK_RwDiy3kSMsuXPNDilLuX4ccOOqJH8NMlP7I/formResponse" method="POST" target="_self" onsubmit="" autocomplete="on">
+					<div class="title">
+						<h2>All of the politicians that represent you in one place.</h2>
+						<p>Invite your representatives to join you on Advocate.</p>
+					</div>
 
-				<input class="location" type="hidden" name="entry.601326317" id="entry_601326317" value="{{page.location.location.text}}">
-				<input class="hidden" type="hidden" name="entry.899064948" id="entry_899064948" value="{{page.location.location | stringify}}">
+					<input class="name" type="hidden" name="entry.486126353" id="entry_486126353" value="{{userData.name}}">
+					<input class="email" type="hidden" name="entry.1188935479" id="entry_1188935479" value="{{userData.email}}">
 
-				<input class="invites" type="hidden" name="entry.861428420" id="entry_861428420" value="{{inviteQuery()}}">
+					<input class="location" type="hidden" name="entry.601326317" id="entry_601326317" value="{{page.location.location.text}}">
+					<input class="hidden" type="hidden" name="entry.899064948" id="entry_899064948" value="{{page.location.location | stringify}}">
 
-				<input class="type" type="hidden" name="entry.1285458186" id="entry_1285458186" value="Results Page">
-				<input class="referer" type="hidden" name="entry.1033723372" id="entry_1033723372" value="{{referer}}">
-				<input class="userAgent" type="hidden" name="entry.1242377908" id="entry_1242377908" value="{{userAgent}}">
-				<input class="device" type="hidden" name="entry.709566490" id="entry_709566490" value="{{WURFL | stringify}}">
-				<input class="role" type="hidden" name="entry.1235129365" id="entry_1235129365" value="">
+					<input class="invites" type="hidden" name="entry.861428420" id="entry_861428420" value="{{inviteQuery()}}">
 
-				<ul class="actions desktop">
-					<li>(<span data-ng-bind="invites.length || 0">0</span>) Selected</li>
-					<li>
-<!--						<a class="invite button {{(invites.length > 0) ? 'primary' : 'disabled'}}" href="invite.html?{{inviteQuery()}}" data-ng-cloak>Send Invites</a>-->
-						<button class="invite submit {{(invites.length > 0) ? 'primary' : 'disabled'}}" data-ng-disabled="invites.length <= 0" type="submit" name="submit" value="Send Invites" id="ss-submit" data-ng-cloak>Send Invites</button>
-					</li>
-				</ul>
+					<input class="type" type="hidden" name="entry.1285458186" id="entry_1285458186" value="Results Page">
+					<input class="referer" type="hidden" name="entry.1033723372" id="entry_1033723372" value="{{referer}}">
+					<input class="userAgent" type="hidden" name="entry.1242377908" id="entry_1242377908" value="{{userAgent}}">
+					<input class="device" type="hidden" name="entry.709566490" id="entry_709566490" value="{{WURFL | stringify}}">
+					<input class="role" type="hidden" name="entry.1235129365" id="entry_1235129365" value="">
 
-			</form>
+					<ul class="actions desktop">
+						<li>(<span data-ng-bind="invites.length || 0">0</span>) Selected</li>
+						<li>
+	<!--						<a class="invite button {{(invites.length > 0) ? 'primary' : 'disabled'}}" href="invite.html?{{inviteQuery()}}" data-ng-cloak>Send Invites</a>-->
+							<button class="invite submit {{(invites.length > 0) ? 'primary' : 'disabled'}}" data-ng-disabled="invites.length <= 0" type="submit" name="submit" value="Send Invites" id="ss-submit" data-ng-cloak>Send Invites</button>
+						</li>
+					</ul>
 
-			<div class="thanks">
-				<div class="title">
-					<h2>Your invitations have been sent.</h2>
-					<p>By inviting your representatives to join Advocate, you are letting them know that you want more transparency and accountability from those that represent you.  We will send them your request along with those of other Advocates who also believe in the same principles of Democracy.</p>
-					<p>Please check back frequently as we add more information about your representatives in the future.</p>
+				</form>
 
-					<aside class="social">
-						<div class="addthis_horizontal_follow_toolbox"></div>
+				<div class="thanks">
+					<div class="title">
+						<h2>Your invitations have been sent.</h2>
+						<p>By inviting your representatives to join Advocate, you are letting them know that you want more transparency and accountability from those that represent you.  We will send them your request along with those of other Advocates who also believe in the same principles of Democracy.</p>
+						<p>Please check back frequently as we add more information about your representatives in the future.</p>
+
+						<aside class="social">
+							<div class="addthis_horizontal_follow_toolbox"></div>
+		<!--
+							<p>Help spread the word:</p>
+							<ul class="channels">
+								<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
+								<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
+								<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
+							</ul>
+		-->
+						</aside>
 	<!--
-						<p>Help spread the word:</p>
-						<ul class="channels">
-							<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
-							<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
-							<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
-						</ul>
+						<aside class="social">
+							<p>Help spread the word:</p>
+							<ul class="channels">
+								<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
+								<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
+								<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
+							</ul>
+						</aside>
+
+						<button class="close" type="submit" name="submit" value="Close" id="ss-submit">Go back</button>
 	-->
-					</aside>
-<!--
-					<aside class="social">
-						<p>Help spread the word:</p>
-						<ul class="channels">
-							<li><a target="_blank" href="https://www.facebook.com/joinadvocate"><i class="fa fa-facebook-square" title="Facebook"></i></a></li>
-							<li><a target="_blank" href="https://twitter.com/joinadvocate"><i class="fa fa-twitter-square" title="Twitter"></i></a></li>
-							<li><a target="_blank" href="https://www.linkedin.com/company/advocate-llc"><i class="fa fa-linkedin-square" title="LinkedIn"></i></a></li>
-						</ul>
-					</aside>
-
-					<button class="close" type="submit" name="submit" value="Close" id="ss-submit">Go back</button>
--->
+					</div>
 				</div>
-			</div>
 
 
-			<a href="invite.html?all" class="invite button primary mobile">Invite All</a>
+				<a href="invite.html?all" class="invite button primary mobile">Invite All</a>
 
 
-		</aside>
-
+			</aside>
+		</div>
 	</div>
 
 <!-- TODO:  Update the footer form -->
