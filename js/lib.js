@@ -921,17 +921,9 @@ Location.prototype.handleUseCurrentLocation = function(event) {
 			console.debug("GA Log:  Error logging Current Location click -- GA function missing.", 2);
 
 		// Only submit the form if we're also updating the cookie
-
-// TODO:  Add a separate form update flag
-
 //		if (that.doUpdateCookie)
 		if (that.doSubmitForm)
 			that.form.submit();
-
-//asdf
-
-
-
 		else
 			that.page.stopLoading();
 	}, that);
@@ -1200,8 +1192,6 @@ ModalForm.prototype.initForm = function(that) {
 	// If the form has a location (Join Advocate, Contact Us), set up a proper Location object to handle these.
 	if ($("input.location", that.form).attr("id")) {
 //		this.location = new Location("#" + $("input.location", this.form).attr("id"), "#" + $("input.location", this.form).siblings("input[type=hidden]").attr("id"), null, false);
-
-//asdf
 //		that.location = new Location("#" + $(that.form).attr("id") + " input.location", "#" + $(that.form).attr("id") + " input.location ~ input[type=hidden]", null, false);
 		that.location = new Location("#" + $(that.form).attr("id") + " input.location", "#" + $(that.form).attr("id") + " input.location ~ input[type=hidden]", null, true, false);
 	}
@@ -1448,12 +1438,37 @@ ModalForm.prototype.submit = function(event) {
 			});
 */
 
-			// If this is the Join form, skip the Thank You and load directly to the Results page.
+			// If any reps are being invited, log the invitation actions to Google Analytics
+			$("fieldset.representatives input[name='entry.861428420']:checked", that.form).each(function() {
+				if (typeof ga == "function") {
+					var theValue = $(this).val().replace(/(^\s*,)|(,\s*$)/g, "");
+					console.debug("GA Log:  (send, event, Invite, " + $("input.type[type='hidden']", that.form).val() + ", " + theValue + ")", 2);
+					ga("send", "event", "Invite", $("input.type[type='hidden']", that.form).val(), theValue);
+				} else
+					console.debug("GA Log:  Error logging Invite -- GA function missing.", 2);
+			});
+
+/*
+			// Now drop the name of the invited rep(s) into $scope
+			var theScope = that.location.page.getNgScope();
+			theScope.$apply(function() {
+				var invitedNames = false;
+
+				var invited = $("input.invites", that.form).val().split(",");
+				if (invited.indexOf("all") >= 0)
+
+				var invitedNames = JSON.parse("[" + query.substring(1, query.length-1).replace(/'/g, '"') + "]")[1]
+
+
+
+				};
+			});
+*/
+
+			// If this is the Join form, skip the Thank You and load directly to the Results page
 			if ($(that.element).is("#modal-join"))
 				location.href = "results.html";
 			else {
-
-
 				// Show the Thank You message
 				$(that.element).addClass("complete");
 
@@ -1473,25 +1488,6 @@ ModalForm.prototype.submit = function(event) {
 				});
 
 /*
-				// Now drop the name of the invited rep(s) into $scope
-				var theScope = that.location.page.getNgScope();
-				theScope.$apply(function() {
-					var invitedNames = false;
-
-					var invited = $("input.invites", that.form).val().split(",");
-					if (invited.indexOf("all") >= 0)
-
-					var invitedNames = JSON.parse("[" + query.substring(1, query.length-1).replace(/'/g, '"') + "]")[1]
-
-
-
-					};
-				});
-*/
-
-
-
-/*
 				that.close.click();
 */
 
@@ -1502,6 +1498,7 @@ ModalForm.prototype.submit = function(event) {
 					ngScope.$apply();
 				}
 
+				// Turn off the loading spinner
 				that.location.page.stopLoading();
 			}
 		}

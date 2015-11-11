@@ -199,9 +199,20 @@ app.controller("catResultsCtrl", function($scope) {
 			},
 			complete: function completeCallback(data) {
 				console.debug("complete!");
-				console.debug(data, 2);
-				console.debug(that, 2);
-				console.debug(this, 2);
+				console.debug(data);
+				console.debug(that);
+				console.debug(this);
+
+				// If any reps are being invited, log the invitation actions to Google Analytics
+				for (var rep in $scope.invites) {
+					if (typeof ga == "function") {
+						var theValue = $scope.invites[rep].replace(/(^\s*,)|(,\s*$)/g, "");
+						console.debug("GA Log:  (send, event, Invite, " + $("input.type[type='hidden']", that).val() + ", " + theValue + ")");
+						ga("send", "event", "Invite", $("input.type[type='hidden']", that).val(), theValue);
+					} else
+						console.debug("GA Log:  Error logging Invite -- GA function missing.", 2);
+				}
+
 
 				// Store the user data in a cookie, so we know they've already submitted
 //				var userData = {
