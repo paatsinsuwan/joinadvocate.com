@@ -2971,6 +2971,12 @@ body.error #main p {
 body.content #main ul.feature {
 	margin: 0;
 }
+
+/* @group Angel List */
+.angellist_jobs-compensation_data {
+	display: none;
+}
+/* @end Angel List */
 /* @end About Us */
 
 
@@ -3121,8 +3127,15 @@ header a.button {
 	padding: 7px 28px;
 }
 
+/*
 header nav li:first-child:not(.thanks) {
+*/
+header nav li:not(.thanks) {
 	display: none;
+}
+
+header nav li:last-child:not(.thanks) {
+	display: block;
 }
 
 #intro {
