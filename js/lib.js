@@ -251,7 +251,7 @@ Page.prototype.setUserData = function(theUserData) {
 		return this.userData;
 	} else
 		return false;
-};	
+};
 Page.prototype.getUserDataCookie = function() {
 	console.debug("Page.getUserDataCookie() {");
 	// http://www.w3schools.com/js/js_cookies.asp
@@ -292,7 +292,7 @@ Page.prototype.getUserDataCookie = function() {
 	console.debug(theUserData);
 
 	return this.setUserData(theUserData);
-};	
+};
 Page.prototype.setUserDataCookie = function(theUserData) {
 	console.debug("Page.setUserDataCookie(");
 	console.debug(theUserData);
@@ -597,7 +597,7 @@ Location.prototype.geocode = function(theGeoResults, isRecursive) {
 
 				query = {"address": locationText};
 			} else {
-				
+
 				// Otherwise, see if we have a valid (lat,lon) and reverse geocode it
 				var locationGeo = this.getLocationGeo();
 				if ($.isNumeric(locationGeo.lat) && $.isNumeric(locationGeo.lon)) {
@@ -706,7 +706,7 @@ Location.prototype.updateFields = function() {
 	console.debug("Location.updateFields()");
 	console.debug("this = ", 2);
 	console.debug(this);
-	
+
 	var fieldVal = this.field.val();
 	var fieldClass = "current";
 	var hiddenVal = this.hidden.val();
@@ -760,7 +760,7 @@ Location.prototype.updateFields = function() {
 			hiddenVal = JSON.stringify(this.location);
 		}
 	}
-	
+
 	// If we didn't find a valid location, set up defaults
 	if (!foundLocation) {
 		console.debug("No valid location yet, usting location.text", 2);
@@ -1371,7 +1371,7 @@ ModalForm.prototype.showCallback = function(event) {
 	}
 
 	return false;
-};	
+};
 ModalForm.prototype.submit = function(event) {
 	console.debug("ModalForm.submit(");
 	console.debug(event);
@@ -1408,7 +1408,7 @@ ModalForm.prototype.submit = function(event) {
 
 	// Submit the form to Google Spreadsheets via AJAX
 	$.ajax({
-		url: $(that.form).attr("action"), 
+		url: $(that.form).attr("action"),
 		data: $(that.form).serialize(),
 		success: function(data) {
 			console.debug("success");
@@ -1534,19 +1534,19 @@ ModalForm.prototype.handleSubmitError = function(err) {
 ModalForm.prototype.validateLocation = function(theFieldID) {
 	console.debug("ModalForm.validateLocation(" + theFieldID + ")");
 
-// TODO:  Actually do the validation *or* switch to HTML5 default validation	
+// TODO:  Actually do the validation *or* switch to HTML5 default validation
 
 };
 ModalForm.prototype.validateEmail = function(theFieldID) {
 	console.debug("ModalForm.validateEmail(" + theFieldID + ")");
 
-// TODO:  Actually do the validation *or* switch to HTML5 default validation	
-	
+// TODO:  Actually do the validation *or* switch to HTML5 default validation
+
 };
 ModalForm.prototype.validateExistance = function(theFieldID) {
 	console.debug("ModalForm.validateExistance(" + theFieldID + ")");
 
-// TODO:  Actually do the validation *or* switch to HTML5 default validation	
+// TODO:  Actually do the validation *or* switch to HTML5 default validation
 
 };
 
@@ -1574,7 +1574,7 @@ Tracker.prototype.logRepAction = function(theRep, theRepDetails, theAction) {
 };
 Tracker.prototype.logClick = function(theAnchor) {
 	console.debug("Tracker.logClick(" + theAnchor + ")");
-	
+
 };
 
 
@@ -1890,7 +1890,7 @@ RepList.prototype.load = function() {
 		if (address) {
 			console.debug("got a valid address = " + address, 2);
 
-			var theURL = "https://www.googleapis.com/civicinfo/v2/representatives?" + 
+			var theURL = "https://www.googleapis.com/civicinfo/v2/representatives?" +
 				"key=" + this.getGoogleAPIKey() + "&" +
 				"address=" + address;
 
@@ -2035,7 +2035,7 @@ RepList.prototype.filter = function(theFilter) {
 	console.debug("RepList.filter(" + theFilter + ")");
 
 // TODO:  Handle filtering (need to find a source for candidates, not just incumbents)
-	
+
 };
 RepList.prototype.handleConnect = function(theRep) {
 	console.debug("RepList.handleConnect(");
@@ -2160,8 +2160,8 @@ RepDetails.prototype.loadBasic = function() {
 
 	// Build the query string for Google Civic Data API
 	// https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByDivision
-	var theURL = "https://www.googleapis.com/civicinfo/v2/representatives/" + encodeURIComponent(this.OCD_ID) + 
-		"?key=" + this.googleAPIKey + 
+	var theURL = "https://www.googleapis.com/civicinfo/v2/representatives/" + encodeURIComponent(this.OCD_ID) +
+		"?key=" + this.googleAPIKey +
 		((this.role) ? "&roles=" + this.role : "");
 	console.debug("theURL = " + theURL, 2);
 
@@ -2181,14 +2181,14 @@ RepDetails.prototype.handleLoadBasicSuccess = function(data) {
 
 	// Store our current scope for the callback, below
 	var that = this;
-	
+
 	// Find the right rep by name
 	console.debug("looking for official \"" + that.official + "\"", 2);
 	$.each(data.officials, function(officialKey, official) {
 		console.debug(officialKey + ": ", 2);
 		console.debug(official, 2);
 
-		if (official.name == that.official) {
+		if (official.name == that.official || official.name == that.official.replace("+", " ")) {
 			console.debug("found official \"" + official.name + "\"", 2);
 
 			// Grab the rep's basic data
@@ -2216,7 +2216,7 @@ RepDetails.prototype.handleLoadBasicSuccess = function(data) {
 			$.each(data.offices, function(officeKey, office) {
 				console.debug(officeKey + ": ", 2);
 				console.debug(office, 2);
-				
+
 				if (office.officialIndices.indexOf(officialKey) >= 0) {
 					console.debug("found office \"" + office.name + "\"", 2);
 
@@ -2264,9 +2264,9 @@ RepDetails.prototype.loadExtended = function() {
 
 			// Now query Sunlight's Congress API for the extended rep data
 			// https://sunlightlabs.github.io/congress/
-			var theURL = "https://congress.api.sunlightfoundation.com/legislators?" + 
+			var theURL = "https://congress.api.sunlightfoundation.com/legislators?" +
 				"apikey=" + this.sunlightAPIKey + "&" +
-				"per_page=all&" + 
+				"per_page=all&" +
 				"fields=party,gender,state,state_name,district,title,chamber,senate_class,state_rank,bioguide_id,ocd_id,first_name,last_name,terms,term_end&" +
 				"ocd_id=" + this.OCD_ID + "&" +
 				"query=" + this.data.name.split(" ").slice(-1)[0];
@@ -2360,7 +2360,7 @@ RepDetails.prototype.show = function() {
 RepDetails.prototype.loadVotes = function(n) {
 	console.debug("RepDetails.loadVotes(" + n + ")");
 
-	// Check for extended data, which should exist for members of congress 
+	// Check for extended data, which should exist for members of congress
 	if (this.hasExtended) {
 		console.debug("Found extended congressional data", 2);
 
@@ -2369,7 +2369,7 @@ RepDetails.prototype.loadVotes = function(n) {
 			n = 5;
 
 		// See if we can grab their most recent vote
-		var theURL = "https://congress.api.sunlightfoundation.com/votes?" + 
+		var theURL = "https://congress.api.sunlightfoundation.com/votes?" +
 			"apikey=" + this.sunlightAPIKey + "&" +
 			"fields=question,voted_at,bill,result,url,breakdown,required,voters." + this.data.extended.bioguide_id + "&" +
 			"order=voted_at&" +
@@ -2422,10 +2422,10 @@ RepDetails.prototype.handleLoadVotesSuccess = function(data) {
 				voteArray.push({type: key, count: vote});
 				delete result.breakdown.total[key];
 			});
-			
+
 			console.debug("vote array = ", 2);
 			console.debug(voteArray, 2);
-			
+
 			data.results[vote].breakdown.total = voteArray;
 		});
 
